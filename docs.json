@@ -25,7 +25,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:lucas@plaud.ai"
       }
     ],
     "primary": {
@@ -36,7 +36,9 @@
   },
   "footer": {
     "socials": {
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://plaud.ai",
+      "x": "https://x.com/PLAUDAI",
+      "youtube": "https://www.youtube.com/@PLAUDAI"
     }
   }
 }
