@@ -8,17 +8,17 @@
     "dark": "#333333"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "examples": {
+      "languages": ["curl", "python"],
+      "defaults": "all"
+    }
+  },
   "navigation": {
     "tabs": [
       {
         "tab": "API Reference",
-        "openapi": "./api-reference/openapi.json",
-        "api": {
-          "examples": {
-            "languages": ["curl", "python"],
-            "defaults": "all"
-          }
-        }
+        "openapi": "./api-reference/openapi.json"
       }
     ],
     "global": {}
