@@ -12,16 +12,16 @@
     "tabs": [
       {
         "tab": "API Reference",
-        "openapi": "./api-reference/openapi.json"
+        "openapi": "./api-reference/openapi.json",
+        "api": {
+          "examples": {
+            "languages": ["curl", "python"],
+            "defaults": "all"
+          }
+        }
       }
     ],
     "global": {}
-  },
-  "api": {
-    "examples": {
-      "languages": ["curl", "python"],
-      "defaults": "all"
-    }
   },
   "logo": {
     "light": "/logo/light.svg",
