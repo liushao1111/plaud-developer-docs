@@ -27,12 +27,7 @@
         "label": "Support",
         "href": "mailto:lucas@plaud.ai"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    ]
   },
   "footer": {
     "socials": {
