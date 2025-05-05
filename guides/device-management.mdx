@@ -1,0 +1,167 @@
+---
+title: Device Management
+description: "Learn how to manage Plaud devices through the API"
+---
+
+# Device Management
+
+Plaud's API offers comprehensive device management capabilities, allowing you to register, monitor, and configure your recording devices.
+
+## Table of Contents
+
+- [Device Types](#device-types)
+- [Device Operations](#device-operations)
+- [Device-User Binding](#device-user-binding)
+- [Best Practices](#best-practices)
+
+## Device Types
+
+Plaud supports the following device types:
+
+| Type | Description | Model Example |
+|------|-------------|---------------|
+| `note` | Plaud Note devices | Note Pro, Note Ultra |
+| `notepin` | Plaud NotePin devices | NotePin Basic, NotePin Pro |
+| `other` | Other supported devices | Various compatible devices |
+
+## Device Operations
+
+### List All Devices
+
+Retrieve a list of all devices with optional pagination:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/devices/
+```
+
+**Response:**
+
+```json
+{
+  "type": "list",
+  "data": [
+    {
+      "id": "device-123",
+      "type": "notepin",
+      "sn": "NP12345678",
+      "name": "Meeting Room Device",
+      "battery": 85,
+      "is_bind": true,
+      "owner_id": "user-456"
+    }
+  ],
+  "next_token": "token-for-next-page"
+}
+```
+
+### Get Device Details
+
+Get detailed information about a specific device:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/devices/{device_id}
+```
+
+### Create a Device
+
+Register a new device in the system:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "notepin",
+    "sn": "NP87654321",
+    "name": "New Meeting Device",
+    "model": "NotePin Pro",
+    "version": "1.0.2"
+  }' \
+  https://api.plaud.ai/devices/
+```
+
+### Update Device Information
+
+Update an existing device's information:
+
+```bash
+curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Updated Device Name",
+    "battery": 90,
+    "version": "1.0.3"
+  }' \
+  https://api.plaud.ai/devices/{device_id}
+```
+
+### Check Device Status
+
+Check the status of a device by its serial number:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sn_type": "notepin",
+    "sn": "NP12345678"
+  }' \
+  https://api.plaud.ai/devices/check
+```
+
+### Delete a Device
+
+Remove a device from the system:
+
+```bash
+curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
+  https://api.plaud.ai/devices/{device_id}
+```
+
+## Device-User Binding
+
+### Bind a Device to a User
+
+Associate a device with a specific user:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sn_type": "notepin",
+    "sn": "NP12345678",
+    "owner_id": "user-456"
+  }' \
+  https://api.plaud.ai/users/bind
+```
+
+### Unbind a Device from a User
+
+Remove the association between a device and user:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sn_type": "notepin",
+    "sn": "NP12345678",
+    "owner_id": "user-456"
+  }' \
+  https://api.plaud.ai/users/unbind
+```
+
+## Common Device Operations
+
+<div className="device-operations-grid">
+
+| Operation | Endpoint | Method | Purpose |
+|-----------|----------|--------|---------|
+| List Devices | `/devices/` | GET | View all devices |
+| Get Device | `/devices/{id}` | GET | View a specific device |
+| Create Device | `/devices/` | POST | Register a new device |
+| Update Device | `/devices/{id}` | PATCH | Modify device details |
+| Delete Device | `/devices/{id}` | DELETE | Remove a device |
+| Check Status | `/devices/check` | POST | Verify device status |
+| Bind to User | `/users/bind` | POST | Associate with a user |
+| Unbind from User | `/users/unbind` | POST | Remove user association |
+
+</div>

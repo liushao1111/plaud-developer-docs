@@ -1,0 +1,225 @@
+---
+title: Developer Guides
+description: "Learn how to integrate with Plaud's API to access recordings, transcriptions, and summaries"
+---
+
+# Developer Guides
+
+Welcome to the Plaud Developer Guides! This section will help you understand how to integrate with Plaud's API to access and manage your recordings, transcriptions, and summaries.
+
+## Table of Contents
+
+- [What You Can Build](#what-you-can-build)
+- [Key Features](#key-features)
+- [Getting Started](#getting-started)
+- [Best Practices](#best-practices)
+- [Common Use Cases](#common-use-cases)
+- [API Response Codes](#api-response-codes)
+- [Detailed Guides](#detailed-guides)
+
+## What You Can Build
+
+With Plaud's API, you can build applications that:
+
+- Access and manage recordings from Plaud devices
+- Retrieve transcriptions of your recordings
+- Get AI-generated summaries of your meetings
+- Integrate Plaud's features into your existing applications
+- Build custom dashboards and analytics
+
+## Key Features
+
+### 1. Recordings Management
+
+Plaud's API allows you to:
+
+- List and search through your recordings
+- Download recording files
+- Manage recording metadata
+- Organize recordings into folders or categories
+
+<details>
+<summary><strong>API Details</strong></summary>
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/files/` | GET | List recordings with pagination |
+| `/files/{file_id}` | GET | Get a specific recording |
+| `/files/` | POST | Create a new recording with metadata |
+| `/files/{file_id}` | PATCH | Update a recording |
+| `/files/{file_id}` | DELETE | Delete a recording |
+| `/files/merge` | POST | Combine multiple files |
+
+</details>
+
+### 2. Transcription Access
+
+Access high-quality transcriptions with features like:
+
+- Real-time transcription status updates
+- Multiple language support
+- Speaker diarization
+- Timestamped transcripts
+
+<details>
+<summary><strong>API Details</strong></summary>
+
+- **Track Status**: Check `ai_status` and `ai_result_list` in file model
+- **File Formats**: Supports opus, mp3, wav, m4a
+- **Processing**: Automatic transcription through callback system
+- **Results**: Access through file model's `ai_data` field
+
+</details>
+
+### 3. AI Summaries
+
+Leverage AI-powered summaries that provide:
+
+- Meeting highlights
+- Action items
+- Key decisions
+- Topic analysis
+
+<details>
+<summary><strong>API Details</strong></summary>
+
+- **Processing Status**: Track through `ai_status` field
+- **Results Access**: Available in `ai_result_list` and `ai_data`
+- **Callback System**: POST `/callback` for processing updates
+- **Multiple Files**: Process multiple files in parallel
+
+</details>
+
+### 4. Device Management
+
+Manage your Plaud devices with:
+
+- Device registration and configuration
+- Status monitoring
+- Battery level tracking
+- User binding capabilities
+
+<details>
+<summary><strong>API Details</strong></summary>
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/devices/` | GET | List devices with pagination |
+| `/devices/{device_id}` | GET | Get specific device details |
+| `/devices/` | POST | Register a new device |
+| `/devices/{device_id}` | PATCH | Update device configuration |
+| `/devices/check` | POST | Check device status |
+| `/users/bind` | POST | Bind device to user |
+| `/users/unbind` | POST | Unbind device from user |
+
+</details>
+
+### 5. User & Tenant Management
+
+Organize your users and organizations:
+
+- Multi-tenant support
+- User management
+- Role-based access
+- Custom configurations
+
+<details>
+<summary><strong>API Details</strong></summary>
+
+**Tenant Operations**:
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/tenants/` | GET | List all tenants |
+| `/tenants/` | POST | Create a new tenant |
+| `/tenants/{tenant_id}` | PATCH | Update tenant details |
+| `/tenants/{tenant_id}` | DELETE | Delete a tenant |
+
+**User Operations**:
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/users/` | GET | List all users |
+| `/users/` | POST | Create a new user |
+| `/users/{user_id}` | PATCH | Update user details |
+| `/users/{user_id}` | DELETE | Delete a user |
+
+</details>
+
+## Getting Started
+
+To start using Plaud's API:
+
+1. [Create an API key](/quickstart#api-key)
+2. [Install the SDK](/quickstart#sdk-installation)
+3. [Make your first API call](/quickstart#first-call)
+
+## Best Practices
+
+### Authentication
+
+- Use the `Authorization` header with your API key
+- Keep your API keys secure
+- Use environment variables for API keys
+- Implement proper error handling for authentication failures
+
+### Rate Limiting
+
+- Be mindful of API rate limits
+- Implement exponential backoff for retries
+- Cache responses when appropriate
+- Handle 429 (Too Many Requests) responses gracefully
+
+### Data Management
+
+- Store recordings and transcripts securely
+- Implement proper data retention policies
+- Follow privacy best practices
+- Use appropriate file formats (opus, mp3, wav, m4a)
+
+## Common Use Cases
+
+| Use Case | Description |
+|----------|-------------|
+| **Meeting Management** | Record and transcribe meetings, create searchable archives, generate reports and summaries |
+| **Device Integration** | Monitor device status, configure settings remotely, manage device-user relationships |
+| **Organization Management** | Set up multi-tenant environments, manage user access, configure organization settings |
+
+## API Response Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | Successful response |
+| 201 | Resource created successfully |
+| 204 | Resource deleted successfully |
+| 400 | Invalid request |
+| 401 | Invalid or expired API key |
+| 403 | Permission denied |
+| 404 | Resource not found |
+| 429 | Too many requests |
+| 500 | Internal server error |
+
+## Need Help?
+
+- Check out our [API Reference](/api-reference) for detailed endpoint documentation
+- Join our [Developer Community](https://community.plaud.ai) for support
+- Contact our [Developer Support](mailto:dev-support@plaud.ai) for assistance 
+
+## Detailed Guides
+
+For more detailed information about specific features, please check out our guides:
+
+<div className="card-container">
+  <a href="/guides/device-management" className="card">
+    <h3>Device Management</h3>
+    <p>Learn how to register, configure, and monitor Plaud devices</p>
+  </a>
+  
+  <a href="/guides/user-management" className="card">
+    <h3>User & Tenant Management</h3>
+    <p>Manage users, organizations, and access control</p>
+  </a>
+  
+  <a href="/guides/file-management" className="card">
+    <h3>File Management</h3>
+    <p>Work with recordings, transcriptions, and AI summaries</p>
+  </a>
+</div>

@@ -1,97 +1,56 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: Quickstart
+description: "Get started with the Plaud API in minutes"
 ---
 
-## Setup your development
+# Quickstart Guide
 
-Learn how to update your docs locally and deploy them to the public.
+Get up and running with the Plaud API in just a few minutes.
 
-### Edit and preview
+## 1. Get Your API Key
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 
-    1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `docs.json` is): ``` mintlify dev ```
-    <Note>
-      If you’re currently using the legacy ```mint.json``` configuration file, please update the Mintlify CLI:
+Sign up and generate your API key from the [Plaud Developer Console](https://console.plaud.ai).
 
+## 2. List Your Recordings
 
-      ```npm i -g mintlify@latest```
-      And run the new upgrade command in your docs repository:
+To list your audio files (recordings):
 
-      ```mintlify upgrade```
-      You should now be using the new ```docs.json``` configuration file. Feel free to delete the ```mint.json``` file from your repository.
-    </Note>
-  </Accordion>
-</AccordionGroup>
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/
+```
 
-### Deploy your changes
+**Python Example:**
 
-<AccordionGroup>
+```python
+import requests
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+headers = {'Authorization': '<YOUR_API_KEY>'}
+resp = requests.get('https://api.plaud.ai/files/', headers=headers)
+print(resp.json())
+```
 
-</AccordionGroup>
+## 3. Retrieve Recording Details
 
-## Update your docs
+To get details for a specific recording:
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/{file_id}
+```
 
-<CardGroup>
+## 4. Explore More Endpoints
 
-<Card title="Add Content With MDX" icon="file" href="/essentials/markdown">
-  Add content to your docs with MDX syntax.
-</Card>
+The Plaud API offers many more capabilities:
 
-<Card
-  title="Add Code Blocks"
-  icon="square-code"
-  href="/essentials/code"
->
-  Add code directly to your docs with syntax highlighting.
-</Card>
+| Resource | Endpoint | Description |
+|----------|----------|-------------|
+| Devices | `GET /devices/` | List all your devices |
+| Users | `GET /users/` | List all users |
+| Tenants | `GET /tenants/` | List all tenants |
+| Transcriptions | File details | Check `ai_status` and `ai_result_list` fields |
 
-<Card
-  title="Add Images"
-  icon="image"
-  href="/essentials/images"
->
-  Add images to your docs to make them more engaging.
-</Card>
+See the [API Reference](/api-reference) for complete documentation of all endpoints.
 
-<Card
-  title="Add Custom Components"
-  icon="puzzle-piece"
-  href="/essentials/reusable-snippets"
->
-  Add templates to your docs to make them more reusable.
-</Card>
+## Need Help?
 
-</CardGroup>
+- Join our [Developer Community](https://community.plaud.ai)
+- Contact [dev-support@plaud.ai](mailto:dev-support@plaud.ai)

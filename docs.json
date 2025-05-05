@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Plaud Dev API",
   "colors": {
-    "primary": "#000000",
+    "primary": "#0f172a",
     "light": "#FFFFFF",
-    "dark": "#333333"
+    "dark": "#16171f"
   },
   "favicon": "/favicon.svg",
   "api": {
@@ -16,6 +16,27 @@
   },
   "navigation": {
     "tabs": [
+      {
+        "tab": "Guides",
+        "pages": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Feature Guides",
+            "pages": [
+              "guides-overview",
+              "guides/device-management",
+              "guides/user-management",
+              "guides/file-management"
+            ]
+          }
+        ]
+      },
       {
         "tab": "API Reference",
         "openapi": "./api-reference/openapi.json"
@@ -35,13 +56,34 @@
       }
     ]
   },
-  "footer": {
-    "socials": {
-      "website": "https://plaud.ai",
-      "facebook": "https://www.facebook.com/plaudai",
-      "x": "https://x.com/PLAUDAI",
-      "instagram": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fplaud_official%2F&is_from_rle",
-      "youtube": "https://www.youtube.com/@PLAUDAI"
+  "footerSocials": {
+    "website": "https://plaud.ai",
+    "facebook": "https://www.facebook.com/plaudai",
+    "x": "https://x.com/PLAUDAI",
+    "instagram": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fplaud_official%2F&is_from_rle",
+    "youtube": "https://www.youtube.com/@PLAUDAI"
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true,
+    "thumbsRating": true
+  },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": false
+  },
+  "backgroundImage": "/images/background.png",
+  "topbarLinks": [
+    {
+      "name": "Contact Us",
+      "url": "mailto:support@plaud.ai"
     }
-  }
+  ],
+  "topbarCtaButton": {
+    "name": "Get API Key",
+    "url": "https://console.plaud.ai"
+  },
+  "stylesheets": [
+    "/styles/custom.css"
+  ]
 }
