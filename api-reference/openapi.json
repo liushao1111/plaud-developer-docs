@@ -1,0 +1,2228 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "DevPlatformApi",
+      "description": "\n- return HttpOK(HttpCode-200) when process work successfully\n- return HttpException(201) when resource created successfully\n- return HttpException(204) when resource deleted successfully\n- return HttpException(400) when request is invalid (bad request), or other errors\n- return HttpException(401) when access_token or api_key is invalid or expired\n- return HttpException(403) when permission to access source is denied\n- return HttpException(404) when source not found, or not exist\n- return HttpException(405) when method not allowed, or not supported\n- return HttpException(413) when request payload is too large\n- return HttpException(415) when request content type is not supported\n- return HttpException(422) when request is invalid (unprocessable entity)\n- return HttpException(429) when too many requests in a period of time\n- return HttpException(500) when something wrong in internal server\n- return HttpException(502) when bad gateway, or gateway timeout\n- return HttpException(503) when service unavailable, or maintenance\n- return HttpException(504) when gateway timeout, or service timeout\n",
+      "version": "0.1.0"
+    },
+    "paths": {
+      "/tenants/": {
+        "get": {
+          "tags": [
+            "tenant"
+          ],
+          "summary": " Get Tenant List",
+          "description": "get tenant list based on limit and next_token, return tenant model list",
+          "operationId": "_get_tenant_list_tenants__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 10,
+                "default": 25,
+                "title": "Limit"
+              }
+            },
+            {
+              "name": "next_token",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Next Token"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RespTenantList"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "tenant"
+          ],
+          "summary": " Create Tenant",
+          "description": "create tenant based on create model, return tenant model",
+          "operationId": "_create_tenant_tenants__post",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantCreate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TenantModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/tenants/{tenant_id}": {
+        "get": {
+          "tags": [
+            "tenant"
+          ],
+          "summary": " Get Tenant By Id",
+          "description": "get tenant by id, return tenant model",
+          "operationId": "_get_tenant_by_id_tenants__tenant_id__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "tenant_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "Tenant Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TenantModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "tenant"
+          ],
+          "summary": " Update Tenant",
+          "description": "update tenant based on update model, return tenant model",
+          "operationId": "_update_tenant_tenants__tenant_id__patch",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "tenant_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "Tenant Id"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantUpdate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TenantModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Get User List",
+          "description": "get user list based on limit and next_token, return user model list",
+          "operationId": "_get_user_list_users__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 10,
+                "default": 25,
+                "title": "Limit"
+              }
+            },
+            {
+              "name": "next_token",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Next Token"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RespUserList"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Create User",
+          "description": "create user based on create model, return user model",
+          "operationId": "_create_user_users__post",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCreate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Get User By Id",
+          "description": "get user by id, return user model",
+          "operationId": "_get_user_by_id_users__user_id__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "User Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Update User",
+          "description": "update user based on update model, return user model",
+          "operationId": "_update_user_users__user_id__patch",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "User Id"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/bind": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Bind Device To User",
+          "description": "bind device to user based on sn_type/sn and owner_id, return user model",
+          "operationId": "_bind_device_to_user_users_bind_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Body__bind_device_to_user_users_bind_post"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ]
+        }
+      },
+      "/users/unbind": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": " Unbind Device From User",
+          "description": "unbind device from user based on sn_type/sn and owner_id/virtual_id, return user model",
+          "operationId": "_unbind_device_from_user_users_unbind_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Body__unbind_device_from_user_users_unbind_post"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ]
+        }
+      },
+      "/devices/": {
+        "get": {
+          "tags": [
+            "device"
+          ],
+          "summary": " Get Device List",
+          "description": "get device list based on limit and next_token, return device model list",
+          "operationId": "_get_device_list_devices__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 10,
+                "default": 25,
+                "title": "Limit"
+              }
+            },
+            {
+              "name": "next_token",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Next Token"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RespDeviceList"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "device"
+          ],
+          "summary": " Create Device",
+          "description": "create device based on create model, return device model",
+          "operationId": "_create_device_devices__post",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceCreate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeviceModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/devices/{device_id}": {
+        "get": {
+          "tags": [
+            "device"
+          ],
+          "summary": " Get Device By Id",
+          "description": "get device by id, return device model",
+          "operationId": "_get_device_by_id_devices__device_id__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "device_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "Device Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeviceModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": [
+            "device"
+          ],
+          "summary": " Update Device",
+          "description": "update device based on update model, return device model",
+          "operationId": "_update_device_devices__device_id__patch",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "device_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "Device Id"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceUpdate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeviceModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/files/": {
+        "get": {
+          "tags": [
+            "file"
+          ],
+          "summary": " Get File List",
+          "description": "get file list of owner_id/virtual_id based on limit and next_token, return file model list",
+          "operationId": "_get_file_list_files__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "owner_id",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Owner Id"
+              }
+            },
+            {
+              "name": "virtual_id",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Virtual Id"
+              }
+            },
+            {
+              "name": "start_time",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Start Time"
+              }
+            },
+            {
+              "name": "end_time",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "End Time"
+              }
+            },
+            {
+              "name": "file_id_list",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "File Id List"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 10,
+                "default": 25,
+                "title": "Limit"
+              }
+            },
+            {
+              "name": "next_token",
+              "in": "query",
+              "required": false,
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Next Token"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RespFileList"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/files/{file_id}": {
+        "get": {
+          "tags": [
+            "file"
+          ],
+          "summary": " Get File By Id",
+          "description": "get file by id, return file model",
+          "operationId": "_get_file_by_id_files__file_id__get",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "file_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "File Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FileModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/files/merge": {
+        "post": {
+          "tags": [
+            "file"
+          ],
+          "summary": " Merge File",
+          "description": "merge files based on file_id_list/group_id and owner_id/virtual_id, return file model",
+          "operationId": "_merge_file_files_merge_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Body__merge_file_files_merge_post"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FileModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ]
+        }
+      },
+      "/files/{file_id}/ai": {
+        "post": {
+          "tags": [
+            "file"
+          ],
+          "summary": " Ai File",
+          "description": "ai file based on file_id, return file model",
+          "operationId": "_ai_file_files__file_id__ai_post",
+          "security": [
+            {
+              "APIKeyHeader": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "file_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "maxLength": 200,
+                "title": "File Id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FileModel"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/callback": {
+        "post": {
+          "tags": [
+            "callback"
+          ],
+          "summary": " Callback From Task Service",
+          "description": "callback from task service, return ok",
+          "operationId": "_callback_from_task_service_callback_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Body__callback_from_task_service_callback_post"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Resp"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Body__bind_device_to_user_users_bind_post": {
+          "properties": {
+            "sn_type": {
+              "$ref": "#/components/schemas/DeviceType",
+              "default": "notepin"
+            },
+            "sn": {
+              "type": "string",
+              "maxLength": 200,
+              "title": "Sn"
+            },
+            "owner_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Id"
+            }
+          },
+          "type": "object",
+          "required": [
+            "sn"
+          ],
+          "title": "Body__bind_device_to_user_users_bind_post"
+        },
+        "Body__callback_from_task_service_callback_post": {
+          "properties": {
+            "task_id": {
+              "type": "string",
+              "title": "Task Id"
+            },
+            "task_status": {
+              "type": "string",
+              "title": "Task Status"
+            }
+          },
+          "type": "object",
+          "required": [
+            "task_id",
+            "task_status"
+          ],
+          "title": "Body__callback_from_task_service_callback_post"
+        },
+        "Body__merge_file_files_merge_post": {
+          "properties": {
+            "file_id_list": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "title": "File Id List"
+            },
+            "group_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Group Id"
+            },
+            "owner_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Id"
+            },
+            "virtual_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Virtual Id"
+            }
+          },
+          "type": "object",
+          "required": [
+            "file_id_list"
+          ],
+          "title": "Body__merge_file_files_merge_post"
+        },
+        "Body__unbind_device_from_user_users_unbind_post": {
+          "properties": {
+            "sn_type": {
+              "$ref": "#/components/schemas/DeviceType",
+              "default": "notepin"
+            },
+            "sn": {
+              "type": "string",
+              "maxLength": 200,
+              "title": "Sn"
+            },
+            "owner_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Id"
+            }
+          },
+          "type": "object",
+          "required": [
+            "sn"
+          ],
+          "title": "Body__unbind_device_from_user_users_unbind_post"
+        },
+        "DeviceCreate": {
+          "properties": {
+            "type": {
+              "$ref": "#/components/schemas/DeviceType"
+            },
+            "sn": {
+              "type": "string",
+              "maxLength": 200,
+              "title": "Sn"
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            },
+            "model": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            },
+            "version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version"
+            },
+            "battery": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 100.0,
+                  "minimum": 0.0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Battery"
+            }
+          },
+          "type": "object",
+          "required": [
+            "type",
+            "sn"
+          ],
+          "title": "DeviceCreate",
+          "description": "Device Create Model"
+        },
+        "DeviceModel": {
+          "properties": {
+            "status": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Id"
+            },
+            "project_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            },
+            "environment": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EnvironmentType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "owner_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Id"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DeviceType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sn": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sn"
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            },
+            "model": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            },
+            "version": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version"
+            },
+            "battery": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Battery"
+            },
+            "is_bind": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Bind"
+            },
+            "first_bind_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "First Bind At"
+            }
+          },
+          "type": "object",
+          "title": "DeviceModel",
+          "description": "Device Model"
+        },
+        "DeviceType": {
+          "type": "string",
+          "enum": [
+            "note",
+            "notepin",
+            "other"
+          ],
+          "title": "DeviceType",
+          "description": "Device Type Enum"
+        },
+        "DeviceUpdate": {
+          "properties": {
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            },
+            "model": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            },
+            "version": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version"
+            },
+            "battery": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 100.0,
+                  "minimum": 0.0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Battery"
+            }
+          },
+          "type": "object",
+          "title": "DeviceUpdate",
+          "description": "Device Update Model"
+        },
+        "EnvironmentType": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "EnvironmentType",
+          "description": "Environment Type Enum"
+        },
+        "FileModel": {
+          "properties": {
+            "status": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Id"
+            },
+            "project_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            },
+            "environment": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EnvironmentType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "owner_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Id"
+            },
+            "start_time": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start Time"
+            },
+            "end_time": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End Time"
+            },
+            "duration": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Duration"
+            },
+            "timezone": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Timezone"
+            },
+            "zonemins": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Zonemins"
+            },
+            "device_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Device Id"
+            },
+            "customer_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Customer Id"
+            },
+            "group_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Group Id"
+            },
+            "children_ids": {
+              "anyOf": [
+                {
+                  "items": {},
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Children Ids"
+            },
+            "presigned_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Presigned Url"
+            },
+            "ai_result_list": {
+              "anyOf": [
+                {
+                  "items": {},
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Ai Result List"
+            },
+            "ai_status": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Ai Status"
+            },
+            "ai_data": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Ai Data"
+            }
+          },
+          "type": "object",
+          "title": "FileModel",
+          "description": "File Model"
+        },
+        "HTTPValidationError": {
+          "properties": {
+            "detail": {
+              "items": {
+                "$ref": "#/components/schemas/ValidationError"
+              },
+              "type": "array",
+              "title": "Detail"
+            }
+          },
+          "type": "object",
+          "title": "HTTPValidationError"
+        },
+        "Resp": {
+          "properties": {
+            "msg": {
+              "type": "string",
+              "title": "Msg",
+              "default": "success"
+            }
+          },
+          "type": "object",
+          "title": "Resp",
+          "description": "Response Model"
+        },
+        "RespDeviceList": {
+          "properties": {
+            "type": {
+              "type": "string",
+              "title": "Type",
+              "default": "list"
+            },
+            "data": {
+              "items": {
+                "$ref": "#/components/schemas/DeviceModel"
+              },
+              "type": "array",
+              "title": "Data",
+              "default": []
+            },
+            "next_token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Next Token"
+            }
+          },
+          "type": "object",
+          "title": "RespDeviceList",
+          "description": "Response of Device List"
+        },
+        "RespFileList": {
+          "properties": {
+            "type": {
+              "type": "string",
+              "title": "Type",
+              "default": "list"
+            },
+            "data": {
+              "items": {
+                "$ref": "#/components/schemas/FileModel"
+              },
+              "type": "array",
+              "title": "Data",
+              "default": []
+            },
+            "next_token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Next Token"
+            }
+          },
+          "type": "object",
+          "title": "RespFileList",
+          "description": "Response of File List"
+        },
+        "RespTenantList": {
+          "properties": {
+            "type": {
+              "type": "string",
+              "title": "Type",
+              "default": "list"
+            },
+            "data": {
+              "items": {
+                "$ref": "#/components/schemas/TenantModel"
+              },
+              "type": "array",
+              "title": "Data",
+              "default": []
+            },
+            "next_token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Next Token"
+            }
+          },
+          "type": "object",
+          "title": "RespTenantList",
+          "description": "Response of User List"
+        },
+        "RespUserList": {
+          "properties": {
+            "type": {
+              "type": "string",
+              "title": "Type",
+              "default": "list"
+            },
+            "data": {
+              "items": {
+                "$ref": "#/components/schemas/UserModel"
+              },
+              "type": "array",
+              "title": "Data",
+              "default": []
+            },
+            "next_token": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Next Token"
+            }
+          },
+          "type": "object",
+          "title": "RespUserList",
+          "description": "Response of User List"
+        },
+        "Status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive"
+          ],
+          "title": "Status",
+          "description": "Status Enum"
+        },
+        "TenantCreate": {
+          "properties": {
+            "virtual_id": {
+              "type": "string",
+              "title": "Virtual Id"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            }
+          },
+          "type": "object",
+          "required": [
+            "virtual_id"
+          ],
+          "title": "TenantCreate",
+          "description": "Tenant Create Model"
+        },
+        "TenantModel": {
+          "properties": {
+            "status": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Id"
+            },
+            "project_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            },
+            "environment": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EnvironmentType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "virtual_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Virtual Id"
+            },
+            "is_available": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Available"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            }
+          },
+          "type": "object",
+          "title": "TenantModel",
+          "description": "Tenant Model"
+        },
+        "TenantUpdate": {
+          "properties": {
+            "is_available": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Available"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            }
+          },
+          "type": "object",
+          "title": "TenantUpdate",
+          "description": "Tenant Update Model"
+        },
+        "UserCreate": {
+          "properties": {
+            "tenant_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tenant Id"
+            },
+            "virtual_id": {
+              "type": "string",
+              "title": "Virtual Id"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            }
+          },
+          "type": "object",
+          "required": [
+            "virtual_id"
+          ],
+          "title": "UserCreate",
+          "description": "User Create Model"
+        },
+        "UserModel": {
+          "properties": {
+            "status": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Status"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Id"
+            },
+            "project_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            },
+            "environment": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/EnvironmentType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tenant_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tenant Id"
+            },
+            "virtual_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Virtual Id"
+            },
+            "is_available": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Available"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            },
+            "device_list": {
+              "anyOf": [
+                {
+                  "items": {},
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Device List"
+            }
+          },
+          "type": "object",
+          "title": "UserModel",
+          "description": "User Model"
+        },
+        "UserUpdate": {
+          "properties": {
+            "is_available": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Available"
+            },
+            "config": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Config"
+            }
+          },
+          "type": "object",
+          "title": "UserUpdate",
+          "description": "User Update Model"
+        },
+        "ValidationError": {
+          "properties": {
+            "loc": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              },
+              "type": "array",
+              "title": "Location"
+            },
+            "msg": {
+              "type": "string",
+              "title": "Message"
+            },
+            "type": {
+              "type": "string",
+              "title": "Error Type"
+            }
+          },
+          "type": "object",
+          "required": [
+            "loc",
+            "msg",
+            "type"
+          ],
+          "title": "ValidationError"
+        }
+      },
+      "securitySchemes": {
+        "APIKeyHeader": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization"
+        }
+      }
+    }
+  }
