@@ -39,7 +39,7 @@
       },
       {
         "tab": "API Reference",
-        "openapi": "./api-reference/openapi.json"
+        "openapi": "http://dev-api.plaud.cn/openapi.json"
       }
     ],
     "global": {}
