@@ -15,10 +15,11 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "anchors": [
       {
-        "tab": "Guides",
-        "pages": [
+        "anchor": "Guides",
+        "icon": "book-open",
+        "groups": [
           {
             "group": "Getting Started",
             "pages": [
@@ -38,8 +39,9 @@
         ]
       },
       {
-        "tab": "API Reference",
-        "openapi": "https://dev-api.plaud.cn/openapi.json"
+        "anchor": "API Reference",
+        "icon": "code",
+        "openapi": "/api/openapi.json"
       }
     ],
     "global": {}
