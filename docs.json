@@ -15,22 +15,44 @@
     }
   },
   "navigation": {
-    "tabs": [
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-
-            "group": "Endpoints",
-            "openapi": {
-              "source": "/api/openapi.json",
-              "directory": "api-reference"
-            }
+  "tabs": [
+    {
+      "tab": "Guides",
+      "icon": "book-open",
+      "groups": [
+        {
+          "group": "Getting Started",
+          "pages": [
+            "introduction",
+            "quickstart"
+          ]
+        },
+        {
+          "group": "Feature Guides",
+          "pages": [
+            "guides-overview",
+            "guides/device-management",
+            "guides/user-management",
+            "guides/file-management"
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "API Reference",
+      "icon": "code",
+      "groups": [
+        {
+          "group": "API Reference",
+          "openapi": {
+            "source": "/api/openapi.json",
+            "directory": "api-reference"
           }
-        ]
-      }
-    ]
-  },
+        }
+      ]
+    }
+  ]
+},
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
