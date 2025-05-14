@@ -41,7 +41,7 @@
       {
         "anchor": "API Reference",
         "icon": "code",
-        "dropdowns": [
+        "pages": [
           {
             "dropdown": "Tenant Management",
             "pages": [
