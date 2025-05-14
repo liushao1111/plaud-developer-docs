@@ -5,11 +5,29 @@
     "description": "\n- return HttpOK(HttpCode-200) when process work successfully\n- return HttpException(201) when resource created successfully\n- return HttpException(204) when resource deleted successfully\n- return HttpException(400) when request is invalid (bad request), or other errors\n- return HttpException(401) when access_token or api_key is invalid or expired\n- return HttpException(403) when permission to access source is denied\n- return HttpException(404) when source not found, or not exist\n- return HttpException(405) when method not allowed, or not supported\n- return HttpException(413) when request payload is too large\n- return HttpException(415) when request content type is not supported\n- return HttpException(422) when request is invalid (unprocessable entity)\n- return HttpException(429) when too many requests in a period of time\n- return HttpException(500) when something wrong in internal server\n- return HttpException(502) when bad gateway, or gateway timeout\n- return HttpException(503) when service unavailable, or maintenance\n- return HttpException(504) when gateway timeout, or service timeout\n",
     "version": "0.1.0"
   },
+  "tags": [
+    {
+      "name": "User Management",
+      "description": "Operations related to managing users."
+    },
+    {
+      "name": "Tenant Management",
+      "description": "Operations related to managing tenants."
+    },
+    {
+      "name": "Device Management",
+      "description": "Endpoints for device configuration and status."
+    },
+    {
+      "name": "File Operations",
+      "description": "API calls for file uploads, downloads, and processing."
+    }
+  ],
   "paths": {
     "/tenants/": {
       "get": {
         "tags": [
-          "tenant"
+          "Tenant Management"
         ],
         "summary": " Get Tenant List",
         "description": "get tenant list based on limit and next_token, return tenant model list",
@@ -74,7 +92,7 @@
       },
       "post": {
         "tags": [
-          "tenant"
+          "Tenant Management"
         ],
         "summary": " Create Tenant",
         "description": "create tenant based on create model, return tenant model",
@@ -121,7 +139,7 @@
     "/tenants/{tenant_id}": {
       "get": {
         "tags": [
-          "tenant"
+          "Tenant Management"
         ],
         "summary": " Get Tenant By Id",
         "description": "get tenant by id, return tenant model",
@@ -168,7 +186,7 @@
       },
       "patch": {
         "tags": [
-          "tenant"
+          "Tenant Management"
         ],
         "summary": " Update Tenant",
         "description": "update tenant based on update model, return tenant model",
@@ -225,7 +243,7 @@
       },
       "delete": {
         "tags": [
-          "tenant"
+          "Tenant Management"
         ],
         "summary": " Delete Tenant By Id",
         "description": "delete tenant by id, return success response or 404 error",
@@ -274,7 +292,7 @@
     "/users/": {
       "get": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Get User List ",
         "description": "get user list based on limit and next_token, return user model list",
@@ -339,7 +357,7 @@
       },
       "post": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Create User",
         "description": "create user based on create model, return user model",
@@ -386,7 +404,7 @@
     "/users/{user_id}": {
       "get": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Get User By Id",
         "description": "get user by id, return user model",
@@ -433,7 +451,7 @@
       },
       "patch": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Update User",
         "description": "update user based on update model, return user model",
@@ -490,7 +508,7 @@
       },
       "delete": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Delete User By Id",
         "description": "delete user by id, return success response or 404 error",
@@ -539,7 +557,7 @@
     "/users/{user_id}/bind": {
       "post": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Bind Device To User",
         "description": "bind device to user based on sn_type and sn, return user model\n:note: create device schema if device not exists",
@@ -598,7 +616,7 @@
     "/users/{user_id}/unbind": {
       "post": {
         "tags": [
-          "user"
+          "User Management"
         ],
         "summary": " Unbind Device From User",
         "description": "unbind device from user based on sn_type and sn, return user model",
@@ -657,7 +675,7 @@
     "/devices/": {
       "get": {
         "tags": [
-          "device"
+          "Device Management"
         ],
         "summary": " Get Device List",
         "description": "get device list based on limit and next_token, return device model list",
@@ -722,7 +740,7 @@
       },
       "post": {
         "tags": [
-          "device"
+          "Device Management"
         ],
         "summary": " Create Device",
         "description": "create device based on create model, return device model",
@@ -769,7 +787,7 @@
     "/devices/{device_id}": {
       "get": {
         "tags": [
-          "device"
+          "Device Management"
         ],
         "summary": " Get Device By Id",
         "description": "get device by id, return device model",
@@ -816,7 +834,7 @@
       },
       "patch": {
         "tags": [
-          "device"
+          "Device Management"
         ],
         "summary": " Update Device",
         "description": "update device based on update model, return device model",
@@ -873,7 +891,7 @@
       },
       "delete": {
         "tags": [
-          "device"
+          "Device Management"
         ],
         "summary": " Delete Device By Id",
         "description": "delete device by id, return success response or 404 error",
@@ -922,7 +940,7 @@
     "/files/": {
       "get": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Get File List",
         "description": "get file list of owner_id/virtual_id based on limit and next_token, return file model list",
@@ -1069,7 +1087,7 @@
     "/files/{file_id}": {
       "get": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Get File By Id",
         "description": "get file by id, return file model",
@@ -1116,7 +1134,7 @@
       },
       "patch": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Update File",
         "description": "update file based on update model, return file model",
@@ -1173,7 +1191,7 @@
       },
       "delete": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Delete File By Id",
         "description": "delete file by id, return success response or 404 error",
@@ -1222,7 +1240,7 @@
     "/files/{file_id}/ai": {
       "post": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Ai File",
         "description": "execute AI process on file based on file_id, return file model",
@@ -1281,7 +1299,7 @@
     "/files/merge": {
       "post": {
         "tags": [
-          "file"
+          "File Operations"
         ],
         "summary": " Merge File",
         "description": "merge files based on file_id_list/group_id and owner_id/virtual_id, return file model",
