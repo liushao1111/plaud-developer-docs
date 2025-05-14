@@ -41,9 +41,9 @@
       {
         "anchor": "API Reference",
         "icon": "code",
-        "groups": [
+        "dropdowns": [
           {
-            "group": "Tenant Management",
+            "dropdown": "Tenant Management",
             "pages": [
               "docs/api-reference/tenant-management/get-tenant-list",
               "docs/api-reference/tenant-management/create-tenant",
@@ -53,7 +53,7 @@
             ]
           },
           {
-            "group": "User Management",
+            "dropdown": "User Management",
             "pages": [
               "docs/api-reference/user-management/get-user-list",
               "docs/api-reference/user-management/create-user",
@@ -65,7 +65,7 @@
             ]
           },
           {
-            "group": "Device Management",
+            "dropdown": "Device Management",
             "pages": [
               "docs/api-reference/device-management/get-device-list",
               "docs/api-reference/device-management/create-device",
@@ -75,7 +75,7 @@
             ]
           },
           {
-            "group": "File Operations",
+            "dropdown": "File Operations",
             "pages": [
               "docs/api-reference/file-operations/get-file-list",
               "docs/api-reference/file-operations/get-file-by-id",
@@ -128,5 +128,8 @@
   "topbarCtaButton": {
     "name": "Get API Key",
     "url": "https://console.plaud.ai"
-  }
+  },
+  "stylesheets": [
+    "/styles/custom.css"
+  ]
 }
