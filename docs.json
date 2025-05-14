@@ -41,11 +41,10 @@
       {
         "tab": "API Reference",
         "icon": "code",
-        "pages": [
+        "groups": [
           {
             "group": "Tenant Management",
             "icon": "building",
-            "collapsed": true,
             "pages": [
               "docs/api-reference/tenant-management/get-tenant-list",
               "docs/api-reference/tenant-management/create-tenant",
@@ -57,7 +56,6 @@
           {
             "group": "User Management",
             "icon": "user",
-            "collapsed": true,
             "pages": [
               "docs/api-reference/user-management/get-user-list",
               "docs/api-reference/user-management/create-user",
@@ -71,7 +69,6 @@
           {
             "group": "Device Management",
             "icon": "device-mobile",
-            "collapsed": true,
             "pages": [
               "docs/api-reference/device-management/get-device-list",
               "docs/api-reference/device-management/create-device",
@@ -83,7 +80,6 @@
           {
             "group": "File Operations",
             "icon": "file",
-            "collapsed": true,
             "pages": [
               "docs/api-reference/file-operations/get-file-list",
               "docs/api-reference/file-operations/get-file-by-id",
