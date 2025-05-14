@@ -39,9 +39,9 @@
         ]
       },
       {
-        "anchor": "API Reference",
+        "tab": "API Reference",
         "icon": "code",
-        "pages": [
+        "dropdowns": [
           {
             "dropdown": "Tenant Management",
             "pages": [
