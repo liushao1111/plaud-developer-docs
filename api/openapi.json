@@ -276,7 +276,7 @@
         "tags": [
           "user"
         ],
-        "summary": " Get User List",
+        "summary": " Get User List ",
         "description": "get user list based on limit and next_token, return user model list",
         "operationId": "_get_user_list_users__get",
         "security": [
