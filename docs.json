@@ -14,82 +14,74 @@
       "defaults": "all"
     }
   },
-  "navigation": {
-    "anchors": [
-      {
-        "anchor": "Guides",
-        "icon": "book-open",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "quickstart"
-            ]
-          },
-          {
-            "group": "Feature Guides",
-            "pages": [
-              "guides-overview",
-              "guides/device-management",
-              "guides/user-management",
-              "guides/file-management"
-            ]
-          }
-        ]
-      },
-      {
-        "anchor": "API Reference",
-        "icon": "code",
-        "dropdowns": [
-          {
-            "dropdown": "Tenant Management",
-            "pages": [
-              "docs/api-reference/tenant-management/get-tenant-list",
-              "docs/api-reference/tenant-management/create-tenant",
-              "docs/api-reference/tenant-management/get-tenant-by-id",
-              "docs/api-reference/tenant-management/delete-tenant-by-id",
-              "docs/api-reference/tenant-management/update-tenant"
-            ]
-          },
-          {
-            "dropdown": "User Management",
-            "pages": [
-              "docs/api-reference/user-management/get-user-list",
-              "docs/api-reference/user-management/create-user",
-              "docs/api-reference/user-management/get-user-by-id",
-              "docs/api-reference/user-management/delete-user-by-id",
-              "docs/api-reference/user-management/update-user",
-              "docs/api-reference/user-management/bind-device-to-user",
-              "docs/api-reference/user-management/unbind-device-from-user"
-            ]
-          },
-          {
-            "dropdown": "Device Management",
-            "pages": [
-              "docs/api-reference/device-management/get-device-list",
-              "docs/api-reference/device-management/create-device",
-              "docs/api-reference/device-management/get-device-by-id",
-              "docs/api-reference/device-management/delete-device-by-id",
-              "docs/api-reference/device-management/update-device"
-            ]
-          },
-          {
-            "dropdown": "File Operations",
-            "pages": [
-              "docs/api-reference/file-operations/get-file-list",
-              "docs/api-reference/file-operations/get-file-by-id",
-              "docs/api-reference/file-operations/delete-file-by-id",
-              "docs/api-reference/file-operations/update-file",
-              "docs/api-reference/file-operations/ai-file",
-              "docs/api-reference/file-operations/merge-file"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {}
-  },
+    "navigation": [
+    {
+      "group": "Guides",
+      "icon": "book-open",
+      "pages": [
+        "introduction",
+        "quickstart",
+        {
+          "group": "Feature Guides",
+          "pages": [
+            "guides-overview",
+            "guides/device-management",
+            "guides/user-management",
+            "guides/file-management"
+          ]
+        }
+      ]
+    },
+
+    {
+      "group": "API Reference",
+      "pages": [
+        {
+          "group": "Tenant Management",
+          "pages": [
+            "docs/api-reference/tenant-management/get-tenant-list",
+            "docs/api-reference/tenant-management/create-tenant",
+            "docs/api-reference/tenant-management/get-tenant-by-id",
+            "docs/api-reference/tenant-management/delete-tenant-by-id",
+            "docs/api-reference/tenant-management/update-tenant"
+          ]
+        },
+        {
+          "group": "User Management",
+          "pages": [
+            "docs/api-reference/user-management/get-user-list",
+            "docs/api-reference/user-management/create-user",
+            "docs/api-reference/user-management/get-user-by-id",
+            "docs/api-reference/user-management/delete-user-by-id",
+            "docs/api-reference/user-management/update-user",
+            "docs/api-reference/user-management/bind-device-to-user",
+            "docs/api-reference/user-management/unbind-device-from-user"
+          ]
+        },
+        {
+          "group": "Device Management",
+          "pages": [
+            "docs/api-reference/device-management/get-device-list",
+            "docs/api-reference/device-management/create-device",
+            "docs/api-reference/device-management/get-device-by-id",
+            "docs/api-reference/device-management/delete-device-by-id",
+            "docs/api-reference/device-management/update-device"
+          ]
+        },
+        {
+          "group": "File Operations",
+          "pages": [
+            "docs/api-reference/file-operations/get-file-list",
+            "docs/api-reference/file-operations/get-file-by-id",
+            "docs/api-reference/file-operations/delete-file-by-id",
+            "docs/api-reference/file-operations/update-file",
+            "docs/api-reference/file-operations/ai-file",
+            "docs/api-reference/file-operations/merge-file"
+          ]
+        }
+      ]
+    }
+  ],
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
