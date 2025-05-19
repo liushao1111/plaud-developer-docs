@@ -44,10 +44,7 @@
       "groups": [
         {
           "group": "API Reference",
-          "openapi": {
-            "source": "/api/openapi.json",
-            "directory": "api-reference"
-          }
+          "openapi": "https://dev-api.plaud.cn/openapi.json"
         }
       ]
     }
