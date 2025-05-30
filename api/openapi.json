@@ -28,7 +28,7 @@
                 },
                 "security": [
                     {
-                        "base64(client_id:secret_key)": []
+                        "base64_client_id_secret_key": []
                     }
                 ]
             }
@@ -55,7 +55,7 @@
                 },
                 "security": [
                     {
-                        "base64(app_key:app_secret)": []
+                        "base64_app_key_app_secret": []
                     }
                 ]
             }
@@ -2258,11 +2258,11 @@
             }
         },
         "securitySchemes": {
-            "base64(client_id:secret_key)": {
+            "base64_client_id_secret_key": {
                 "type": "http",
                 "scheme": "bearer"
             },
-            "base64(app_key:app_secret)": {
+            "base64_app_key_app_secret": {
                 "type": "http",
                 "scheme": "bearer"
             }
