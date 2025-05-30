@@ -44,7 +44,7 @@
       "groups": [
         {
           "group": "API Reference",
-          "openapi": "api/openapi.json"
+          "openapi": "https://platform.plaud.cn/openapi.json"
         }
       ]
     }
