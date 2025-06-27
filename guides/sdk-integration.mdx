@@ -6,7 +6,7 @@ description: "This document provides guidance for integrating and using of the P
 
 ## Table of Contents
 
-- [Introduction](#introduction) 
+- [Introduction](#introduction)   
 - [System Architecture](#system architecture) 
 - [Function Overview](#function overview) 
 - [Interface Description](#interface description) 
@@ -29,13 +29,11 @@ This document provides guidance for integrating and using of the PLAUD SDK
 
 *   Figure
 
-4. Interface Description
+## Interface Description
 
-Android Platform
+### Android Platform   
 
-Device Connection
-
-*   Dependency Injection
+* Dependency Injection
 
 ```code
 1  // Import the provided aar
@@ -53,12 +51,9 @@ Device Connection
 13 implementation 'com.google.firebase:firebase-analytics'
 ```
 
-*   Initialization
+####  Device Connection
 
-> [Figure: A flowchart illustrates the software development kit (SDK). The SDK branches out to Initialization, Connection Management (Start scanning, Discover devices, Stop scanning, Connect device, Disconnect device), Device Information (Device status, Storage capacity, Power status, etc), Recording control (Start recording, Pause recording, Resume recording, Stop recording), Data Export (Get file list, download file, Stop download, delete file, Delete all files), Wifi Cloud Sync (Add Wifi, Delete Wifi, Update Wifi, Get Wifi list, Set cloud address), and Cloud Processing Service.]
-
-
--------------------------------------------------------------------------------- Page 3
+*  Initialization
 
 ```code
 // SDK initialization method
@@ -69,16 +64,15 @@ fun initSdk(
  hostName: String,
  extra: Map<String, Any>?
 )
-```
 
-```
 // Application
 bleAgentListener = object : BleAgentListener {
  // Implement on your own
 }
 bleAgentListener?.let { Sdk.initSdk(context, "plaud-zoem8KYd-1748487531106", it, hostName, null) }
 ```
-### Start/Stop Scan
+
+* Start/Stop Scan
 
 ```code
 /**
@@ -87,7 +81,7 @@ bleAgentListener?.let { Sdk.initSdk(context, "plaud-zoem8KYd-1748487531106", it,
 agent.scanBle(boolean isStart)
 ```
 
-### Get Scanned Devices
+* Get Scanned Devices
 
 ```code
 BleAgentListener {
@@ -97,7 +91,7 @@ BleAgentListener {
 }
 ```
 
-### Start Connection
+* Start Connection
 
 ```code
 /**
@@ -112,7 +106,7 @@ BleAgentListener {
 10         String userName, long connectTimeout, long handshakeTimeout)
 ```
 
-- Unpair
+* Unpair
 
 ```code
 1    /**
@@ -132,7 +126,7 @@ BleAgentListener {
 1    agent.disconnectBle()
 ```
 
-## Device Information
+#### Device Information
 
 - Get Device Status
 
@@ -160,7 +154,7 @@ BleAgentListener {
 8  AgentCallback.OnResponse<BattStatusRsp> onResponse);
 ```
 
-### Get Storage Capacity
+- Get Storage Capacity
 ```code
 1  /**
 2   * Get remaining system capacity
@@ -172,9 +166,10 @@ BleAgentListener {
 8  AgentCallback.OnResponse<StorageRsp> onResponse);
 ```
 
-## Recording Control
+#### Recording Control
 
-### Start Recording
+- Start Recording
+
 ```code
 1  /**
 2   * Start recording
@@ -187,7 +182,8 @@ BleAgentListener {
 9  AgentCallback.OnResponse<RecordStartRsp> onResponse);
 ```
 
-### Pause Recording
+- Pause Recording
+
 ```code
 1  /**
 2   * Pause recording
@@ -231,7 +227,7 @@ BleAgentListener {
 9    AgentCallback.OnResponse<RecordStopRsp> onResponse);
 ```
 
-Data Export
+ Data Export
 
 - Get File List
 
@@ -270,8 +266,7 @@ Data Export
 18 ISyncVoiceDataKeepOut voiceDataCreator);
 ```
 
-Stop Download
-
+- Stop Download
 
 ```code
 1  /**
@@ -311,7 +306,7 @@ Stop Download
 8   AgentCallback.OnResponse<ClearRecordFileRsp> onResponse);
 ```
 
-## Wi-Fi Sync
+#### Wi-Fi Sync
 
 - Set Wi-Fi Auto-Sync Switch
 
@@ -340,7 +335,7 @@ agent.getAutoSync(AgentCallback.OnRequest onRequest,
                     AgentCallback.OnResponse<CommonSettingsRsp> onResponse);
 ```
 
-• Get Wi-Fi Information
+- Get Wi-Fi Information
 
 ```code
 /**
