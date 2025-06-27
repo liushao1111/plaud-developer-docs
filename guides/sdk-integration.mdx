@@ -34,10 +34,10 @@ todo
   implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
   implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
- implementation 'com.squareup.okhttp3:okhttp:4.10.0'
- implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
- implementation platform('com.google.firebase:firebase-bom:32.7.4')
- implementation 'com.google.firebase:firebase-analytics'
+  implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+  implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+  implementation platform('com.google.firebase:firebase-bom:32.7.4')
+  implementation 'com.google.firebase:firebase-analytics'
 ```
 
 ####  Device Connection
@@ -216,7 +216,7 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
            AgentCallback.OnResponse<RecordStopRsp> onResponse);
 ```
 
- #### Data Export
+ ####  Export Recording
 
 - Get File List
 
@@ -291,7 +291,7 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
         AgentCallback.OnResponse<ClearRecordFileRsp> onResponse);
 ```
 
-#### Wi-Fi Sync
+#### Device Wi-Fi Sync
 
 - Set Wi-Fi Auto-Sync Switch
 
@@ -317,7 +317,7 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
  * @param onResponse Device return callback
  */
 agent.getAutoSync(AgentCallback.OnRequest onRequest,
-                    AgentCallback.OnResponse<CommonSettingsRsp> onResponse);
+         AgentCallback.OnResponse<CommonSettingsRsp> onResponse);
 ```
 
 - Get Wi-Fi Information
@@ -359,7 +359,7 @@ agent.setSyncWifi(int operation,
 * @param onResponse Device return callback
 
 agent.deleteWifiInfo(List<Long> wifiIndexs, AgentCallback.OnRequest onRequest,
- AgentCallback.OnResponse<DeleteWifiRsp> onResponse);
+      AgentCallback.OnResponse<DeleteWifiRsp> onResponse);
 ```
 
 - Test Wi-Fi Network
@@ -372,7 +372,7 @@ agent.deleteWifiInfo(List<Long> wifiIndexs, AgentCallback.OnRequest onRequest,
  * @param onResponse Device return callback
  */
 agent.testWifiInfo(Long wifiIndex, AgentCallback.OnRequest onRequest,
- AgentCallback.OnResponse<TestWifiInfoRsp> onResponse);
+      AgentCallback.OnResponse<TestWifiInfoRsp> onResponse);
 ```
 
 - Get Wi-Fi Network Test Result (Note: The connection will be lost during this process. Manual reconnection is required to get the result.)
@@ -385,7 +385,7 @@ agent.testWifiInfo(Long wifiIndex, AgentCallback.OnRequest onRequest,
  * @param onResponse Device return callback
  */
 agent.testWifiResult(Long wifiIndex, AgentCallback.OnRequest onRequest,
- AgentCallback.OnResponse<TestWifiResultRsp> onResponse);
+      AgentCallback.OnResponse<TestWifiResultRsp> onResponse);
 ```
 
 - Get Wi-Fi List
@@ -398,16 +398,15 @@ agent.testWifiResult(Long wifiIndex, AgentCallback.OnRequest onRequest,
  * @param onResponse Device return callback
  */
 agent.getWifiList(AgentCallback.OnRequest onRequest,
- AgentCallback.OnResponse<GetWifiListRsp> onResponse);
+      AgentCallback.OnResponse<GetWifiListRsp> onResponse);
 ```
 
 - Set Wi-Fi Upload Domain
 
 ```code
-  agent.setWifiSyncDomain(String url, AgentCallback. OnRequest onRequest,
-        AgentCallback. OnResponse<CommonStringSetRsp>
-   onResponse,
-   AgentCallback.OnError onError);
+agent.setWifiSyncDomain(String url, AgentCallback. OnRequest onRequest,
+        AgentCallback. OnResponse<CommonStringSetRsp> onResponse,
+        AgentCallback.OnError onError);
 ```
 
 ### iOS Platform
@@ -423,7 +422,7 @@ Get Plaud device agent, initialize SDK
 ```code
 @property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
 self.deviceAgent = [PlaudDeviceAgent shared];
-[self.deviceAgent initSDKWithHostName: @"Beike" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
+[self.deviceAgent initSDKWithHostName: @"" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
 ```
 
 Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
@@ -549,25 +548,24 @@ code
   // Result callback, see bleRecordStop
 ```
 
-#### Data Export
+#### Export Recording
 
 - Get File List
 
 ```code
   // Trigger: getFileList
-  // Parameter: sessionId: From which file to start downloading. O means
-download all.
- self.deviceAgent.getFileList(sessionId: 0)
+  // Parameter: sessionId: From which file to start downloading. O means download all.
+  self.deviceAgent.getFileList(sessionId: 0)
   // Result callback, where bleFiles is the file list
- func bleFileList (bleFiles: [BleFile])
+  func bleFileList (bleFiles: [BleFile])
 ```
 
 - Download File
 
 ```code
- /// Download file
- ///
- /// - Parameters:
+  /// Download file
+  ///
+  /// - Parameters:
   /// - sessionId: The unique ID of the recording file
   /// - outputPath: The path to save the recording file
   self.deviceAgent.downloadFile(sessionId: bleFile.sessionId, outputPath: targetPath)
@@ -600,7 +598,7 @@ download all.
   // Result callback bleClearAllFile
 ```
 
-#### Wi-Fi Sync
+#### Device Wi-Fi Sync
 
 - Wi-Fi Sync Switch
 
@@ -628,16 +626,16 @@ download all.
   @objc public func setWifiSyncConfig(operation: Int, wifiIndex: UInt32, ssid: String, password: String)
 
   /// Get Wi-Fi Configuration
- /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
- @objc public func getWifiSyncConfig(wifiIndex: UInt32)
+  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+  @objc public func getWifiSyncConfig(wifiIndex: UInt32)
 
- /// Delete Wi-Fi Configuration
- /// - Parameters:
- /// - wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
- @objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
+  /// Delete Wi-Fi Configuration
+  /// - Parameters:
+  /// - wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
+  @objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
 
-/// Get Wi-Fi List
- @objc public func getWifiSyncList()
+  /// Get Wi-Fi List
+  @objc public func getWifiSyncList()
 ```
 
 - Wi-Fi Connectivity Test
@@ -659,3 +657,4 @@ download all.
     *   Android: `plaud-sdk.aar`
     *   iOS: `PenBleSDK.framework`, `PlaudDeviceBasicSDK.framework`
 *   DemoApp: SDK Demo
+*   Related Download Link: coming soon
