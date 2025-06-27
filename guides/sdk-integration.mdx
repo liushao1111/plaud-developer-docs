@@ -1,0 +1,158 @@
+---
+title: SDK-Integration
+description: "Learn how to manage users and tenants with Plaud's API"
+---
+
+# User & Tenant Management
+
+Plaud's API provides robust user and tenant management capabilities, allowing you to manage your organization's structure and user access.
+
+## Tenant Management
+
+In Plaud's API, a tenant represents an organization or a distinct group of users. The multi-tenant architecture allows for clear separation of data and permissions.
+
+### List All Tenants
+
+Retrieve a list of all tenants with optional pagination:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/tenants/
+```
+
+### Get Tenant Details
+
+Get detailed information about a specific tenant:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/tenants/{tenant_id}
+```
+
+### Create a Tenant
+
+Create a new tenant in the system:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "virtual_id": "company-abc",
+    "name": "Company ABC",
+    "tag": "enterprise"
+  }' \
+  https://api.plaud.ai/tenants/
+```
+
+### Update a Tenant
+
+Update an existing tenant's information:
+
+```bash
+curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Company ABC Updated",
+    "tag": "enterprise-premium"
+  }' \
+  https://api.plaud.ai/tenants/{tenant_id}
+```
+
+### Delete a Tenant
+
+Remove a tenant from the system:
+
+```bash
+curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
+  https://api.plaud.ai/tenants/{tenant_id}
+```
+
+## User Management
+
+Users in Plaud's system can be associated with tenants and devices.
+
+### List All Users
+
+Retrieve a list of all users with optional pagination:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/users/
+```
+
+### Get User Details
+
+Get detailed information about a specific user:
+
+```bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/users/{user_id}
+```
+
+### Create a User
+
+Create a new user in the system:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "virtual_id": "john.doe",
+    "tenant_id": "tenant-123",
+    "name": "John Doe",
+    "tag": "manager"
+  }' \
+  https://api.plaud.ai/users/
+```
+
+### Update a User
+
+Update an existing user's information:
+
+```bash
+curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe Updated",
+    "tag": "senior-manager",
+    "tenant_id": "tenant-456"
+  }' \
+  https://api.plaud.ai/users/{user_id}
+```
+
+### Delete a User
+
+Remove a user from the system:
+
+```bash
+curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
+  https://api.plaud.ai/users/{user_id}
+```
+
+## User-Device Relationship
+
+### Bind Device to User
+
+Associate a device with a specific user:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sn_type": "notepin", 
+    "sn": "NP12345678",
+    "owner_id": "user-123"
+  }' \
+  https://api.plaud.ai/users/bind
+```
+
+### Unbind Device from User
+
+Remove the association between a device and user:
+
+```bash
+curl -X POST -H "Authorization: <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sn_type": "notepin",
+    "sn": "NP12345678",
+    "owner_id": "user-123"
+  }' \
+  https://api.plaud.ai/users/unbind
+```

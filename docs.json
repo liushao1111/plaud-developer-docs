@@ -33,7 +33,8 @@
             "guides-overview",
             "guides/device-management",
             "guides/user-management",
-            "guides/file-management"
+            "guides/file-management",
+            "guides/sdk-integration"
           ]
         }
       ]
