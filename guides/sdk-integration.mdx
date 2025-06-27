@@ -139,3 +139,138 @@ BleAgentListener {
 ```
 
 - Get Battery Status
+
+```code
+1  /**
+2   * Get battery status
+3   *
+4   * @param onRequest Send callback
+5   * @param onResponse Device return callback
+6   */
+7  agent.getBattStatus(AgentCallback.OnRequest onRequest,
+8  AgentCallback.OnResponse<BattStatusRsp> onResponse);
+```
+
+### Get Storage Capacity
+```code
+1  /**
+2   * Get remaining system capacity
+3   *
+4   * @param onRequest Send callback
+5   * @param onResponse Device return callback
+6   */
+7  agent.getStorage (AgentCallback.OnRequest onRequest,
+8  AgentCallback.OnResponse<StorageRsp> onResponse);
+```
+
+## Recording Control
+
+### Start Recording
+```code
+1  /**
+2   * Start recording
+3   *
+4   * @param scene Scene
+5   * @param onRequest Send callback
+6   * @param onResponse Device return callback
+7   */
+8  agent.startRecord(int scene, AgentCallback.OnRequest onRequest,
+9  AgentCallback.OnResponse<RecordStartRsp> onResponse);
+```
+
+### Pause Recording
+```code
+1  /**
+2   * Pause recording
+3   *
+4   * @param sessionId Session ID
+
+5    * @param onRequest Send callback
+6    * @param onResponse Device return callback
+7    */
+8    agent.recordPause(long sessionId, int scene, AgentCallback.OnRequest onRequest,
+9    AgentCallback.OnResponse<RecordPauseRsp> onResponse);
+
+```
+
+- Resume Recording
+
+```code
+ 1   /**
+ 2    * Resume recording
+ 3    *
+ 4    * @param sessionId Session ID
+ 5    * @param scene Scene
+ 6    * @param onRequest Send callback
+ 7    * @param onResponse Device return callback
+ 8    */
+ 9    agent.recordResume(long sessionId, int scene, AgentCallback.OnRequest onRequest,
+10    AgentCallback.OnResponse<RecordResumeRsp> onResponse);
+```
+
+- Stop Recording
+
+```code
+1   /**
+2    * Stop recording
+3    *
+4    * @param scene Scene
+5    * @param onRequest Send callback
+6    * @param onResponse Device return callback
+7    */
+8    agent.stopRecord(int scene, AgentCallback.OnRequest onRequest,
+9    AgentCallback.OnResponse<RecordStopRsp> onResponse);
+```
+
+Data Export
+
+- Get File List
+
+```code
+1   /**
+2    * Get list of recording session files
+3    * @param sessionId Session ID
+4    * @param onRequest Send callback
+* @param onResponse Device return callback
+6 */
+7 agent.getRecSessions(long sessionId, AgentCallback.OnRequest onRequest,
+8 AgentCallback.OnResponse<GetRecSessionsRsp> onResponse);
+
+```
+
+- Download File
+
+```code
+1  /**
+2   * Download file
+3   * When downloading a single file, two information packets (head & tail) are added
+4   * to mark the start and end of the data packet (package) transmission.
+5   *
+6   * @param sessionId Recording session ID
+7   * @param start Start position
+8   * @param end End position
+9   * @param onRequest Send callback
+10  * @param onHeadResponse Download file head callback {@link AgentCallback.OnResponse <SyncFileHeadRsp>}
+11  * @param onTailResponse Download file tail callback {@link AgentCallback.OnResponse <SyncFileTailRsp>}
+12  * @param voiceDataCreator This parameter cannot be null {@link ISyncVoiceDataKeepOut}
+13  */
+14 agent.syncFileStart(long sessionId, long start, long end,
+15 AgentCallback.OnRequest onRequest,
+16 AgentCallback.OnResponse <SyncFileHeadRsp> onHeadResponse,
+17 AgentCallback.OnResponse<SyncFileTailRsp> onTailResponse,
+18 ISyncVoiceDataKeepOut voiceDataCreator);
+```
+
+Stop Download
+
+
+```code
+1  /**
+2   * Stop file download
+3   *
+4   * @param onRequest Send callback
+5   * @param onResponse Device return callback
+6   */
+7 agent.syncFileStop(AgentCallback.OnRequest onRequest,
+8 AgentCallback.OnResponse<SyncRecFileStopRsp> onResponse);
+```
