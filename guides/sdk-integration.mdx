@@ -13,10 +13,46 @@ todo
 *   Client Host App: The client's mobile app that integrates the PLAUD SDK to access PLAUD's hardware and software services
 *   PLAUD Template App: A pre-built template App provided by PLAUD, enabling enterprises to rapidly customize and deploy private-branded solutions via APIs and Apps
 
-> [Figure] System architecture diagram illustrating the connection between Client Host App / PLAUD Template App and AI Cloud Service via SDK Capabilities such as Device Connection, Recording Control, Recording Export and Cloud Processing to PLAUD Device via bluetooth.
+  ![Architecture](/assets/outline.png "")
 
 ## Function Overview
-todo
+
+    - PLAUD SDK
+      - Initialization
+        - App Key
+        - Bind Device
+      - Connection Management
+        - Start scanning
+        - Discover devices
+        - Stop scanning
+        - Connect device
+        - Disconnect device
+      - Device Information
+        - Device status
+        - Storage capacity
+        - Power status
+        - etc
+      - Recording control
+        - Start recording
+        - Pause recording
+        - Resume recording
+        - Stop recording
+      - Data Export
+        - Get file list
+        - Download file
+        - Stop download
+        - Delete file
+        - Delete all files
+      - Wifi Cloud Sync
+        - Add Wifi
+        - Delete Wifi
+        - Update Wifi
+        - Get Wifi list
+        - Set cloud address
+      - Cloud Processing Service
+        - AI Transcription & Summarization
+
+
 
 ## Interface Description
 
