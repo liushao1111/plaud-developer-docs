@@ -243,42 +243,40 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
    * @param start Start position
    * @param end End position
    * @param onRequest Send callback
-  * @param onHeadResponse Download file head callback {@link AgentCallback.OnResponse <SyncFileHeadRsp>}
-  * @param onTailResponse Download file tail callback {@link AgentCallback.OnResponse <SyncFileTailRsp>}
-  * @param voiceDataCreator This parameter cannot be null {@link ISyncVoiceDataKeepOut}
-  */
- agent.syncFileStart(long sessionId, long start, long end,
- AgentCallback.OnRequest onRequest,
- AgentCallback.OnResponse <SyncFileHeadRsp> onHeadResponse,
- AgentCallback.OnResponse<SyncFileTailRsp> onTailResponse,
- ISyncVoiceDataKeepOut voiceDataCreator);
+   * @param onHeadResponse Download file head callback {@link AgentCallback.OnResponse <SyncFileHeadRsp>}
+   * @param onTailResponse Download file tail callback {@link AgentCallback.OnResponse <SyncFileTailRsp>}
+   * @param voiceDataCreator This parameter cannot be null {@link ISyncVoiceDataKeepOut} */
+   agent.syncFileStart(long sessionId, long start, long end,
+        AgentCallback.OnRequest onRequest,
+        AgentCallback.OnResponse <SyncFileHeadRsp> onHeadResponse,
+        AgentCallback.OnResponse<SyncFileTailRsp> onTailResponse,
+        ISyncVoiceDataKeepOut voiceDataCreator);
 ```
 
 - Stop Download
 
 ```code
-1  /**
-2   * Stop file download
-3   *
-4   * @param onRequest Send callback
-5   * @param onResponse Device return callback
-6   */
-7 agent.syncFileStop(AgentCallback.OnRequest onRequest,
-8 AgentCallback.OnResponse<SyncRecFileStopRsp> onResponse);
+  /**
+   * Stop file download
+   *
+   * @param onRequest Send callback
+   * @param onResponse Device return callback
+   */
+   agent.syncFileStop(AgentCallback.OnRequest onRequest,
+        AgentCallback.OnResponse<SyncRecFileStopRsp> onResponse);
 ```
 
 - Delete File
 
 ```code
-1   /**
-2    * Delete file
-3    *
-4    * @param sessionId File ID
-5    * @param onRequest Send callback
-6    * @param onResponse Device return callback
-7    */
-8   agent.syncFileDel(long sessionId, AgentCallback.OnRequest onRequest,
-9   AgentCallback.OnResponse<SyncRecFileDelRsp> onResponse);
+   /**
+    * Delete file
+    *
+    * @param sessionId File ID
+    * @param onRequest Send callback
+    * @param onResponse Device return callback*/
+    agent.syncFileDel(long sessionId, AgentCallback.OnRequest onRequest,
+         AgentCallback.OnResponse<SyncRecFileDelRsp> onResponse);
 ```
 
 - Clear Files
