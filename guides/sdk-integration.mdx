@@ -539,8 +539,7 @@ The connection status will be returned in the following callback:
 
 - Disconnect
 
-```
-code
+```code
    [self.deviceAgent disconnect];
 ```
 
@@ -548,16 +547,14 @@ code
 
 - Get Device Status
 
-```
-code
+```code
    [self.deviceAgent getState];
    // Result callback, see blePenState
 ```
 
 - Get Battery Status
 
-```
-code
+```code
    self.deviceAgent.getChargingState()
    // Result callback, see bleChargingState
    // where isCharging indicates if it's charging
@@ -566,8 +563,7 @@ code
 
 - Get Storage Capacity
 
-```
-code
+```code
    self.deviceAgent.getStorage()
    // Result callback, see bleStorage
 ```
