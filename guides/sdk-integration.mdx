@@ -425,9 +425,7 @@ agent.getWifiList(AgentCallback.OnRequest onRequest,
    AgentCallback.OnError onError);
 ```
 
-## iOS Platform
-
-### Device Connection
+### iOS Platform
 
 - Dependency Injection
 
@@ -435,7 +433,10 @@ You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. Fo
 
 > [Figure: a screenshot of Xcode project settings showing the 'Frameworks, Libraries, and Embedded Content' section.  PenBleSDK.framework and PlaudDeviceBasicSDK.framework are highlighted as being Embed & Sign.]
 
-j. Get Plaud device agent, initialize SDK
+
+#### Device Connection
+
+- Get Plaud device agent, initialize SDK
 
 ```code
 1 @property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
@@ -443,13 +444,13 @@ j. Get Plaud device agent, initialize SDK
 3 [self.deviceAgent initSDKWithHostName: @"Beike" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
 ```
 
-ii. Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
+- Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
 
 ```code
 1 @interface ScanDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PlaudDeviceAgentProtocol>
 ```
 
-### iii. Start Scan
+- Start Scan
 
 ```code
 1  [self.deviceAgent startScan];
@@ -516,7 +517,8 @@ code
 1   [self.deviceAgent disconnect];
 ```
 
-Device Information
+#### Device Information
+
 i. Get Device Status
 
 ```
@@ -543,7 +545,8 @@ code
 2   // Result callback, see bleStorage
 ```
 
-Recording Control
+#### Recording Control  
+
 i. Start Recording
 ```code
 1  [self.deviceAgent startRecord];
@@ -571,7 +574,7 @@ i. Start Recording
 2  // Result callback, see bleRecordStop
 ```
 
-# Data Export
+#### Data Export
 
 ## i. Get File List
 
@@ -622,7 +625,7 @@ download all.
 2  // Result callback bleClearAllFile
 ```
 
-## Wi-Fi Sync
+#### Wi-Fi Sync
 
 ### i. Wi-Fi Sync Switch
 
