@@ -25,19 +25,19 @@ todo
 * Dependency Injection
 
 ```code
-1  // Import the provided aar
-2  implementation(name: 'plaud-sdk', ext: 'aar')
-3
-4  // Required dependencies
-5  implementation("com.google.guava:guava:28.2-android")
-6  implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
-7  implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
-8  implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-9  implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-10 implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-11 implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
-12 implementation platform('com.google.firebase:firebase-bom:32.7.4')
-13 implementation 'com.google.firebase:firebase-analytics'
+  // Import the provided aar
+  implementation(name: 'plaud-sdk', ext: 'aar')
+
+  // Required dependencies
+  implementation("com.google.guava:guava:28.2-android")
+  implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
+  implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
+  implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+  implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+ implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+ implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+ implementation platform('com.google.firebase:firebase-bom:32.7.4')
+ implementation 'com.google.firebase:firebase-analytics'
 ```
 
 ####  Device Connection
@@ -260,8 +260,7 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
    * Stop file download
    *
    * @param onRequest Send callback
-   * @param onResponse Device return callback
-   */
+   * @param onResponse Device return callback*/
    agent.syncFileStop(AgentCallback.OnRequest onRequest,
         AgentCallback.OnResponse<SyncRecFileStopRsp> onResponse);
 ```
@@ -282,14 +281,14 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
 - Clear Files
 
 ```code
-1   /**
-2    * Clear recording files on the device end
-3    *
-4    * @param onRequest Send callback
-5    * @param onResponse Device return callback
-6    */
-7   agent.clearRecordFile(AgentCallback.OnRequest onRequest,
-8   AgentCallback.OnResponse<ClearRecordFileRsp> onResponse);
+   /**
+    * Clear recording files on the device end
+    *
+    * @param onRequest Send callback
+    * @param onResponse Device return callback
+    */
+   agent.clearRecordFile(AgentCallback.OnRequest onRequest,
+        AgentCallback.OnResponse<ClearRecordFileRsp> onResponse);
 ```
 
 #### Wi-Fi Sync
@@ -297,15 +296,15 @@ agent.connectionBLE(BleDevice device, String bindToken, String devToken,
 - Set Wi-Fi Auto-Sync Switch
 
 ```code
-1   /**
-2    * Set idle time sync
-3    *
-4    * @param type On/Off
-5    * @param onRequest Send callback
-6    * @param onResponse Device return callback
-7    */
-8   agent.setAutoSync(Constants.CommonSwitch type, AgentCallback.OnRequest onRequest,
-9   AgentCallback.OnResponse<CommonSettingsRsp> onResponse);
+   /**
+    * Set idle time sync
+    *
+    * @param type On/Off
+    * @param onRequest Send callback
+    * @param onResponse Device return callback
+    */
+   agent.setAutoSync(Constants.CommonSwitch type, AgentCallback.OnRequest onRequest,
+        AgentCallback.OnResponse<CommonSettingsRsp> onResponse);
 ```
 
 - Get Wi-Fi Auto-Sync Switch
@@ -443,11 +442,11 @@ Receive Scanned Devices
 In the delegate method, receive and display the scanned devices. Refer to the implementation of `ScanDeviceViewController`
 
 ```code
-1  - (void)bleScanResultWithBleDevices:(NSArray<BleDevice *> *)bleDevices {
-2      [self.devices removeAllObjects];
-3      [self.devices addObjectsFromArray:bleDevices];
-4      [self.tableView reloadData];
-5  }
+  - (void)bleScanResultWithBleDevices:(NSArray<BleDevice *> *)bleDevices {
+      [self.devices removeAllObjects];
+      [self.devices addObjectsFromArray:bleDevices];
+      [self.tableView reloadData];
+  }
 ```
 
 - Connect Device
@@ -455,42 +454,42 @@ In the delegate method, receive and display the scanned devices. Refer to the im
 From the returned devices, select a specific device and call the connect device interface.
 
 ```code
-1  - (void)connectToDevice:(BleDevice *)device {
-2      if (device) {
-3          [self.deviceAgent connectBleDeviceWithBleDevice:device];
-4      }
-5  }
+  - (void)connectToDevice:(BleDevice *)device {
+      if (device) {
+          [self.deviceAgent connectBleDeviceWithBleDevice:device];
+      }
+  }
 ```
 
 The connection status will be returned in the following callback:
 
 ```code
-1  - (void)bleConnectStateWithState:(NSInteger)state {
-2      NSString *message;
-3      switch (state) {
-4          case 0:
-5              message = @"Device not connected";
-6              break;
-7          case 1:
-8              message = @"Device connected successfully";
-9              break;
-10         case 2:
-11             message = @"Device connection failed";
-12              break;
-13         default:
-14              message = @"Unknown connection state";
-15              break;
-16      }
-17      NSLog(@"bleConnectStateWithState, %@", message);
-18      [self showToastWithMessage:message];
-19  }
+  - (void)bleConnectStateWithState:(NSInteger)state {
+      NSString *message;
+      switch (state) {
+          case 0:
+              message = @"Device not connected";
+              break;
+          case 1:
+              message = @"Device connected successfully";
+              break;
+         case 2:
+             message = @"Device connection failed";
+              break;
+         default:
+              message = @"Unknown connection state";
+              break;
+      }
+      NSLog(@"bleConnectStateWithState, %@", message);
+      [self showToastWithMessage:message];
+  }
 ```
 
 - Disconnect
 
 ```
 code
-1   [self.deviceAgent disconnect];
+   [self.deviceAgent disconnect];
 ```
 
 #### Device Information
@@ -499,55 +498,55 @@ code
 
 ```
 code
-1   [self.deviceAgent getState];
-2   // Result callback, see blePenState
+   [self.deviceAgent getState];
+   // Result callback, see blePenState
 ```
 
 - Get Battery Status
 
 ```
 code
-1   self.deviceAgent.getChargingState()
-2   // Result callback, see bleChargingState
-3   // where isCharging indicates if it's charging
-4   // where level is the battery percentage
+   self.deviceAgent.getChargingState()
+   // Result callback, see bleChargingState
+   // where isCharging indicates if it's charging
+   // where level is the battery percentage
 ```
 
 - Get Storage Capacity
 
 ```
 code
-1   self.deviceAgent.getStorage()
-2   // Result callback, see bleStorage
+   self.deviceAgent.getStorage()
+   // Result callback, see bleStorage
 ```
 
 #### Recording Control  
 
 - Start Recording
 ```code
-1  [self.deviceAgent startRecord];
+  [self.deviceAgent startRecord];
 // Result callback, see bleRecordStart
 ```
 
 - Pause Recording
 
 ```code
-1  [self.deviceAgent pauseRecord];
-2  // Result callback, see bleRecordPause
+  [self.deviceAgent pauseRecord];
+  // Result callback, see bleRecordPause
 ```
 
 - Resume Recording
 
 ```code
-1  [self.deviceAgent resumeRecord];
-2  // Result callback, see resumeRecord
+  [self.deviceAgent resumeRecord];
+  // Result callback, see resumeRecord
 ```
 
 - Stop Recording
 
 ```code
-1  [self.deviceAgent stopRecord];
-2  // Result callback, see bleRecordStop
+  [self.deviceAgent stopRecord];
+  // Result callback, see bleRecordStop
 ```
 
 #### Data Export
@@ -555,50 +554,50 @@ code
 - Get File List
 
 ```code
-1  // Trigger: getFileList
-2  // Parameter: sessionId: From which file to start downloading. O means
+  // Trigger: getFileList
+  // Parameter: sessionId: From which file to start downloading. O means
 download all.
-3 self.deviceAgent.getFileList(sessionId: 0)
-4  // Result callback, where bleFiles is the file list
-5 func bleFileList (bleFiles: [BleFile])
+ self.deviceAgent.getFileList(sessionId: 0)
+  // Result callback, where bleFiles is the file list
+ func bleFileList (bleFiles: [BleFile])
 ```
 
 - Download File
 
 ```code
-1 /// Download file
-2 ///
-3 /// - Parameters:
+ /// Download file
+ ///
+ /// - Parameters:
   /// - sessionId: The unique ID of the recording file
-5  /// - outputPath: The path to save the recording file
-6  self.deviceAgent.downloadFile(sessionId: bleFile.sessionId, outputPath: targetPath)
+  /// - outputPath: The path to save the recording file
+  self.deviceAgent.downloadFile(sessionId: bleFile.sessionId, outputPath: targetPath)
 
-7  // Result callback
-8  /// @see Callback bleDownloadFile
-9  // which includes file ID, download path, download status, download progress, and a prompt message.
+  // Result callback
+  /// @see Callback bleDownloadFile
+  // which includes file ID, download path, download status, download progress, and a prompt message.
 
 ```
 
 - Stop Download
 
 ```code
-1  self.deviceAgent.stopDownloadFile()
-2  // Result callback bleDownloadFileStop
+  self.deviceAgent.stopDownloadFile()
+  // Result callback bleDownloadFileStop
 ```
 
 - Delete File
 
 ```code
-1  // Parameter sessionId: Unique ID of the recording file
-2  self.bleAgent.deleteFile(sessionId: bleFile.sessionId)
-3  // Result callback bleDeleteFile
+  // Parameter sessionId: Unique ID of the recording file
+  self.bleAgent.deleteFile(sessionId: bleFile.sessionId)
+  // Result callback bleDeleteFile
 ```
 
 - Delete All Files
 
 ```code
-1  self.bleAgent.clearAllFile()
-2  // Result callback bleClearAllFile
+  self.bleAgent.clearAllFile()
+  // Result callback bleClearAllFile
 ```
 
 #### Wi-Fi Sync
@@ -606,51 +605,51 @@ download all.
 - Wi-Fi Sync Switch
 
 ```code
-1  // Set Wi-Fi Sync Switch
-2  // Parameter value: 0: Off, 1: On
-3  self.deviceAgent.setWifiSyncEnable(value: Int)
+  // Set Wi-Fi Sync Switch
+  // Parameter value: 0: Off, 1: On
+  self.deviceAgent.setWifiSyncEnable(value: Int)
 
-4  // Get switch status, result callback onWifiSyncEnabled
-5  func getWifiSyncEnable()
-1  /// Set upload address
-2  /// - Parameter path: Upload address
-3  @objc public func setWifiSyncDomain(path: String)
+  // Get switch status, result callback onWifiSyncEnabled
+  func getWifiSyncEnable()
+  /// Set upload address
+  /// - Parameter path: Upload address
+  @objc public func setWifiSyncDomain(path: String)
 ```
 
 - Wi-Fi Sync List
 
 ```code
-1  /// Set Wi-Fi Configuration
-2  /// - Parameters:
-3  /// - operation: Operation type (1: Add, 2: Modify)
-4  /// - wifiIndex: Wi-Fi index (4 bytes)
-5  /// - ssid: Wi-Fi SSID
-6  /// - password: Wi-Fi Password
-7  @objc public func setWifiSyncConfig(operation: Int, wifiIndex: UInt32, ssid: String, password: String)
-8
-9  /// Get Wi-Fi Configuration
-10 /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
-11 @objc public func getWifiSyncConfig(wifiIndex: UInt32)
-12
-13 /// Delete Wi-Fi Configuration
-14 /// - Parameters:
-15 /// - wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
-16 @objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
-17
-18 /// Get Wi-Fi List
-19 @objc public func getWifiSyncList()
+  /// Set Wi-Fi Configuration
+  /// - Parameters:
+  /// - operation: Operation type (1: Add, 2: Modify)
+  /// - wifiIndex: Wi-Fi index (4 bytes)
+  /// - ssid: Wi-Fi SSID
+  /// - password: Wi-Fi Password
+  @objc public func setWifiSyncConfig(operation: Int, wifiIndex: UInt32, ssid: String, password: String)
+
+  /// Get Wi-Fi Configuration
+ /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+ @objc public func getWifiSyncConfig(wifiIndex: UInt32)
+
+ /// Delete Wi-Fi Configuration
+ /// - Parameters:
+ /// - wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
+ @objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
+
+/// Get Wi-Fi List
+ @objc public func getWifiSyncList()
 ```
 
 - Wi-Fi Connectivity Test
 
 ```code
-1  /// Initiate Wi-Fi Test
-2  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
-3  @objc public func setWifiSyncTest(wifiIndex: UInt32)
-4
-5  /// Get Wi-Fi Test Result
-6  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
-7  @objc public func getWifiSyncTestResult(wifiIndex: UInt32)
+  /// Initiate Wi-Fi Test
+  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+  @objc public func setWifiSyncTest(wifiIndex: UInt32)
+
+  /// Get Wi-Fi Test Result
+  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+  @objc public func getWifiSyncTestResult(wifiIndex: UInt32)
 ```
 
 ### Bill of Materials
