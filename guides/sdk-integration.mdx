@@ -420,3 +420,127 @@ agent.getWifiList(AgentCallback.OnRequest onRequest,
    onResponse,
    AgentCallback.OnError onError);
 ```
+
+## iOS Platform
+
+### Device Connection
+
+- Dependency Injection
+
+You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. For specific import methods, please refer to the DemoApp.
+
+> [Figure: a screenshot of Xcode project settings showing the 'Frameworks, Libraries, and Embedded Content' section.  PenBleSDK.framework and PlaudDeviceBasicSDK.framework are highlighted as being Embed & Sign.]
+
+j. Get Plaud device agent, initialize SDK
+
+```code
+1 @property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
+2 self.deviceAgent = [PlaudDeviceAgent shared];
+3 [self.deviceAgent initSDKWithHostName: @"Beike" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
+```
+
+ii. Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
+
+```code
+1 @interface ScanDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PlaudDeviceAgentProtocol>
+```
+
+### iii. Start Scan
+
+```code
+1  [self.deviceAgent startScan];
+```
+
+### iv. Receive Scanned Devices
+
+*   In the delegate method, receive and display the scanned devices. Refer to the implementation of `ScanDeviceViewController`.
+
+```code
+1  - (void)bleScanResultWithBleDevices:(NSArray<BleDevice *> *)bleDevices {
+2      [self.devices removeAllObjects];
+3      [self.devices addObjectsFromArray:bleDevices];
+4      [self.tableView reloadData];
+5  }
+```
+
+### v. Connect Device
+
+*   From the returned devices, select a specific device and call the connect device interface.
+
+```code
+1  - (void)connectToDevice:(BleDevice *)device {
+2      if (device) {
+3          [self.deviceAgent connectBleDeviceWithBleDevice:device];
+4      }
+5  }
+```
+
+*   The connection status will be returned in the following callback:
+
+```code
+1  - (void)bleConnectStateWithState:(NSInteger)state {
+2      NSString *message;
+3      switch (state) {
+4          case 0:
+5              message = @"Device not connected";
+6              break;
+7          case 1:
+8              message = @"Device connected successfully";
+9              break;
+10         case 2:
+11             message = @"Device connection failed";
+```
+
+
+-------------------------------------------------------------------------------- Page 13
+
+```
+12      break;
+13      default:
+14          message = @"Unknown connection state";
+15          break;
+16      }
+17      NSLog(@"bleConnectStateWithState, %@", message);
+18      [self showToastWithMessage:message];
+19  }
+```
+
+vi. Disconnect
+
+```
+code
+1   [self.deviceAgent disconnect];
+```
+
+Device Information
+i. Get Device Status
+
+```
+code
+1   [self.deviceAgent getState];
+2   // Result callback, see blePenState
+```
+
+ii. Get Battery Status
+
+```
+code
+1   self.deviceAgent.getChargingState()
+2   // Result callback, see bleChargingState
+3   // where isCharging indicates if it's charging
+4   // where level is the battery percentage
+```
+
+iii. Get Storage Capacity
+
+```
+code
+1   self.deviceAgent.getStorage()
+2   // Result callback, see bleStorage
+```
+
+Recording Control
+i. Start Recording
+```code
+1  [self.deviceAgent startRecord];
+```
