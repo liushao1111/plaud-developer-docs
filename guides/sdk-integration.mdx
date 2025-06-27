@@ -5,7 +5,7 @@ description: "This document provides guidance for integrating and using of the P
 ---
 
 ## Introduction
-In general, your client App can connect to PLAUD devices via the PLAUD SDK to view device status and information, configure the device settings, control recording operations (start, pause, resume, and stop), and retrieve recordings. Additionally, you can also utilize PLAUD's cloud-based services such as audio transcription and summarization, which can be integration with your workflow
+In general, your client App can connect to PLAUD devices via the PLAUD SDK to view device status and information, configure the device settings, control recording operations (start, pause, resume, and stop), and retrieve recordings. Additionally, you can also utilize PLAUD's cloud-based services such as audio transcription and summarization, which can be integration with your workflow. All above operations are executed in compliance with strict enterprise-grade security standards.
 
 
 
@@ -447,7 +447,7 @@ agent.setWifiSyncDomain(String url, AgentCallback. OnRequest onRequest,
         AgentCallback.OnError onError);
 ```
 
-#### Ai Workflow
+#### AI Workflow
 
 - Transcribe and Summary
 
@@ -701,6 +701,19 @@ code
   /// Get Wi-Fi Test Result
   /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
   @objc public func getWifiSyncTestResult(wifiIndex: UInt32)
+```
+
+#### AI Workflow
+
+- Transcribe and Summary
+
+```code
+     public func submitAndWaitForCompletion(
+        _ request: WorkflowSubmitRequest,
+        timeout: TimeInterval,
+        progressHandler: ((WorkflowStatusResponse) -> Void)? = nil,
+        completion: @escaping (WorkflowResult<WorkflowResultResponse>) -> Void
+    )
 ```
 
 ## Download Link
