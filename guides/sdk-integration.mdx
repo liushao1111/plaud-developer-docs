@@ -543,4 +543,137 @@ Recording Control
 i. Start Recording
 ```code
 1  [self.deviceAgent startRecord];
+// Result callback, see bleRecordStart
 ```
+
+## ii. Pause Recording
+
+```code
+1  [self.deviceAgent pauseRecord];
+2  // Result callback, see bleRecordPause
+```
+
+## iii. Resume Recording
+
+```code
+1  [self.deviceAgent resumeRecord];
+2  // Result callback, see resumeRecord
+```
+
+## iv. Stop Recording
+
+```code
+1  [self.deviceAgent stopRecord];
+2  // Result callback, see bleRecordStop
+```
+
+# Data Export
+
+## i. Get File List
+
+```code
+1  // Trigger: getFileList
+2  // Parameter: sessionId: From which file to start downloading. O means
+download all.
+3 self.deviceAgent.getFileList(sessionId: 0)
+4  // Result callback, where bleFiles is the file list
+5 func bleFileList (bleFiles: [BleFile])
+```
+
+## ii. Download File
+
+```code
+1 /// Download file
+2 ///
+3 /// - Parameters:
+  /// - sessionId: The unique ID of the recording file
+5  /// - outputPath: The path to save the recording file
+6  self.deviceAgent.downloadFile(sessionId: bleFile.sessionId, outputPath: targetPath)
+
+7  // Result callback
+8  /// @see Callback bleDownloadFile
+9  // which includes file ID, download path, download status, download progress, and a prompt message.
+
+```
+
+### iii. Stop Download
+
+```code
+1  self.deviceAgent.stopDownloadFile()
+2  // Result callback bleDownloadFileStop
+```
+
+### iv. Delete File
+
+```code
+1  // Parameter sessionId: Unique ID of the recording file
+2  self.bleAgent.deleteFile(sessionId: bleFile.sessionId)
+3  // Result callback bleDeleteFile
+```
+
+### v. Delete All Files
+
+```code
+1  self.bleAgent.clearAllFile()
+2  // Result callback bleClearAllFile
+```
+
+## Wi-Fi Sync
+
+### i. Wi-Fi Sync Switch
+
+```code
+1  // Set Wi-Fi Sync Switch
+2  // Parameter value: 0: Off, 1: On
+3  self.deviceAgent.setWifiSyncEnable(value: Int)
+
+4  // Get switch status, result callback onWifiSyncEnabled
+5  func getWifiSyncEnable()
+1  /// Set upload address
+2  /// - Parameter path: Upload address
+3  @objc public func setWifiSyncDomain(path: String)
+```
+
+## iii. Wi-Fi Sync List
+
+```code
+1  /// Set Wi-Fi Configuration
+2  /// - Parameters:
+3  /// - operation: Operation type (1: Add, 2: Modify)
+4  /// - wifiIndex: Wi-Fi index (4 bytes)
+5  /// - ssid: Wi-Fi SSID
+6  /// - password: Wi-Fi Password
+7  @objc public func setWifiSyncConfig(operation: Int, wifiIndex: UInt32, ssid: String, password: String)
+8
+9  /// Get Wi-Fi Configuration
+10 /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+11 @objc public func getWifiSyncConfig(wifiIndex: UInt32)
+12
+13 /// Delete Wi-Fi Configuration
+14 /// - Parameters:
+15 /// - wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
+16 @objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
+17
+18 /// Get Wi-Fi List
+19 @objc public func getWifiSyncList()
+```
+
+## iv. Wi-Fi Connectivity Test
+
+```code
+1  /// Initiate Wi-Fi Test
+2  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+3  @objc public func setWifiSyncTest(wifiIndex: UInt32)
+4
+5  /// Get Wi-Fi Test Result
+6  /// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+7  @objc public func getWifiSyncTestResult(wifiIndex: UInt32)
+```
+
+## 5. Bill of Materials
+
+*   SDK Integration Guide (this document)
+*   Software Package:
+    *   Android: `plaud-sdk.aar`
+    *   iOS: `PenBleSDK.framework`, `PlaudDeviceBasicSDK.framework`
+*   DemoApp: SDK Demo
