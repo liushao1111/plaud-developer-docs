@@ -69,3 +69,73 @@ bleAgentListener = object : BleAgentListener {
 }
 bleAgentListener?.let { Sdk.initSdk(context, "plaud-zoem8KYd-1748487531106", it, hostName, null) }
 ```
+### Start/Stop Scan
+
+```code
+/**
+ * @param isStart Start/stop scan
+ */
+agent.scanBle(boolean isStart)
+```
+
+### Get Scanned Devices
+
+```code
+BleAgentListener {
+ override fun scanBleDeviceReceiver (device: BleDevice) {
+ // addDevice
+ }
+}
+```
+
+### Start Connection
+
+```code
+/**
+ * @param device Device instance {@link BleDevice}
+ * @param bindToken Binding token
+ * @param devToken Device binding code (not required)
+ * @param userName User name (not required)
+ * @param connectTimeout Connection timeout duration (must be > 0)
+* @param handshakeTimeout Handshake timeout duration (must be > 0)*/
+
+9    agent.connectionBLE(BleDevice device, String bindToken, String devToken,
+10         String userName, long connectTimeout, long handshakeTimeout)
+```
+
+- Unpair
+
+```code
+1    /**
+2     * Unpair the device
+3     *
+4     * @param isClearFile Whether to clear device files
+5     * @param onRequest Send callback
+6     * @param onResponse Device return callback
+7     */
+8    agent.depair(boolean isClearFile, AgentCallback.OnRequest onRequest,
+9          AgentCallback.OnResponse<DepairRsp> onResponse);
+```
+
+- Disconnect
+
+```code
+1    agent.disconnectBle()
+```
+
+## Device Information
+
+- Get Device Status
+
+```code
+1    /**
+2     * Get device status
+3     *
+4     * @param onRequest Send callback
+5     * @param onResponse Device return callback
+6     */
+7    agent.getState(AgentCallback.OnRequest onRequest,
+8          AgentCallback.OnResponse<GetStateRsp> onResponse);
+```
+
+- Get Battery Status
