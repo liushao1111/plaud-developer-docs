@@ -431,34 +431,30 @@ agent.getWifiList(AgentCallback.OnRequest onRequest,
 
 You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. For specific import methods, please refer to the DemoApp.
 
-> [Figure: a screenshot of Xcode project settings showing the 'Frameworks, Libraries, and Embedded Content' section.  PenBleSDK.framework and PlaudDeviceBasicSDK.framework are highlighted as being Embed & Sign.]
-
-
 #### Device Connection
 
-- Get Plaud device agent, initialize SDK
+Get Plaud device agent, initialize SDK
 
 ```code
-1 @property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
-2 self.deviceAgent = [PlaudDeviceAgent shared];
-3 [self.deviceAgent initSDKWithHostName: @"Beike" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
+@property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
+self.deviceAgent = [PlaudDeviceAgent shared];
+[self.deviceAgent initSDKWithHostName: @"Beike" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
 ```
 
-- Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
+Implementer's component implements the delegate protocol: `PlaudDeviceAgentProtocol`
 
 ```code
-1 @interface ScanDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PlaudDeviceAgentProtocol>
+@interface ScanDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PlaudDeviceAgentProtocol>
 ```
 
 - Start Scan
 
 ```code
-1  [self.deviceAgent startScan];
+[self.deviceAgent startScan];
 ```
 
-### iv. Receive Scanned Devices
-
-*   In the delegate method, receive and display the scanned devices. Refer to the implementation of `ScanDeviceViewController`.
+Receive Scanned Devices
+In the delegate method, receive and display the scanned devices. Refer to the implementation of `ScanDeviceViewController`
 
 ```code
 1  - (void)bleScanResultWithBleDevices:(NSArray<BleDevice *> *)bleDevices {
@@ -468,9 +464,9 @@ You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. Fo
 5  }
 ```
 
-### v. Connect Device
+- Connect Device
 
-*   From the returned devices, select a specific device and call the connect device interface.
+From the returned devices, select a specific device and call the connect device interface.
 
 ```code
 1  - (void)connectToDevice:(BleDevice *)device {
@@ -480,7 +476,7 @@ You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. Fo
 5  }
 ```
 
-*   The connection status will be returned in the following callback:
+The connection status will be returned in the following callback:
 
 ```code
 1  - (void)bleConnectStateWithState:(NSInteger)state {
@@ -494,23 +490,17 @@ You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. Fo
 9              break;
 10         case 2:
 11             message = @"Device connection failed";
-```
-
-
--------------------------------------------------------------------------------- Page 13
-
-```
-12      break;
-13      default:
-14          message = @"Unknown connection state";
-15          break;
+12              break;
+13         default:
+14              message = @"Unknown connection state";
+15              break;
 16      }
 17      NSLog(@"bleConnectStateWithState, %@", message);
 18      [self showToastWithMessage:message];
 19  }
 ```
 
-vi. Disconnect
+- Disconnect
 
 ```
 code
@@ -519,7 +509,7 @@ code
 
 #### Device Information
 
-i. Get Device Status
+- Get Device Status
 
 ```
 code
@@ -527,7 +517,7 @@ code
 2   // Result callback, see blePenState
 ```
 
-ii. Get Battery Status
+- Get Battery Status
 
 ```
 code
@@ -537,7 +527,7 @@ code
 4   // where level is the battery percentage
 ```
 
-iii. Get Storage Capacity
+- Get Storage Capacity
 
 ```
 code
@@ -547,27 +537,27 @@ code
 
 #### Recording Control  
 
-i. Start Recording
+- Start Recording
 ```code
 1  [self.deviceAgent startRecord];
 // Result callback, see bleRecordStart
 ```
 
-## ii. Pause Recording
+- Pause Recording
 
 ```code
 1  [self.deviceAgent pauseRecord];
 2  // Result callback, see bleRecordPause
 ```
 
-## iii. Resume Recording
+- Resume Recording
 
 ```code
 1  [self.deviceAgent resumeRecord];
 2  // Result callback, see resumeRecord
 ```
 
-## iv. Stop Recording
+- Stop Recording
 
 ```code
 1  [self.deviceAgent stopRecord];
@@ -576,7 +566,7 @@ i. Start Recording
 
 #### Data Export
 
-## i. Get File List
+- Get File List
 
 ```code
 1  // Trigger: getFileList
@@ -587,7 +577,7 @@ download all.
 5 func bleFileList (bleFiles: [BleFile])
 ```
 
-## ii. Download File
+- Download File
 
 ```code
 1 /// Download file
@@ -603,14 +593,14 @@ download all.
 
 ```
 
-### iii. Stop Download
+- Stop Download
 
 ```code
 1  self.deviceAgent.stopDownloadFile()
 2  // Result callback bleDownloadFileStop
 ```
 
-### iv. Delete File
+- Delete File
 
 ```code
 1  // Parameter sessionId: Unique ID of the recording file
@@ -618,7 +608,7 @@ download all.
 3  // Result callback bleDeleteFile
 ```
 
-### v. Delete All Files
+- Delete All Files
 
 ```code
 1  self.bleAgent.clearAllFile()
@@ -627,7 +617,7 @@ download all.
 
 #### Wi-Fi Sync
 
-### i. Wi-Fi Sync Switch
+- Wi-Fi Sync Switch
 
 ```code
 1  // Set Wi-Fi Sync Switch
@@ -641,7 +631,7 @@ download all.
 3  @objc public func setWifiSyncDomain(path: String)
 ```
 
-## iii. Wi-Fi Sync List
+- Wi-Fi Sync List
 
 ```code
 1  /// Set Wi-Fi Configuration
@@ -665,7 +655,7 @@ download all.
 19 @objc public func getWifiSyncList()
 ```
 
-## iv. Wi-Fi Connectivity Test
+- Wi-Fi Connectivity Test
 
 ```code
 1  /// Initiate Wi-Fi Test
@@ -677,7 +667,7 @@ download all.
 7  @objc public func getWifiSyncTestResult(wifiIndex: UInt32)
 ```
 
-## 5. Bill of Materials
+### Bill of Materials
 
 *   SDK Integration Guide (this document)
 *   Software Package:
