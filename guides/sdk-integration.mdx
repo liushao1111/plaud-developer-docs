@@ -447,6 +447,21 @@ agent.setWifiSyncDomain(String url, AgentCallback. OnRequest onRequest,
         AgentCallback.OnError onError);
 ```
 
+#### Ai Workflow
+
+- Transcribe and Summary
+
+```code
+   /**
+    * Transcribe  and Summary
+    *
+    * @param fileId
+    * @param workflows A list of workflows that define the processing steps to be applied to the file. Each workflow may represent a different set of operations or transformations that are to be performed on the file.
+    */
+
+    SubmitResponse response = NiceBuildSdk.submit(fileId: String,workflows: List<Workflow>?,)
+```
+
 ### iOS Platform
 
 - Dependency Injection
