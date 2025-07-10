@@ -27,7 +27,7 @@
             {
               "group": "Quickstart",
               "pages": [
-                "/api/python-quickstart",
+                "python-quickstart",
                 "/sdk/integration"
               ]
             }
