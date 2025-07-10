@@ -33,8 +33,7 @@
             "guides-overview",
             "guides/device-management",
             "guides/user-management",
-            "guides/file-management",
-            "guides/sdk-integration"
+            "guides/file-management"
           ]
         }
       ]
@@ -46,6 +45,28 @@
         {
           "group": "API Reference",
           "openapi": "https://platform.plaud.cn/openapi.json"
+        }
+      ]
+    },
+    {
+      "tab": "SDK",
+      "icon": "smartphone",
+      "groups": [
+        {
+          "group": "iOS SDK",
+          "pages": [
+            "sdk/ios/overview",
+            "sdk/ios/get-started",
+            "sdk/ios/reference"
+          ]
+        },
+        {
+          "group": "Android SDK",
+          "pages": [
+            "sdk/android/overview",
+            "sdk/android/get-started",
+            "sdk/android/reference"
+          ]
         }
       ]
     }
