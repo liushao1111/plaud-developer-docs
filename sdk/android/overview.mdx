@@ -1,0 +1,65 @@
+---
+title: Android SDK Overview
+description: "Plaud Programmable SDK for Android allows you to integrate Plaud smart voice hardware and cloud services into your native Android applications." 
+---
+
+## How it Works
+
+The Plaud Android SDK provides a comprehensive solution for integrating Plaud smart voice hardware into your Android applications. The SDK acts as a bridge between your client app and the Plaud device, enabling seamless device management, recording control, and cloud processing capabilities.
+
+<img src="/assets/sdk-architecture.png" alt="Plaud SDK Architecture" />
+
+The Plaud SDK ecosystem consists of several key components:
+
+**Client Host App / PLAUD Template App**
+- Your Android application that integrates the Plaud SDK
+- Provides the user interface and application logic
+- Manages user interactions and app-specific features
+
+**SDK Capabilities**
+- **Device Connection**: Establish and manage Bluetooth connections with Plaud devices
+- **Recording Control**: Start, stop, and manage audio recording sessions
+- **Recording Export**: Transfer recorded audio files from device to app
+- **Cloud Processing**: Send recordings to Plaud's AI cloud services for processing
+
+**PLAUD Device**
+- Smart voice recording hardware
+- Connects via Bluetooth to your Android app
+- Captures high-quality audio recordings
+- Stores recordings locally until export
+
+**AI Cloud Service**
+- Processes audio recordings with advanced AI algorithms
+- Provides transcription, summarization, and analysis features
+- Returns processed results to your application
+
+## Authentication and Authorization
+🚧 Content coming soon.
+
+## Management Console
+🚧 Content coming soon.
+
+## Install the SDK
+1. Obtain the `plaud-sdk.aar` file and place it in your project's `libs/` directory.
+2. Add the following to your `app/build.gradle`:
+
+```gradle
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'plaud-sdk', ext: 'aar')
+    implementation 'com.google.guava:guava:28.2-android'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation platform('com.google.firebase:firebase-bom:32.7.4')
+    implementation 'com.google.firebase:firebase-analytics'
+}
+```

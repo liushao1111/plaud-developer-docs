@@ -1,0 +1,44 @@
+---
+title: iOS SDK Overview
+description: Plaud Programmable SDK for iOS allows you to integrate Plaud smart voice hardware and cloud services into your native iOS applications.
+---
+
+## How it Works
+
+The Plaud iOS SDK provides a comprehensive solution for integrating Plaud smart voice hardware into your iOS applications. The SDK acts as a bridge between your client app and the Plaud device, enabling seamless device management, recording control, and cloud processing capabilities.
+
+<img src="/assets/sdk-architecture.png" alt="Plaud SDK Architecture" />
+
+The Plaud SDK ecosystem consists of several key components:
+
+**Client Host App / PLAUD Template App**
+- Your iOS application that integrates the Plaud SDK
+- Provides the user interface and application logic
+- Manages user interactions and app-specific features
+
+**SDK Capabilities**
+- **Device Connection**: Establish and manage Bluetooth connections with Plaud devices
+- **Recording Control**: Start, stop, and manage audio recording sessions
+- **Recording Export**: Transfer recorded audio files from device to app
+- **Cloud Processing**: Send recordings to Plaud's AI cloud services for processing
+
+**PLAUD Device**
+- Smart voice recording hardware
+- Connects via Bluetooth to your iOS app
+- Captures high-quality audio recordings
+- Stores recordings locally until export
+
+**AI Cloud Service**
+- Processes audio recordings with advanced AI algorithms
+- Provides transcription, summarization, and analysis features
+- Returns processed results to your application
+
+## Authentication and Authorization <a id="authentication-and-authorization"></a>
+🚧 Content coming soon.
+
+## Management Console <a id="management-console"></a>
+🚧 Content coming soon.
+
+
+## Install the SDK <a id="install-the-sdk"></a>
+You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. For specific import methods, please refer to the [DemoApp](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/ios-demo/SDKDemo).

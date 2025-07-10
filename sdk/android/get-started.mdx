@@ -1,0 +1,61 @@
+---
+title: Android SDK Quickstart
+description: "Next, follow the step by step instructions below to get you up and running quickly using Plaud's Programmable SDK."
+---
+
+## Prerequisites <a id="prerequisites"></a>
+🚧 Content coming soon.
+
+## Dependency Installation
+🚧 Content coming soon.
+
+## SDK Initialization
+
+Initialize the SDK in your Application or main Activity:
+
+```kotlin
+class MyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Sdk.initSdk(
+            context = this,
+            appKey = "YOUR_APP_KEY",
+            bleAgentListener = myBleAgentListener,
+            hostName = "YourAppName",
+            extra = null
+        )
+    }
+}
+
+// Application
+bleAgentListener = object : BleAgentListener {
+    // Implement on your own
+}
+bleAgentListener?.let { Sdk.initSdk(context, "plaud-zoem8KYd-1748487531106", it, hostName, null) }
+```
+
+Implement `BleAgentListener` to receive device scan, connection, and other callbacks.
+
+## Quick Start
+
+### 1. Scan for Devices
+```kotlin
+bleAgent.scanBle(true) // Start scanning
+```
+
+### 2. Connect to a Device
+```kotlin
+bleAgent.connectionBLE(device, bindToken, null, null, 10000, 5000)
+```
+
+### 3. Get Device Status
+```kotlin
+bleAgent.getState(onRequest, onResponse)
+```
+
+### 4. Start Recording
+```kotlin
+bleAgent.startRecord(scene, onRequest, onResponse)
+```
+
+For more details, please refer to the API Reference. 
