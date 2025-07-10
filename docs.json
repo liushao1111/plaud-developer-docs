@@ -55,11 +55,11 @@
       ]
     },
     {
-      "tab": "SDKs",
+      "tab": "SDK",
       "icon": "smartphone",
       "groups": [
         {
-          "group": "Mobile SDKs",
+          "group": "Mobile SDK",
           "collapsible": true,
           "pages": [
             {

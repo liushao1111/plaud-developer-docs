@@ -11,7 +11,19 @@ description: Plaud Programmable SDK for iOS allows you to integrate Plaud Device
 🚧 Content coming soon.
 
 ## SDK Initialization <a id="sdk-initialization"></a>
-🚧 Content coming soon.
+Get Plaud device agent and initialize SDK:
+
+```swift
+@property (nonatomic, strong) PlaudDeviceAgent* deviceAgent;
+self.deviceAgent = [PlaudDeviceAgent shared];
+[self.deviceAgent initSDKWithHostName: @"" appKey:@"PLAUD-3d8f7a2b-1712345678" bindToken:@"123456789" extra:@{}];
+```
+
+Implement the delegate protocol `PlaudDeviceAgentProtocol`:
+
+```swift
+@interface ScanDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PlaudDeviceAgentProtocol>
+```
 
 ## Quick Start Examples <a id="quick-start-examples"></a>
 🚧 Content coming soon.

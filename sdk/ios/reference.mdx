@@ -1,6 +1,235 @@
 ---
-title: iOS SDK Reference
+title: iOS SDK API Reference
 description: Plaud iOS SDK API Reference Documentation.
 ---
 
-🚧 Content coming soon.
+## Device Connection
+
+### Start Scan
+
+```swift
+[self.deviceAgent startScan];
+```
+
+### Receive Scanned Devices
+
+In the delegate method, receive and display the scanned devices:
+
+```swift
+- (void)bleScanResultWithBleDevices:(NSArray<BleDevice *> *)bleDevices {
+    [self.devices removeAllObjects];
+    [self.devices addObjectsFromArray:bleDevices];
+    [self.tableView reloadData];
+}
+```
+
+### Connect Device
+
+From the returned devices, select a specific device and call the connect device interface:
+
+```swift
+- (void)connectToDevice:(BleDevice *)device {
+    if (device) {
+        [self.deviceAgent connectBleDeviceWithBleDevice:device];
+    }
+}
+```
+
+The connection status will be returned in the following callback:
+
+```swift
+- (void)bleConnectStateWithState:(NSInteger)state {
+    NSString *message;
+    switch (state) {
+        case 0:
+            message = @"Device not connected";
+            break;
+        case 1:
+            message = @"Device connected successfully";
+            break;
+        case 2:
+            message = @"Device connection failed";
+            break;
+        default:
+            message = @"Unknown connection state";
+            break;
+    }
+    NSLog(@"bleConnectStateWithState, %@", message);
+    [self showToastWithMessage:message];
+}
+```
+
+### Disconnect
+
+```swift
+[self.deviceAgent disconnect];
+```
+
+## Device Information
+
+### Get Device Status
+
+```swift
+[self.deviceAgent getState];
+// Result callback, see blePenState
+```
+
+### Get Battery Status
+
+```swift
+self.deviceAgent.getChargingState()
+// Result callback, see bleChargingState
+// where isCharging indicates if it's charging
+// where level is the battery percentage
+```
+
+### Get Storage Capacity
+
+```swift
+self.deviceAgent.getStorage()
+// Result callback, see bleStorage
+```
+
+## Recording Control
+
+### Start Recording
+
+```swift
+[self.deviceAgent startRecord];
+// Result callback, see bleRecordStart
+```
+
+### Pause Recording
+
+```swift
+[self.deviceAgent pauseRecord];
+// Result callback, see bleRecordPause
+```
+
+### Resume Recording
+
+```swift
+[self.deviceAgent resumeRecord];
+// Result callback, see resumeRecord
+```
+
+### Stop Recording
+
+```swift
+[self.deviceAgent stopRecord];
+// Result callback, see bleRecordStop
+```
+
+## Export Recording
+
+### Get File List
+
+```swift
+// Trigger: getFileList
+// Parameter: sessionId: From which file to start downloading. 0 means download all.
+self.deviceAgent.getFileList(sessionId: 0)
+// Result callback, where bleFiles is the file list
+func bleFileList(bleFiles: [BleFile])
+```
+
+### Download File
+
+```swift
+/// Download file
+///
+/// - Parameters:
+///   - sessionId: The unique ID of the recording file
+///   - outputPath: The path to save the recording file
+self.deviceAgent.downloadFile(sessionId: bleFile.sessionId, outputPath: targetPath)
+
+// Result callback
+/// @see Callback bleDownloadFile
+// which includes file ID, download path, download status, download progress, and a prompt message.
+```
+
+### Stop Download
+
+```swift
+self.deviceAgent.stopDownloadFile()
+// Result callback bleDownloadFileStop
+```
+
+### Delete File
+
+```swift
+// Parameter sessionId: Unique ID of the recording file
+self.bleAgent.deleteFile(sessionId: bleFile.sessionId)
+// Result callback bleDeleteFile
+```
+
+### Delete All Files
+
+```swift
+self.bleAgent.clearAllFile()
+// Result callback bleClearAllFile
+```
+
+## Device Wi-Fi Sync
+
+### Wi-Fi Sync Switch
+
+```swift
+// Set Wi-Fi Sync Switch
+// Parameter value: 0: Off, 1: On
+self.deviceAgent.setWifiSyncEnable(value: Int)
+
+// Get switch status, result callback onWifiSyncEnabled
+func getWifiSyncEnable()
+
+/// Set upload address
+/// - Parameter path: Upload address
+@objc public func setWifiSyncDomain(path: String)
+```
+
+### Wi-Fi Configuration Management
+
+```swift
+/// Set Wi-Fi Configuration
+/// - Parameters:
+///   - operation: Operation type (1: Add, 2: Modify)
+///   - wifiIndex: Wi-Fi index (4 bytes)
+///   - ssid: Wi-Fi SSID
+///   - password: Wi-Fi Password
+@objc public func setWifiSyncConfig(operation: Int, wifiIndex: UInt32, ssid: String, password: String)
+
+/// Get Wi-Fi Configuration
+/// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+@objc public func getWifiSyncConfig(wifiIndex: UInt32)
+
+/// Delete Wi-Fi Configuration
+/// - Parameter wifiIndices: Array of Wi-Fi indices to delete (each index is 4 bytes)
+@objc public func deleteWifiSyncConfig(wifiIndices: [UInt32])
+
+/// Get Wi-Fi List
+@objc public func getWifiSyncList()
+```
+
+### Wi-Fi Connectivity Test
+
+```swift
+/// Initiate Wi-Fi Test
+/// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+@objc public func setWifiSyncTest(wifiIndex: UInt32)
+
+/// Get Wi-Fi Test Result
+/// - Parameter wifiIndex: Wi-Fi index (4 bytes)
+@objc public func getWifiSyncTestResult(wifiIndex: UInt32)
+```
+
+## AI Cloud Workflow
+
+### Transcribe and Summary
+
+```swift
+public func submitAndWaitForCompletion(
+    _ request: WorkflowSubmitRequest,
+    timeout: TimeInterval,
+    progressHandler: ((WorkflowStatusResponse) -> Void)? = nil,
+    completion: @escaping (WorkflowResult<WorkflowResultResponse>) -> Void
+)
+```

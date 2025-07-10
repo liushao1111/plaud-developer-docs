@@ -3,30 +3,11 @@ title: Android SDK Quickstart
 description: "Next, follow the step by step instructions below to get you up and running quickly using Plaud's Programmable SDK."
 ---
 
+## Prerequisites <a id="prerequisites"></a>
+🚧 Content coming soon.
+
 ## Dependency Installation
-1. Obtain the `plaud-sdk.aar` file and place it in your project's `libs/` directory.
-2. Add the following to your `app/build.gradle`:
-
-```gradle
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
-dependencies {
-    implementation(name: 'plaud-sdk', ext: 'aar')
-    implementation 'com.google.guava:guava:28.2-android'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
-    implementation platform('com.google.firebase:firebase-bom:32.7.4')
-    implementation 'com.google.firebase:firebase-analytics'
-}
-```
+🚧 Content coming soon.
 
 ## SDK Initialization
 
@@ -45,6 +26,12 @@ class MyApp : Application() {
         )
     }
 }
+
+// Application
+bleAgentListener = object : BleAgentListener {
+    // Implement on your own
+}
+bleAgentListener?.let { Sdk.initSdk(context, "plaud-zoem8KYd-1748487531106", it, hostName, null) }
 ```
 
 Implement `BleAgentListener` to receive device scan, connection, and other callbacks.
