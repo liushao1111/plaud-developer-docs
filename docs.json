@@ -24,7 +24,13 @@
           "group": "Getting Started",
           "pages": [
             "introduction",
-            "quickstart"
+            {
+              "group": "Quickstart",
+              "pages": [
+                "/api/python-quickstart",
+                "/sdk/integration"
+              ]
+            }
           ]
         },
         {
@@ -49,23 +55,29 @@
       ]
     },
     {
-      "tab": "SDK",
+      "tab": "SDKs",
       "icon": "smartphone",
       "groups": [
         {
-          "group": "iOS SDK",
+          "group": "Mobile SDKs",
+          "collapsible": true,
           "pages": [
-            "sdk/ios/overview",
-            "sdk/ios/get-started",
-            "sdk/ios/reference"
-          ]
-        },
-        {
-          "group": "Android SDK",
-          "pages": [
-            "sdk/android/overview",
-            "sdk/android/get-started",
-            "sdk/android/reference"
+            {
+              "group": "iOS SDK",
+              "pages": [
+                "sdk/ios/overview",
+                "sdk/ios/get-started",
+                "sdk/ios/reference"
+              ]
+            },
+            {
+              "group": "Android SDK",
+              "pages": [
+                "sdk/android/overview",
+                "sdk/android/get-started",
+                "sdk/android/reference"
+              ]
+            }
           ]
         }
       ]
