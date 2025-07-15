@@ -1,0 +1,378 @@
+---
+title: SDK Quickstart
+description: "Get started with Plaud Mobile SDKs - Build native apps with direct device integration"
+---
+
+# SDK Quickstart
+
+Build native mobile applications with direct Plaud device integration. Our SDKs provide seamless Bluetooth connectivity, recording control, and cloud processing capabilities.
+
+<div className="callout info">
+  <h3>📱 Choose Your Platform</h3>
+  <p>
+    Select your target platform to get started with the corresponding SDK
+  </p>
+</div>
+
+## Platform Selection
+
+<div className="card-container">
+  <a href="/sdk/ios/get-started" className="card">
+    <div className="platform-card">
+      <div className="platform-card-icon ios">
+        <span>🍎</span>
+      </div>
+      <div className="platform-card-info">
+        <h3>iOS SDK</h3>
+        <p>
+          Swift & Objective-C
+        </p>
+      </div>
+    </div>
+    <p className="quick-start-card-content">
+      Build iOS apps with native Plaud device integration. Support for iPhone and iPad.
+    </p>
+    <div className="platform-card-footer">
+      <div className="platform-card-arrow ios">
+        Get Started with iOS →
+      </div>
+      <div className="platform-card-meta">
+        <span>iOS 12+</span>
+        <span>•</span>
+        <span>Swift 5.0+</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="/sdk/android/get-started" className="card">
+    <div className="platform-card">
+      <div className="platform-card-icon android">
+        <span>🤖</span>
+      </div>
+      <div className="platform-card-info">
+        <h3>Android SDK</h3>
+        <p>
+          Java & Kotlin
+        </p>
+      </div>
+    </div>
+    <p className="quick-start-card-content">
+      Build Android apps with native Plaud device integration. Support for phones and tablets.
+    </p>
+    <div className="platform-card-footer">
+      <div className="platform-card-arrow android">
+        Get Started with Android →
+      </div>
+      <div className="platform-card-meta">
+        <span>API 21+</span>
+        <span>•</span>
+        <span>Kotlin</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+## 🚀 Quick Setup Overview
+
+Both SDKs follow a similar integration pattern:
+
+<div className="best-practices-container">
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem'}}>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>1️⃣</span>
+        Install SDK
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Add the SDK framework to your project and configure dependencies
+      </p>
+    </div>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>2️⃣</span>
+        Initialize
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Initialize the SDK with your app key and set up device agent
+      </p>
+    </div>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>3️⃣</span>
+        Connect Device
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Scan for and connect to nearby Plaud devices via Bluetooth
+      </p>
+    </div>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>4️⃣</span>
+        Control Recording
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Start, pause, resume, and stop recording sessions
+      </p>
+    </div>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>5️⃣</span>
+        Export Files
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Download recordings from device to your app
+      </p>
+    </div>
+    <div>
+      <h3 style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+        <span style={{marginRight: '0.5rem'}}>6️⃣</span>
+        Process with AI
+      </h3>
+      <p style={{margin: '0', color: '#64748b'}}>
+        Send recordings to Plaud's AI cloud for transcription and summarization
+      </p>
+    </div>
+  </div>
+</div>
+
+## 📋 SDK Features Comparison
+
+| Feature | iOS SDK | Android SDK | Notes |
+|---------|---------|-------------|-------|
+| **Bluetooth Connection** | ✅ | ✅ | Automatic device discovery |
+| **Recording Control** | ✅ | ✅ | Start, pause, resume, stop |
+| **Device Management** | ✅ | ✅ | Status, battery, storage info |
+| **File Operations** | ✅ | ✅ | Download, delete recordings |
+| **Wi-Fi Sync** | ✅ | ✅ | Configure device Wi-Fi |
+| **Cloud Processing** | ✅ | ✅ | AI transcription & summary |
+| **Background Processing** | ✅ | ✅ | Continue operations in background |
+
+## 🛠️ Development Prerequisites
+
+<div className="requirements-grid">
+  <div className="requirements-card">
+    <h3>
+      <span>🍎</span>
+      iOS Requirements
+    </h3>
+    <ul>
+      <li>Xcode 12.0 or later</li>
+      <li>iOS 12.0 or later</li>
+      <li>Swift 5.0 or later</li>
+      <li>Bluetooth permissions</li>
+    </ul>
+  </div>
+  
+  <div className="requirements-card">
+    <h3>
+      <span>🤖</span>
+      Android Requirements
+    </h3>
+    <ul>
+      <li>Android Studio 4.0 or later</li>
+      <li>API level 21 (Android 5.0) or later</li>
+      <li>Kotlin support</li>
+      <li>Bluetooth permissions</li>
+    </ul>
+  </div>
+</div>
+
+## 🔧 Quick Code Examples
+
+### iOS SDK Example
+
+```swift
+import PlaudDeviceSDK
+
+class ViewController: UIViewController {
+    var deviceAgent: PlaudDeviceAgent!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Initialize SDK
+        deviceAgent = PlaudDeviceAgent.shared
+        deviceAgent.initSDK(
+            hostName: "YourApp", 
+            appKey: "YOUR_APP_KEY",
+            bindToken: "YOUR_BIND_TOKEN",
+            extra: [:]
+        )
+        
+        // Set delegate
+        deviceAgent.delegate = self
+    }
+    
+    func startScanning() {
+        deviceAgent.startScanBle()
+    }
+    
+    func startRecording() {
+        deviceAgent.startRecord()
+    }
+}
+
+extension ViewController: PlaudDeviceAgentProtocol {
+    func bleDeviceFound(_ device: BleDevice) {
+        // Handle device discovery
+    }
+    
+    func bleRecordStart(_ success: Bool) {
+        // Handle recording start
+    }
+}
+```
+
+### Android SDK Example
+
+```kotlin
+import com.plaud.sdk.PlaudSDK
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var bleAgent: BleAgent
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Initialize SDK
+        val bleAgentListener = object : BleAgentListener {
+            override fun onDeviceFound(device: BleDevice) {
+                // Handle device discovery
+            }
+            
+            override fun onRecordStart(success: Boolean) {
+                // Handle recording start
+            }
+        }
+        
+        Sdk.initSdk(
+            context = this,
+            appKey = "YOUR_APP_KEY",
+            bleAgentListener = bleAgentListener,
+            hostName = "YourApp",
+            extra = null
+        )
+        
+        bleAgent = Sdk.bleAgent
+    }
+    
+    fun startScanning() {
+        bleAgent.scanBle(true)
+    }
+    
+    fun startRecording() {
+        bleAgent.startRecord("meeting", onRequest, onResponse)
+    }
+}
+```
+
+## 🎯 Integration Patterns
+
+<div className="card-container">
+  <div className="card integration-pattern-card">
+    <h3>🎙️ Recording Apps</h3>
+    <p>
+      Build voice recording applications with automatic transcription
+    </p>
+    <div className="integration-pattern-meta">
+      <strong>Best for:</strong> Meeting apps, note-taking, interviews
+    </div>
+  </div>
+
+  <div className="card integration-pattern-card">
+    <h3>🏢 Enterprise Solutions</h3>
+    <p>
+      Create multi-user platforms with device management
+    </p>
+    <div className="integration-pattern-meta">
+      <strong>Best for:</strong> Corporate apps, team collaboration
+    </div>
+  </div>
+
+  <div className="card integration-pattern-card">
+    <h3>🔄 Workflow Integration</h3>
+    <p>
+      Integrate recording into existing business workflows
+    </p>
+    <div className="integration-pattern-meta">
+      <strong>Best for:</strong> CRM integration, productivity tools
+    </div>
+  </div>
+</div>
+
+## 🚀 Getting Started
+
+<div className="callout success">
+  <h3>🔑 Before You Begin</h3>
+  <p>
+    You'll need a Plaud Developer Account and App Key to use the SDKs.
+  </p>
+  <a href="https://console.plaud.ai" target="_blank" className="btn-secondary btn-large">
+    Get App Key →
+  </a>
+  <a href="/guides/device-management" className="btn-outline success">
+    View SDK Guides →
+  </a>
+</div>
+
+## 📚 Next Steps
+
+Choose your platform and dive into the detailed documentation:
+
+<div className="next-steps-grid">
+  <a href="/sdk/ios/get-started" className="next-steps-card primary">
+    <h3>🍎 iOS SDK Guide</h3>
+    <p>
+      Complete iOS integration guide with Swift examples
+    </p>
+  </a>
+  
+  <a href="/sdk/android/get-started" className="next-steps-card secondary">
+    <h3>🤖 Android SDK Guide</h3>
+    <p>
+      Complete Android integration guide with Kotlin examples
+    </p>
+  </a>
+  
+  <a href="/sdk/integration" className="next-steps-card">
+    <h3>📖 Integration Guide</h3>
+    <p>
+      Comprehensive SDK integration documentation
+    </p>
+  </a>
+  
+  <a href="/getting-started/api" className="next-steps-card">
+    <h3>🌐 API Reference</h3>
+    <p>
+      Explore the REST API for web applications
+    </p>
+  </a>
+</div>
+
+## 💬 Need Help?
+
+<div className="help-grid">
+  <div className="help-item">
+    <div className="help-item-icon">📱</div>
+    <h4>SDK Examples</h4>
+    <a href="https://github.com/Plaud-AI/plaud-sdk" target="_blank">
+      View on GitHub →
+    </a>
+  </div>
+  
+  <div className="help-item">
+    <div className="help-item-icon">📚</div>
+    <h4>Documentation</h4>
+    <a href="/guides/device-management">
+      Browse Guides →
+    </a>
+  </div>
+  
+  <div className="help-item">
+    <div className="help-item-icon">💬</div>
+    <h4>Support</h4>
+    <a href="mailto:dev-support@plaud.ai">
+      Contact Support →
+    </a>
+  </div>
+</div>

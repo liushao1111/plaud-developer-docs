@@ -23,20 +23,12 @@
         {
           "group": "Getting Started",
           "pages": [
-            "introduction",
-            {
-              "group": "Quickstart",
-              "pages": [
-                "python-quickstart",
-                "/sdk/integration"
-              ]
-            }
+            "/getting-started/overview"
           ]
         },
         {
           "group": "Feature Guides",
           "pages": [
-            "guides-overview",
             "guides/device-management",
             "guides/user-management",
             "guides/file-management"
@@ -124,6 +116,7 @@
     "url": "https://console.plaud.ai"
   },
   "stylesheets": [
-    "/styles/custom.css"
+    "/styles/custom.css",
+    "/styles/getting-started.css"
   ]
 }
