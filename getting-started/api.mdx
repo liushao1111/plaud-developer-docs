@@ -1,269 +1,126 @@
 ---
 title: API Quickstart
-description: "Get started with the Plaud API in minutes - From authentication to your first API call"
+description: "Take your first steps with the Plaud API."
 ---
-
 <div className="api-key-section">
-  <div className="api-key-header">
-    <div className="api-key-icon">
-      <span>🔑</span>
-    </div>
-    <div className="api-key-title">
-      <h3>Prerequisites </h3>
-      <p>Start building with Plaud's developer platform</p>
-    </div>
-  </div>
-  
   <div className="api-key-content">
-    <p>
-      Before you begin, you'll need to get your API key from the <a href="https://console.plaud.ai" target="_blank" className="inline-link">Plaud Developer Console</a> to authenticate your requests.
-    </p>
+    <div className="api-key-title">
+      <h3>Ready to start building?</h3>
+    </div>
+    
+    <p>Get your API key from the <a href="https://console.plaud.ai" target="_blank" className="inline-link">Developer Console</a> to authenticate your requests and start integrating with Plaud's platform.</p>
     
     <div className="api-key-actions">
-      <a href="https://console.plaud.ai" target="_blank" className="btn-cta">
-        <span>Get API Key</span>
-        <span className="btn-icon">→</span>
+      <a href="https://console.plaud.ai" target="_blank" className="btn-primary">
+        <span>Get API Key Now</span>
+        <span className="btn-arrow">→</span>
+      </a>
+      <a href="/getting-started/api" className="btn-secondary">
+        <span>Learn More</span>
+        <span className="btn-arrow">→</span>
       </a>
     </div>
   </div>
 </div>
 
 
-## Step 1: Authentication
+## List Your Recordings
+The Plaud API makes it easy to fetch a complete list of your audio recordings. Use the following example to quickly retrieve all your recordings:
 
-All API requests require authentication using your API key in the Authorization header:
+<CodeGroup dropdown>
 
-```bash
-curl -H "Authorization: YOUR_API_KEY" \
-  https://api.plaud.ai/files/
+```bash bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/
 ```
 
-<div className="best-practices">
-  <h3>🔒 Security Best Practices</h3>
-  <ul>
-    <li>Never expose your API key in client-side code</li>
-    <li>Use environment variables to store your API key</li>
-    <li>Rotate your API keys regularly</li>
-  </ul>
-</div>
+```python python
+import requests
 
-## Step 2: Your First API Call
+headers = {'Authorization': '<YOUR_API_KEY>'}
+resp = requests.get('https://api.plaud.ai/files/', headers=headers)
+print(resp.json())
+```
+</CodeGroup>
 
-Let's start by listing your audio files (recordings):
+## Retrieve Recording Details
+You can retrieve the detail of an audio recording by specifying `file_id`:
 
-<div className="code-example-grid">
-  <div className="code-example-card">
-    <h3>
-      <span>🌐</span>
-      cURL
-    </h3>
-    <pre className="code-example-pre">
-{`curl -H "Authorization: YOUR_API_KEY" \\
-  https://api.plaud.ai/files/`}
-    </pre>
-  </div>
-  
-  <div className="code-example-card">
-    <h3>
-      <span>🐍</span>
-      Python
-    </h3>
-    <pre className="code-example-pre">
-{`import requests
+<CodeGroup dropdown>
 
-headers = {'Authorization': 'YOUR_API_KEY'}
-response = requests.get(
-    'https://api.plaud.ai/files/',
-    headers=headers
-)
-print(response.json())`}
-    </pre>
-  </div>
-</div>
-
-### Expected Response
-
-```json
-{
-  "type": "list",
-  "data": [
-    {
-      "id": "file_123",
-      "name": "Meeting Recording",
-      "duration": 1800,
-      "size": 15728640,
-      "created_at": "2024-01-15T10:30:00Z",
-      "ai_status": "completed",
-      "ai_result_list": [
-        {
-          "type": "transcription",
-          "status": "completed",
-          "result": "This is the transcribed content..."
-        }
-      ]
-    }
-  ],
-  "next_token": "eyJpZCI6Im5leHQifQ=="
-}
+```bash bash
+curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/{file_id}
 ```
 
-## Step 3: Explore Key Endpoints
+```python python
+import requests
 
-<div className="card-container">
-  <div className="card api-endpoint-card">
-    <h3>📁 File Management</h3>
-    <div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">GET /files/</code>
-        <span className="api-endpoint-description">List files</span>
+file_id = "your_file_id"  # Replace with actual file ID
+headers = {'Authorization': '<YOUR_API_KEY>'}
+resp = requests.get(f'https://api.plaud.ai/files/{file_id}', headers=headers)
+print(resp.json())
+```
+</CodeGroup>
+
+## Explore Further
+We've barely scratched the surface of what's possible with the Plaud platform. Here are some resources you might want to explore next.
+
+<div className="reference-cards-section">
+  <div className="reference-cards-grid">
+    
+    <a href="/guides/device-management" className="reference-card">
+      <div className="reference-card-icon">
+        <Icon icon="microphone" size={32}/>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">GET /files/{id}</code>
-        <span className="api-endpoint-description">Get file details</span>
+      <div className="reference-card-content">
+        <h4>Manage recording devices</h4>
+        <p>Register, monitor, and configure your Plaud recording devices. Control device settings and track device status.</p>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">DELETE /files/{id}</code>
-        <span className="api-endpoint-description">Delete file</span>
-      </div>
-    </div>
-    <a href="/api-reference/file-operations" className="api-endpoint-link">
-      View File API Docs →
+      <div className="reference-card-arrow">→</div>
     </a>
-  </div>
 
-  <div className="card api-endpoint-card">
-    <h3>📱 Device Management</h3>
-    <div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">GET /devices/</code>
-        <span className="api-endpoint-description">List devices</span>
+    <a href="/guides/file-management" className="reference-card">
+      <div className="reference-card-icon">
+        <Icon icon="folder-open" size={32}/>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">POST /devices/</code>
-        <span className="api-endpoint-description">Create device</span>
+      <div className="reference-card-content">
+        <h4>Handle audio files and recordings</h4>
+        <p>Access, organize, and process your audio files. Merge recordings and leverage AI-powered transcription.</p>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">PATCH /devices/{id}</code>
-        <span className="api-endpoint-description">Update device</span>
-      </div>
-    </div>
-    <a href="/api-reference/device-management" className="api-endpoint-link">
-      View Device API Docs →
+      <div className="reference-card-arrow">→</div>
     </a>
-  </div>
 
-  <div className="card api-endpoint-card">
-    <h3>👥 User Management</h3>
-    <div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">GET /users/</code>
-        <span className="api-endpoint-description">List users</span>
+    <a href="/guides/user-management" className="reference-card">
+      <div className="reference-card-icon">
+        <Icon icon="user-group" size={32}/>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">POST /users/</code>
-        <span className="api-endpoint-description">Create user</span>
+      <div className="reference-card-content">
+        <h4>Manage users and organizations</h4>
+        <p>Set up multi-tenant architecture with robust user management. Control access and permissions across your organization.</p>
       </div>
-      <div className="api-endpoint-item">
-        <code className="api-endpoint-code">GET /tenants/</code>
-        <span className="api-endpoint-description">List tenants</span>
-      </div>
-    </div>
-    <a href="/api-reference/user-management" className="api-endpoint-link">
-      View User API Docs →
+      <div className="reference-card-arrow">→</div>
     </a>
+
+    <a href="/docs/api-reference/file-operations/ai-file" className="reference-card">
+      <div className="reference-card-icon">
+        <Icon icon="robot" size={32}/>
+      </div>
+      <div className="reference-card-content">
+        <h4>Process audio with AI</h4>
+        <p>Transform your recordings with AI-powered transcription, summarization, and intelligent content extraction.</p>
+      </div>
+      <div className="reference-card-arrow">→</div>
+    </a>
+
+    <a href="/docs/api-reference" className="reference-card">
+      <div className="reference-card-icon">
+        <Icon icon="books" size={32}/>
+      </div>
+      <div className="reference-card-content">
+        <h4>Full API Reference</h4>
+        <p>View the complete API reference for the Plaud platform with detailed endpoint documentation and examples.</p>
+      </div>
+      <div className="reference-card-arrow">→</div>
+    </a>
+
   </div>
 </div>
-
-## Step 4: Working with AI Features
-
-One of Plaud's key features is AI-powered transcription and summarization. Here's how to access these features:
-
-### Get File with AI Results
-
-```bash
-curl -H "Authorization: YOUR_API_KEY" \
-  https://api.plaud.ai/files/file_123
-```
-
-### Check AI Processing Status
-
-The `ai_status` field indicates the processing state:
-- `pending` - AI processing queued
-- `processing` - AI processing in progress  
-- `completed` - AI processing finished
-- `failed` - AI processing failed
-
-### Access AI Results
-
-```json
-{
-  "ai_result_list": [
-    {
-      "type": "transcription",
-      "status": "completed",
-      "result": "Full transcription text here..."
-    },
-    {
-      "type": "summary", 
-      "status": "completed",
-      "result": "AI-generated summary here..."
-    }
-  ]
-}
-```
-
-## Step 5: Error Handling
-
-The API uses standard HTTP status codes and returns detailed error information:
-
-```json
-{
-  "error": {
-    "code": "INVALID_API_KEY",
-    "message": "The provided API key is invalid or has expired",
-    "details": "Please check your API key and try again"
-  }
-}
-```
-
-<div className="best-practices">
-  <h3>🛡️ Common Error Codes</h3>
-  <ul>
-    <li><strong>401 Unauthorized</strong> - Invalid or missing API key</li>
-    <li><strong>403 Forbidden</strong> - Insufficient permissions</li>
-    <li><strong>404 Not Found</strong> - Resource not found</li>
-    <li><strong>429 Too Many Requests</strong> - Rate limit exceeded</li>
-    <li><strong>500 Internal Server Error</strong> - Server error</li>
-  </ul>
-</div>
-
-## Next Steps
-
-<div className="next-steps-grid">
-  <a href="/api-reference" className="next-steps-card">
-    <h3>📚 Full API Reference</h3>
-    <p>
-      Explore all available endpoints and their parameters
-    </p>
-  </a>
-  
-  <a href="/guides/device-management" className="next-steps-card">
-    <h3>📖 Feature Guides</h3>
-    <p>
-      In-depth guides for device, user, and file management
-    </p>
-  </a>
-  
-  <a href="/getting-started/sdk" className="next-steps-card">
-    <h3>📱 Mobile SDKs</h3>
-    <p>
-      Integrate directly with Plaud devices in your mobile apps
-    </p>
-  </a>
-</div>
-
-## Need Help?
-
-- 💬 Contact [dev-support@plaud.ai](mailto:dev-support@plaud.ai)
-- 📚 Browse [Feature Guides](/guides/device-management)
-- 🔧 Check [API Reference](/api-reference)

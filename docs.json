@@ -23,7 +23,8 @@
         {
           "group": "Getting Started",
           "pages": [
-            "/getting-started/overview"
+            "/getting-started/overview",
+            "/getting-started/api"
           ]
         },
         {
@@ -74,8 +75,8 @@
         }
       ]
     }
-  ]
-},
+    ]
+  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -83,17 +84,59 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:lucas@plaud.ai"
+        "label": "Community",
+        "href": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw",
+        "icon": "slack"
+      },
+      {
+        "label": "Help",
+        "href": "mailto:dev-support@plaud.ai",
+        "icon": "envelope"
       }
     ]
   },
-  "footerSocials": {
-    "website": "https://plaud.ai",
-    "facebook": "https://www.facebook.com/plaudai",
-    "x": "https://x.com/PLAUDAI",
-    "instagram": "https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fplaud_official%2F&is_from_rle",
-    "youtube": "https://www.youtube.com/@PLAUDAI"
+  "footer": {
+    "socials":{
+      "website": "https://plaud.ai",
+      "github": "https://github.com/Plaud-AI/plaud-sdk",
+      "slack": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw"
+    },
+    "links": [
+      {
+        "header": "Resources",
+        "items": [
+          {
+            "label": "Customers",
+            "href": "https://example.com/customers"
+          },
+          {
+            "label": "Enterprise",
+            "href": "https://example.com/enterprise"
+          },
+          {
+            "label": "Request Preview",
+            "href": "https://example.com/preview"
+          }
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          {
+            "label": "Careers",
+            "href": "https://example.com/careers"
+          },
+          {
+            "label": "Blog",
+            "href": "https://example.com/blog"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "https://example.com/legal/privacy"
+          }
+        ]
+      }
+    ]
   },
   "feedback": {
     "suggestEdit": true,
@@ -108,7 +151,7 @@
   "topbarLinks": [
     {
       "name": "Contact Us",
-      "url": "mailto:support@plaud.ai"
+      "url": "mailto:dev-support@plaud.ai"
     }
   ],
   "topbarCtaButton": {
@@ -116,7 +159,6 @@
     "url": "https://console.plaud.ai"
   },
   "stylesheets": [
-    "/styles/custom.css",
-    "/styles/getting-started.css"
+    "/styles/custom.css"
   ]
 }
