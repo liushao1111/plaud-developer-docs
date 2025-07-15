@@ -24,7 +24,8 @@
           "group": "Getting Started",
           "pages": [
             "/getting-started/overview",
-            "/getting-started/api"
+            "/getting-started/api",
+            "/getting-started/sdk"
           ]
         },
         {
