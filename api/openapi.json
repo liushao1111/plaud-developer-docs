@@ -998,7 +998,7 @@
                 }
             }
         },
-        "/api/workflows/{workflow_id}/results": {
+        "/api/workflows/{workflow_id}/result": {
             "get": {
                 "tags": [
                     "workflow"
