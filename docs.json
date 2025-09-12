@@ -7,7 +7,7 @@
     "light": "#FFFFFF",
     "dark": "#16171f"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/assets/favicon.svg",
   "api": {
     "examples": {
       "languages": ["curl", "python"],
@@ -15,62 +15,123 @@
     }
   },
   "navigation": {
-  "tabs": [
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "GET STARTED",
+            "pages": [
+              "/documentation/get-started/overview",
+              "/documentation/get-started/quickstart",
+              "/documentation/get-started/dashboard"
+            ]
+          },
+          {
+            "group": "CAPABILITIES",
+            "pages": [
+              "/documentation/capabilities/ai_summary",
+              "/documentation/capabilities/ai_workflow"
+            ]
+          },
+          {
+            "group": "DEVELOPER GUIDES",
+            "pages": [
+              {
+                "group": "Tutorials",
+                "pages": [
+                  "/documentation/tutorials/ai_summary",
+                  "/documentation/tutorials/ai_workflow"
+                ]
+              },
+              "/documentation/developer-guides/libraries",
+              "/documentation/developer-guides/errors"
+            ]
+          },
+          {
+            "group": "PRODUCT GUIDES",
+            "pages": [
+              "/documentation/product-guides/overview",
+              {
+                "group": "Playground",
+                "pages": [
+                  "/documentation/playground/ai_workflow"
+                ]
+              },
+              {
+                "group": "Products",
+                "pages": [
+                  "/documentation/products/ai_workflow"
+                ]
+              },
+              {
+                "group": "Adminstration",
+                "pages": [
+                  "/documentation/administration/usage",
+                  "/documentation/administration/webhook"
+                ]
+              }
+            ]
+          }
+          
+        ]
+      },
     {
-      "tab": "Guides",
+      "tab": "AI Platform",
       "groups": [
         {
-          "group": "Getting Started",
+          "group": "GET STARTED",
           "pages": [
-            "/getting-started/overview",
-            "/getting-started/api",
-            "/getting-started/sdk"
+            "/ai-platform/get-started/overview",
+            "/ai-platform/get-started/quickstart",
+            "/ai-platform/get-started/dashboard"
           ]
         },
         {
-          "group": "Feature Guides",
+          "group": "BEST PRACTICES",
           "pages": [
-            "guides/device-management",
-            "guides/user-management",
-            "guides/file-management"
+            "/ai-platform/best-practices/workflow"
           ]
         }
       ]
     },
     {
-      "tab": "API Reference",
+      "tab": "API Guide",
       "groups": [
+        {
+          "group": "Using the APIs",
+          "pages": [
+            "/api-guide/api_intro/overview",
+            "/api-guide/api_intro/rate_limit",
+            "/api-guide/api_intro/error_messages"
+          ]
+        },
         {
           "group": "API Reference",
           "openapi": {
             "source": "https://platform.plaud.ai/openapi.json"
           }
+        },
+        {
+          "group": "SDKs",
+          "pages": [
+            "/api-guide/sdks/overview",
+            "/api-guide/sdks/ios",
+            "/api-guide/sdks/android"
+          ]
         }
       ]
     },
     {
-      "tab": "SDK",
+      "tab": "Release Note",
       "groups": [
         {
-          "group": "Mobile SDK",
-          "collapsible": true,
+          "group": "Release Notes",
           "pages": [
-            {
-              "group": "iOS SDK",
-              "pages": [
-                "sdk/ios/overview",
-                "sdk/ios/get-started",
-                "sdk/ios/reference"
-              ]
-            },
-            {
-              "group": "Android SDK",
-              "pages": [
-                "sdk/android/overview",
-                "sdk/android/get-started",
-                "sdk/android/reference"
-              ]
-            }
+            "/release-notes/overview",
+            "/release-notes/api",
+            "/release-notes/sdk",
+            "/release-notes/ai_platform"
           ]
         }
       ]
@@ -78,8 +139,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/assets/logo/light.svg",
+    "dark": "/assets/logo/dark.svg"
   },
   "navbar": {
     "links": [
