@@ -1,0 +1,37 @@
+---
+title: "Developer quickstart"
+description: "Learn how to make your first Plaud API request"
+icon: "book"
+iconType: "duotone"
+sidebarTitle: "Quickstart"
+---
+
+The Plaud API provides a simple interface to Plaud devices and features. 
+Follow this guide to learn how to 这个quickstart要做什么（一个简单的API调用的功能）. 
+See the developer guides for more examples with our other products.
+
+## Using the API
+
+<Steps>
+  <Step title="Create an API Key">
+    [Create an API key in the dashboard here,]() which you'll use to securely [access the API](/api_guide/api_intro/authentication).
+
+    Store the key as a managed secret and pass it to the SDKs either as a environment variable via an `.env` file, or directly in your app’s configuration depending on your preference.
+    ```bash .env
+    PLAUD_API_KEY=<PLAUD_API_KEY>
+    ```
+  </Step>
+  <Step title="Install Dependencies">
+    We’ll also use the `dotenv` library to load our API key from an environment variable.
+    <CodeGroup>
+    ```python
+    from dotenv import load_dotenv
+    import os
+    
+    ```
+    </CodeGroup>
+  </Step>
+  <Step title="Third Step">
+    These are instructions or content that only pertain to the third step.
+  </Step>
+</Steps>
