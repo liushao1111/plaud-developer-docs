@@ -100,6 +100,7 @@
               "group": "ASR",
               "icon": "microphone",
               "pages": [
+                "/ai_platform/custiomizations/asr/overview",
                 "/ai_platform/custiomizations/asr/stt",
                 "/ai_platform/custiomizations/asr/vad"
               ]

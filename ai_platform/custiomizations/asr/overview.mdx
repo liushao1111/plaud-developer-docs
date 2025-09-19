@@ -1,0 +1,63 @@
+---
+title: "ASR Overview"
+description: "Automatic Speech Recognition system capabilities and components in Plaud AI Platform."
+sidebarTitle: "Overview"
+icon: "house"
+iconType: "duotone"
+---
+
+## What is ASR in Plaud AI Platform?
+
+Plaud AI Platform's Automatic Speech Recognition (ASR) system is designed to handle complex audio processing scenarios in business environments. Our ASR system combines advanced speech-to-text conversion with intelligent audio segmentation to deliver accurate transcription results.
+
+## ASR Processing Flow
+
+The following diagram illustrates how audio recordings are processed through our ASR pipeline:
+
+```mermaid
+flowchart LR
+    A[AUDIO INPUT] --> B[VAD]
+    B --> C[STT]
+    C --> D[HOTWORD]
+    D --> E[FORMATTING]
+    E --> F[TEXT OUTPUT]
+    
+    style A fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style B fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style C fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style D fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style E fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    style F fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+```
+
+### Processing Pipeline
+
+The ASR system processes audio through a streamlined pipeline:
+
+1. **VAD**: Voice Activity Detection identifies speech segments and filters out silence
+2. **STT**: Speech-to-Text converts audio segments into raw text transcription  
+3. **HOTWORD**: Custom vocabulary recognition for technical terms and proper nouns
+4. **FORMATTING**: Adds punctuation, capitalization, and proper text formatting
+
+<Note>
+This linear pipeline ensures consistent, high-quality transcription results for business audio recordings.
+</Note>
+
+The ASR system consists of two core components that work together to process audio recordings:
+
+<CardGroup cols={2}>
+<Card title="Speech to Text (STT)" icon="text" href="/ai_platform/custiomizations/asr/stt">
+  Convert speech to text with advanced features like punctuation and hotword recognition
+</Card>
+
+<Card title="Voice Activity Detection (VAD)" icon="waveform-lines" href="/ai_platform/custiomizations/asr/vad">
+  Detect voice activity and intelligently segment audio for optimal processing
+</Card>
+</CardGroup>
+
+## Key Features
+
+- **Multi-language Support**: Process recordings in multiple languages with high accuracy
+- **Business-focused**: Optimized for business scenarios and professional conversations
+- **Intelligent Processing**: Advanced algorithms for punctuation, formatting, and hotword recognition
+- **Audio Segmentation**: Smart voice activity detection for efficient processing

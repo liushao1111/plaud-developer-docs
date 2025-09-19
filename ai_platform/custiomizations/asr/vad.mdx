@@ -1,7 +1,153 @@
 ---
 title: "VAD(Voice Active Detection)"
-description: "Understand how Plaud convert speech to text in multilingual recording."
+description: "Intelligent voice activity detection for optimal audio segmentation and processing."
 sidebarTitle: "Voice Active Detection"
 icon: "waveform-lines"
 iconType: "duotone"
 ---
+
+## Overview
+
+Voice Activity Detection (VAD) is a crucial component of Plaud AI Platform's ASR system that intelligently identifies speech segments within audio recordings. By detecting when voice activity occurs, VAD enables efficient audio processing and improved transcription accuracy through smart segmentation.
+
+## How VAD Works
+
+VAD analyzes audio signals to distinguish between speech and non-speech segments, including silence, background noise, and other audio artifacts. This intelligent detection enables the system to focus processing power on relevant audio segments.
+
+<Frame>
+<img src="/assets/vad-visualization.png" alt="VAD process visualization showing audio waveform with detected speech segments" />
+</Frame>
+
+## Core Capabilities
+
+### Intelligent Audio Segmentation
+
+<Tabs>
+<Tab title="Speech Detection">
+  Advanced algorithms identify actual speech content within audio recordings:
+  
+  - **Real-time Analysis**: Process audio streams in real-time for immediate feedback
+  - **Sensitivity Tuning**: Adjustable sensitivity levels for different recording environments
+  - **Multi-speaker Support**: Detect speech from multiple speakers in the same recording
+  
+  <Note>
+  VAD sensitivity can be adjusted based on your specific recording environment and requirements.
+  </Note>
+</Tab>
+
+<Tab title="Noise Filtering">
+  Distinguish speech from various types of background noise and interference:
+  
+  - **Background Noise**: Filter out consistent background noise (air conditioning, traffic, etc.)
+  - **Intermittent Sounds**: Ignore non-speech sounds like coughs, paper rustling, or keyboard typing
+  - **Electronic Interference**: Handle audio artifacts from recording equipment
+  
+  <Tip>
+  For best results in noisy environments, consider using external noise reduction before VAD processing.
+  </Tip>
+</Tab>
+</Tabs>
+
+### Smart Audio Segmentation
+
+VAD automatically segments long audio recordings into manageable chunks based on natural speech patterns:
+
+- **Pause Detection**: Identify natural pauses and breaks in conversation
+- **Speaker Changes**: Detect when different speakers begin talking
+- **Optimal Chunk Size**: Create segments that balance processing efficiency with context preservation
+
+## Technical Features
+
+### Detection Algorithms
+
+<AccordionGroup>
+<Accordion title="Energy-based Detection">
+  Analyzes audio energy levels to identify speech activity:
+  - Monitors short-term energy fluctuations
+  - Compares against background noise baseline
+  - Adjusts thresholds dynamically
+</Accordion>
+
+<Accordion title="Spectral Analysis">
+  Uses frequency domain analysis for more accurate detection:
+  - Identifies speech-specific frequency patterns
+  - Filters out non-speech frequency ranges
+  - Handles varying audio quality and conditions
+</Accordion>
+
+<Accordion title="Machine Learning Models">
+  Advanced ML models trained on diverse audio datasets:
+  - Improved accuracy in challenging conditions
+  - Adaptation to different languages and accents
+  - Continuous learning from processing results
+</Accordion>
+</AccordionGroup>
+
+### Configuration Options
+
+<CardGroup cols={2}>
+<Card title="Sensitivity Settings" icon="sliders">
+  Adjust detection sensitivity for different environments and use cases
+</Card>
+
+<Card title="Segment Length" icon="scissors">
+  Configure optimal segment lengths for downstream processing
+</Card>
+
+<Card title="Noise Thresholds" icon="volume-off">
+  Set noise level thresholds for different recording conditions
+</Card>
+
+<Card title="Processing Mode" icon="gear">
+  Choose between real-time and batch processing modes
+</Card>
+</CardGroup>
+
+## Benefits for Audio Processing
+
+### Improved Efficiency
+- **Reduced Processing Time**: Only process audio segments containing speech
+- **Resource Optimization**: Allocate computational resources more effectively
+- **Faster Results**: Quicker transcription through intelligent segmentation
+
+### Enhanced Accuracy
+- **Context Preservation**: Maintain speech context within segments
+- **Noise Reduction**: Eliminate non-speech audio that could affect transcription
+- **Quality Focus**: Concentrate processing on high-quality speech segments
+
+<Warning>
+VAD performance may be affected by extremely noisy environments or very quiet speech. Consider audio preprocessing for challenging conditions.
+</Warning>
+
+## Best Practices
+
+<Steps>
+<Step title="Audio Quality Assessment">
+  Evaluate your audio quality before VAD processing:
+  - Check signal-to-noise ratio
+  - Identify consistent background noise patterns
+  - Assess overall recording clarity
+</Step>
+
+<Step title="Sensitivity Calibration">
+  Calibrate VAD sensitivity for your specific use case:
+  - Test with sample recordings
+  - Adjust thresholds based on environment
+  - Balance between sensitivity and false positives
+</Step>
+
+<Step title="Segment Optimization">
+  Configure segmentation parameters for optimal results:
+  - Set appropriate minimum segment length
+  - Define maximum gap duration for segment breaks
+  - Consider downstream processing requirements
+</Step>
+</Steps>
+
+## Integration with STT
+
+VAD works seamlessly with the Speech-to-Text system to provide optimal transcription results:
+
+- **Pre-processing**: Clean audio segments before STT processing
+- **Batch Optimization**: Group segments for efficient STT processing
+- **Quality Enhancement**: Improve overall transcription accuracy through intelligent segmentation
