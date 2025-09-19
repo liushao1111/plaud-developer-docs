@@ -94,6 +94,19 @@
           ]
         },
         {
+          "group": "CUSTOMIZATIONS",
+          "pages": [
+            {
+              "group": "ASR",
+              "icon": "microphone",
+              "pages": [
+                "/ai_platform/custiomizations/asr/stt",
+                "/ai_platform/custiomizations/asr/vad"
+              ]
+            }
+          ]
+        },
+        {
           "group": "BEST PRACTICES",
           "pages": [
             "/ai_platform/best_practices/workflow"
