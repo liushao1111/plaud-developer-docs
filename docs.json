@@ -30,6 +30,8 @@
           {
             "group": "CAPABILITIES",
             "pages": [
+              "/documentation/capabilities/device_management",
+              "/documentation/capabilities/file_management",
               "/documentation/capabilities/ai_summary",
               "/documentation/capabilities/ai_workflow"
             ]
@@ -39,7 +41,11 @@
             "pages": [
               {
                 "group": "Tutorials",
+                "icon": "code",
+                "iconType": "duotone",
                 "pages": [
+                  "/documentation/developer_guides/tutorials/device_management",
+                  "/documentation/developer_guides/tutorials/file_management",
                   "/documentation/developer_guides/tutorials/ai_summary",
                   "/documentation/developer_guides/tutorials/ai_workflow"
                 ]
@@ -102,7 +108,7 @@
           "group": "Using the APIs",
           "pages": [
             "/api_guide/api_intro/overview",
-            "/api_guide/api_intro/authentication",
+            "/api_guide/api_intro/authorization",
             "/api_guide/api_intro/rate_limit",
             "/api_guide/api_intro/error_messages"
           ]
@@ -221,6 +227,6 @@
     "url": "https://console.plaud.ai"
   },
   "stylesheets": [
-    "/styles/custom.css"
+    "/styles/table.css"
   ]
 }
