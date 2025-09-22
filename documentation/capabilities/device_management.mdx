@@ -1,5 +1,70 @@
 ---
-title: "Device Management"
-description: "Learn how to control your Plaud Device."
-sidebarTitle: "Device Management"
+title: "Devices"
+description: "Learn how to integrate, manage, and monitor intelligent devices with Plaud"
+sidebarTitle: "Devices"
 ---
+
+## Overview
+
+Plaud provides comprehensive capabilities for intelligent device management and integration.
+The platform supports a wide range of device operations, including device registration, user binding, real-time monitoring, firmware updates, and enterprise fleet management.
+
+### Device Types
+
+- **Note**: Foundational AI recorder for daily voice memos and meeting notes
+- **NotePin**: Lightweight wearable recorder (30g) for interviews and hands-free recording
+- **NotePro**: Professional-grade device for board meetings and legal depositions
+
+### Managing Devices
+
+All devices can be managed through our comprehensive API, where you can:
+
+- **Register and Bind**: Securely associate devices with users and manage ownership
+- **Monitor Status**: Track battery levels, storage usage, and network connectivity in real-time
+- **Update Firmware**: Manage over-the-air updates with version control and rollback support
+- **Configure Settings**: Centralize device preferences and system configurations
+- **Bulk Operations**: Handle multiple devices simultaneously for enterprise deployments
+- **Search and Filter**: Advanced querying with pagination support for large device fleets
+
+<Columns cols={2}>
+    <Card title="Developer quickstart" href="/documentation/developer_guides/tutorials/device_management" icon="book-sparkles">
+        Integrate Plaud into your application.
+    </Card>
+    <Card title="Product Guide" href="/documentation/product_guides/devices" icon="book-user">
+        Learn how to monitor devices.
+    </Card>
+</Columns>
+
+## FAQ
+
+<AccordionGroup>
+
+<Accordion title="Can I manage devices across multiple applications?">
+Yes, devices registered to your client can be accessed across all your applications using the same client credentials.
+</Accordion>
+
+<Accordion title="How do I handle device binding conflicts?">
+Our API prevents binding conflicts by ensuring each device can only be bound to one user at a time. Use the unbind endpoint to release a device before reassigning.
+</Accordion>
+
+<Accordion title="What happens when a device goes offline?">
+The platform maintains the last known status and will sync updates when the device reconnects. You can configure webhooks to receive connectivity status changes.
+</Accordion>
+
+<Accordion title="How do I bulk manage enterprise devices?">
+Use our batch operations endpoints to register, bind, and configure multiple devices simultaneously. Enterprise customers also have access to advanced fleet management features.
+</Accordion>
+
+<Accordion title="Can I integrate device status into my mobile app?">
+Absolutely! Our REST API and WebSocket connections make it easy to display real-time device status in mobile applications.
+</Accordion>
+
+<Accordion title="How secure is device communication?">
+All device-platform communication uses end-to-end encryption. Device binding uses cryptographic verification to ensure only authorized users can access devices.
+</Accordion>
+
+<Accordion title="What's the difference between device types?">
+Each device type (Note, NotePin, NotePro) has different capabilities and use cases. The API provides the same management interface regardless of device type, with device-specific features available through configuration parameters.
+</Accordion>
+
+</AccordionGroup>
