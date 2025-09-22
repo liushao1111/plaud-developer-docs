@@ -7,7 +7,7 @@ sidebarTitle: "Devices"
 ## Overview
 
 Plaud provides comprehensive capabilities for intelligent device management and integration.
-The platform supports a wide range of device operations, including device registration, user binding, real-time monitoring, firmware updates, and enterprise fleet management.
+The platform supports a wide range of device operations, including device registration, user binding, and real-time monitoring.
 
 ### Device Types
 
@@ -15,23 +15,30 @@ The platform supports a wide range of device operations, including device regist
 - **NotePin**: Lightweight wearable recorder (30g) for interviews and hands-free recording
 - **NotePro**: Professional-grade device for board meetings and legal depositions
 
-### Managing Devices
+### Device Binding
 
-All devices can be managed through our comprehensive API, where you can:
-
-- **Register and Bind**: Securely associate devices with users and manage ownership
-- **Monitor Status**: Track battery levels, storage usage, and network connectivity in real-time
-- **Update Firmware**: Manage over-the-air updates with version control and rollback support
-- **Configure Settings**: Centralize device preferences and system configurations
-- **Bulk Operations**: Handle multiple devices simultaneously for enterprise deployments
-- **Search and Filter**: Advanced querying with pagination support for large device fleets
+Securely associate devices with users and manage device ownership. 
+The binding process creates a secure connection between a physical device and an account, enabling personalized access and data synchronization.
 
 <Columns cols={2}>
-    <Card title="Developer quickstart" href="/documentation/developer_guides/tutorials/device_management" icon="book-sparkles">
-        Integrate Plaud into your application.
+    <Card title="Developer Guide" href="/documentation/developer_guides/tutorials/devices/binding" icon="code">
+        Learn how to bind and unbind devices using the API.
     </Card>
-    <Card title="Product Guide" href="/documentation/product_guides/devices" icon="book-user">
-        Learn how to monitor devices.
+    <Card title="Product Guide" href="/documentation/product_guides/devices/binding" icon="book-user">
+        Understand device binding workflows and best practices.
+    </Card>
+</Columns>
+
+### Device Monitoring
+
+Track device health metrics and status information in real-time. Monitor battery levels, storage usage, network connectivity, and other critical device parameters to ensure optimal performance.
+
+<Columns cols={2}>
+    <Card title="Developer Guide" href="/documentation/developer_guides/tutorials/devices/monitor" icon="code">
+        Get device status and health metrics via API.
+    </Card>
+    <Card title="Product Guide" href="/documentation/product_guides/devices/monitoring" icon="book-user">
+        Learn about device monitoring and health management.
     </Card>
 </Columns>
 

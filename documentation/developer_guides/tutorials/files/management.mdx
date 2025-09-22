@@ -1,0 +1,175 @@
+---
+title: "File Management"
+description: "Learn how to retrieve and manage recording files with the Plaud API."
+sidebarTitle: "Management"
+---
+
+This guide will show you how to retrieve, organize, and manage your recording files using the File Management API.
+
+## Manage your files
+
+<Steps>
+
+<Step title="Create an API Token">
+
+Create an API token using your [client credentials](/api-guide/api-intro/authorization), which you'll use to securely access the API.
+
+```
+PLAUD_API_TOKEN = <your_api_token_here>
+```
+
+</Step>
+
+<Step title="Get File List">
+
+Retrieve files with powerful filtering and pagination capabilities:
+
+<CodeGroup>
+
+```python Python
+import requests
+
+BASE_URL = "https://platform.plaud.cn/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+# Get files with optional filtering
+response = requests.get(
+    f"{BASE_URL}/files/",
+    headers=headers,
+    params={
+        "owner_id": "user_12345",  # Optional: filter by user
+        "limit": 50
+    }
+)
+
+files = response.json()
+```
+
+```curl cURL
+curl -X GET "https://platform.plaud.cn/api/files/?owner_id=user_12345&limit=50" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN"
+```
+
+</CodeGroup>
+
+Now you have the list of files. Use a file ID to get detailed information.
+
+</Step>
+
+<Step title="Get File Details">
+
+Retrieve detailed information about a specific file including download URL:
+
+<CodeGroup>
+
+```python Python
+# Get detailed file information
+file_id = "file_abc123def456"  # Use ID from file list
+response = requests.get(
+    f"{BASE_URL}/files/{file_id}",
+    headers=headers
+)
+
+file_info = response.json()
+```
+
+```curl cURL
+curl -X GET "https://platform.plaud.cn/api/files/file_abc123def456" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN"
+```
+
+</CodeGroup>
+
+You now have detailed file information including download URL. Optionally, you can update file metadata.
+
+</Step>
+
+<Step title="Update File Information">
+
+Update file metadata such as name or custom fields:
+
+<CodeGroup>
+
+```python Python
+# Update file metadata
+response = requests.patch(
+    f"{BASE_URL}/files/{file_id}",
+    headers=headers,
+    json={
+        "name": "Important Meeting Recording"
+    }
+)
+
+updated_file = response.json()
+```
+
+```curl cURL
+curl -X PATCH "https://platform.plaud.cn/api/files/file_abc123def456" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Important Meeting Recording"
+  }'
+```
+
+</CodeGroup>
+
+Your file metadata has been successfully updated.
+
+</Step>
+
+<Step title="Execute the Code">
+
+<CodeGroup>
+    ```python Python
+    python file_management.py
+    ```
+</CodeGroup>
+
+You should see file information, filtering results, and successful updates.
+
+</Step>
+
+</Steps>
+
+## Query Parameters
+
+| Parameter | Type | Description |
+|:----------|:-----|:------------|
+| **owner_id** | `string` | Filter files by user ID |
+| **device_id** | `string` | Filter files by device ID |
+| **start_time** | `integer` | Start time filter (milliseconds) |
+| **end_time** | `integer` | End time filter (milliseconds) |
+| **file_id_list** | `string` | Comma-separated list of file IDs |
+| **limit** | `integer` | Number of files per page (10-1000) |
+| **next_page_token** | `string` | Pagination token for next page |
+
+## File Information Fields
+
+| Field | Type | Description |
+|:------|:-----|:------------|
+| **id** | `string` | Unique file identifier |
+| **name** | `string` | Display name of the file |
+| **owner_id** | `string` | ID of the file owner |
+| **device_id** | `string` | ID of the recording device |
+| **start_time** | `integer` | Recording start time (milliseconds) |
+| **end_time** | `integer` | Recording end time (milliseconds) |
+| **duration** | `integer` | Recording duration (milliseconds) |
+| **presigned_url** | `string` | Secure download URL (temporary) |
+| **created_at** | `string` | File creation timestamp |
+
+
+## Common Error Scenarios
+
+| Error Code | Cause |
+|:-----------|:------|
+| **File Not Found** | File ID doesn't exist or not accessible, returns `404` |
+| **Invalid Pagination Token** | Malformed or expired pagination token, returns `400` |
+| **Invalid Time Range** | start_time > end_time or invalid timestamp, returns `422` |
+
+## Next Steps
+
+Explore the [File Transcription API](/docs/file-transcription) to learn how to process your audio files into text transcripts.

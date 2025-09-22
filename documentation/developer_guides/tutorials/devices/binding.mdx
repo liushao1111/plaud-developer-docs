@@ -1,0 +1,161 @@
+---
+title: "Binding and Unbinding"
+description: "Learn how to bind or unbind a Plaud device to a user with the Plaud API."
+sidebarTitle: "Binding/Unbinding"
+---
+
+This guide will show you how to bind and unbind Plaud devices using the Device Binding API. 
+
+## Using the Plaud API
+
+<Steps>
+
+<Step title="Create an API Token">
+
+Create an API token using your [client credentials](/api-guide/api-intro/authorization), which you'll use to securely access the API.
+
+```
+PLAUD_API_TOKEN = <your_api_token_here>
+```
+
+</Step>
+
+<Step title="Make the API request">
+Create a new file named `example.py`, depending on your language of choice and add the following code:
+
+<Tabs>
+<Tab title="Bind Device">
+
+Bind a device to a user account. If the device doesn't exist in the system, it will be automatically created and then bound.
+
+<CodeGroup>
+
+```python Python
+import requests
+
+BASE_URL = "https://platform.plaud.cn/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+def bind_device(owner_id, device_type, serial_number):
+    """Bind a device to a user account"""
+    response = requests.post(
+        f"{BASE_URL}/devices/bind",
+        headers=headers,
+        json={
+            "owner_id": owner_id,
+            "sn_type": device_type,  # "notepin", "note", "notepro"
+            "sn": serial_number
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Example usage
+device = bind_device(
+    owner_id="user_12345",
+    device_type="notepin", 
+    serial_number="NP20240001"
+)
+
+print(f"Device bound successfully!")
+print(f"Device ID: {device['id']}")
+```
+
+```curl cURL
+curl -X POST "https://platform.plaud.cn/api/devices/bind" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "owner_id": "user_12345",
+    "sn_type": "notepin",
+    "sn": "NP20240001"
+  }'
+```
+
+</CodeGroup>
+
+</Tab>
+
+<Tab title="Unbind Device">
+
+Unbind a device from a user account, removing the association between the device and user.
+
+<CodeGroup>
+
+```python Python
+import requests
+
+BASE_URL = "https://platform.plaud.cn/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+def unbind_device(owner_id, device_type, serial_number):
+    """Unbind a device from a user account"""
+    response = requests.post(
+        f"{BASE_URL}/devices/unbind",
+        headers=headers,
+        json={
+            "owner_id": owner_id,
+            "sn_type": device_type,
+            "sn": serial_number
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Example usage
+device = unbind_device(
+    owner_id="user_12345",
+    device_type="notepin",
+    serial_number="NP20240001"
+)
+
+print(f"Device unbound successfully!")
+print(f"Device ID: {device['id']}")
+```
+
+```curl cURL
+curl -X POST "https://platform.plaud.cn/api/devices/unbind" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "owner_id": "user_12345",
+    "sn_type": "notepin",
+    "sn": "NP20240001"
+  }'
+```
+
+</CodeGroup>
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step title="Execute the Code">
+<CodeGroup>
+    ```python Python
+    python example.py
+    ```
+</CodeGroup>
+You should see the device ID printed to the console.
+
+</Step>
+
+</Steps>
+
+## Common Error Scenarios
+
+| Error Code| Cause  |
+|:----------|:-------|
+| **Device Already Bound** | If the device is already bound to another user, you'll receive a `400` error with detail `DEVICE_BOUND` |
+| **Device Not Found**     | When unbinding, if the device isn't found, you'll receive a `400` error with detail `DEVICE_NOT_FOUND` |
+
+## Next Steps
+
+Explore the [API reference](/api-reference/device/bind-device-to-user) for more information on device binding operations.

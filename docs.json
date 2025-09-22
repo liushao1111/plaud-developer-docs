@@ -44,8 +44,25 @@
                 "icon": "code",
                 "iconType": "duotone",
                 "pages": [
-                  "/documentation/developer_guides/tutorials/device_management",
-                  "/documentation/developer_guides/tutorials/file_management",
+                  {
+                    "group": "Devices",
+                    "icon": "mobile-signal",
+                    "iconType": "duotone",
+                    "pages": [
+                      "/documentation/developer_guides/tutorials/devices/binding",
+                      "/documentation/developer_guides/tutorials/devices/monitor"
+                    ]
+                  },
+                  {
+                    "group": "Files & Recordings",
+                    "icon": "files",
+                    "iconType": "duotone",
+                    "pages": [
+                      "/documentation/developer_guides/tutorials/files/upload",
+                      "/documentation/developer_guides/tutorials/files/management",
+                      "/documentation/developer_guides/tutorials/files/webhooks"
+                    ]
+                  },
                   "/documentation/developer_guides/tutorials/ai_summary",
                   "/documentation/developer_guides/tutorials/ai_workflow"
                 ]
