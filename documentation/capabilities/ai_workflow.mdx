@@ -1,10 +1,104 @@
 ---
-title: "AI Workflow"
-description: "Learn how to provess your audio recording in a customized workflow with Plaud."
-sidebarTitle: "AI Workflow"
+title: "Customized Workflow"
+description: "Automate complex data processing and extract structured information from recordings using flexible, multi-step AI Workflows."
+sidebarTitle: "Customized Workflow"
 ---
-# AI Workflow
 
-AI-driven workflow automation.
+## Overview
 
-Automate your processes with intelligent AI workflows.
+Plaud's AI Workflow is a powerful automation engine that streamlines complex data processing tasks for your audio recordings. It allows you to chain together multiple AI capabilities—such as transcription, summarization, and structured data extraction—into a single, seamless pipeline.
+
+## Intelligent Extraction (AI ETL)
+
+The centerpiece of the AI Workflow is **Intelligent Extraction**, also known as AI ETL (Extract, Transform, Load). 
+This feature is designed to read a transcription and automatically pull out specific, structured information based on predefined rules.
+
+It works by using a **schema**, which acts like a blueprint or a template. 
+The schema tells the AI exactly what pieces of information to find, what to call them, and what format to use.
+
+<Steps>
+  <Step title="1. Start with a Transcript">
+    The process begins with the raw text transcribed from an audio recording. This text is unstructured and contains all the conversational details.
+  </Step>
+  <Step title="2. Apply a Schema">
+    You apply an industry-specific or custom-defined schema. This schema contains the fields you want to extract, like `patient_name`, `symptoms`, or `next_steps`.
+  </Step>
+  <Step title="3. Extract Structured Data">
+    The AI reads the transcript and intelligently fills in the fields from the schema, transforming the unstructured conversation into clean, predictable JSON data.
+  </Step>
+  <Step title="4. Power Your Applications">
+    The resulting JSON output can be directly fed into your CRM, database, or any other business application, automating data entry and other downstream tasks.
+  </Step>
+</Steps>
+
+## Feature Highlights
+
+AI Workflow is designed to be both powerful and flexible, supporting a wide range of use cases.
+
+<CardGroup cols={2}>
+  <Card
+    title="Automated Data Extraction"
+    icon="robot"
+  >
+    Automatically extract key info from conversations, cutting manual data entry and errors.
+  </Card>
+  <Card
+    title="Industry-Specific Templates"
+    icon="files"
+  >
+    Use pre-built schemas for industries like healthcare and legal to get started quickly.
+  </Card>
+  <Card
+    title="Customizable Schemas"
+    icon="pen-line"
+  >
+    Define custom schemas to extract the exact data your business needs.
+  </Card>
+  <Card
+    title="Flexible Pipeline Engine"
+    icon="arrows-spin"
+  >
+    Combine AI tasks like transcription and extraction into an end-to-end pipeline.
+  </Card>
+</CardGroup>
+
+## Developer Integration
+
+Integrate AI Workflow into your applications to automate data collection and enrichment. Use our simple API to submit, monitor, and retrieve workflow results.
+
+<CardGroup cols={2}>
+  <Card
+    title="Workflow API Quickstart"
+    icon="book-sparkles"
+    href="/documentation/developer_guides/tutorials/ai_workflow"
+  >
+    Submit your first workflow and process a recording in minutes.
+  </Card>
+  <Card
+    title="Webhook Notifications"
+    icon="webhook"
+    href="/documentation/product_guides/administration/webhook"
+  >
+    Get real-time notifications on workflow completion via webhooks.
+  </Card>
+</CardGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What is a schema in the context of AI ETL?">
+    A schema is a blueprint that defines the structure of the data you want to extract. It specifies the names of the data fields (e.g., `customer_name`), their data types (e.g., string, number), and a description of what each field means. It guides the AI to ensure the output is consistent and predictable.
+  </Accordion>
+
+  <Accordion title="How is Intelligent Extraction different from a summary?">
+    A summary condenses a conversation into a brief, narrative overview of the key points. In contrast, Intelligent Extraction (AI ETL) pulls out specific, discrete data points and organizes them into a structured format like JSON. A summary gives you the gist, while extraction gives you actionable data fields.
+  </Accordion>
+
+  <Accordion title="Can I create my own extraction schemas?">
+    Yes. While Plaud provides a set of pre-built templates for common industries, you have the flexibility to define fully custom schemas tailored to your unique requirements. This ensures you can extract precisely the information you need for any use case.
+  </Accordion>
+
+  <Accordion title="How do I get the results of my workflow?">
+    AI Workflows run asynchronously in the background. Once you submit a workflow, you can periodically check its status using our API. The recommended method is to use Webhooks, which will automatically send a notification to your server with the results as soon as the workflow is complete.
+  </Accordion>
+</AccordionGroup>

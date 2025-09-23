@@ -12,7 +12,7 @@ This guide will show you how to bind and unbind Plaud devices using the Device B
 
 <Step title="Create an API Token">
 
-Create an API token using your [client credentials](/api-guide/api-intro/authorization), which you'll use to securely access the API.
+Create an API token using your [client credentials](/api_guide/api_intro/authorization) to securely access the API.
 
 ```
 PLAUD_API_TOKEN = <your_api_token_here>
@@ -26,21 +26,21 @@ Create a new file named `example.py`, depending on your language of choice and a
 <Tabs>
 <Tab title="Bind Device">
 
-Bind a device to a user account. If the device doesn't exist in the system, it will be automatically created and then bound.
+Bind a device to an user account. If the device doesn't exist in the system, it will be automatically created and then bound.
 
 <CodeGroup>
 
 ```python Python
 import requests
 
-BASE_URL = "https://platform.plaud.cn/api"
+BASE_URL = "https://api.plaud.ai/api"
 headers = {
     "Authorization": f"Bearer {PLAUD_API_TOKEN}",
     "Content-Type": "application/json"
 }
 
 def bind_device(owner_id, device_type, serial_number):
-    """Bind a device to a user account"""
+    """Bind a device to an account"""
     response = requests.post(
         f"{BASE_URL}/devices/bind",
         headers=headers,
@@ -81,7 +81,7 @@ curl -X POST "https://platform.plaud.cn/api/devices/bind" \
 
 <Tab title="Unbind Device">
 
-Unbind a device from a user account, removing the association between the device and user.
+Unbind a device from an user account, removing the association between the device and user.
 
 <CodeGroup>
 
@@ -95,7 +95,7 @@ headers = {
 }
 
 def unbind_device(owner_id, device_type, serial_number):
-    """Unbind a device from a user account"""
+    """Unbind a device from an user account"""
     response = requests.post(
         f"{BASE_URL}/devices/unbind",
         headers=headers,
@@ -158,4 +158,4 @@ You should see the device ID printed to the console.
 
 ## Next Steps
 
-Explore the [API reference](/api-reference/device/bind-device-to-user) for more information on device binding operations.
+Explore the [API reference](/api-reference/device/bind-device-to-user) for more information on device binding and unbinding.

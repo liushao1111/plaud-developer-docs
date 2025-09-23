@@ -30,7 +30,7 @@
           {
             "group": "CAPABILITIES",
             "pages": [
-              "/documentation/capabilities/device_management",
+              "/documentation/capabilities/device_operations",
               "/documentation/capabilities/file_management",
               "/documentation/capabilities/ai_summary",
               "/documentation/capabilities/ai_workflow"
@@ -45,7 +45,7 @@
                 "iconType": "duotone",
                 "pages": [
                   {
-                    "group": "Devices",
+                    "group": "Device Operations",
                     "icon": "mobile-signal",
                     "iconType": "duotone",
                     "pages": [
