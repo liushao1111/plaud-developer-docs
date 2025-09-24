@@ -1,0 +1,83 @@
+---
+title: "Transcription"
+description: "Learn how to turn spoken audio into text with Plaud."
+sidebarTitle: "Transcription"
+---
+
+## Overview
+
+Plaud's transcription service accurately converts spoken language from audio into written text. It is engineered for high performance to support:
+
+- **Developers**: Build powerful applications with robust transcription capabilities.
+- **Plaud Users**: Get reliable, accurate records of important conversations.
+- **Teams & Organizations**: Create a searchable, shareable knowledge base from meetings and calls.
+
+## Transcription Pipeline
+
+To ensure the highest quality and readability, every audio file is processed through a sophisticated three-stage pipeline. 
+This approach allows us to transform raw audio—often containing noise and imperfections—into polished, accurate text.
+
+<Frame caption="The three-stage pipeline for converting audio to text.">
+  <img src="/assets/transcription-pipeline.png" alt="A three-stage pipeline: Preprocess, Speech-to-Text, and Post-Processing." />
+</Frame>
+
+Let's explore each stage of the process.
+
+### Stage 1: Audio Pre-processing
+
+The first step is to clean and prepare the raw audio signal for transcription. 
+A clear audio input is fundamental to achieving high accuracy.
+
+<Frame caption="A visual comparison of an audio waveform before and after noise cancellation.">
+  <img src="/assets/noise-cancellation.png" alt="Before and after audio processing, showing the removal of background noise." />
+</Frame>
+
+
+
+Our key enhancement features include:
+<CardGroup cols={2}>
+  <Card title="Noise Reduction" icon="volume-off">
+    Intelligently identifies and removes distracting background noise from the recording.
+  </Card>
+  <Card title="Echo Cancellation" icon="waveform-lines">
+    Detects and eliminates echo and reverb, common in rooms with poor acoustics.
+  </Card>
+  <Card title="Voice Enhancement" icon="microphone-stand">
+    Isolates and boosts the clarity of human speech relative to other sounds.
+  </Card>
+  <Card title="VAD(Voice Activity Detection)" icon="waveform">
+    Splits long audio into manageable chunks and filters out silence for efficient processing.
+  </Card>
+</CardGroup>
+
+### Stage 2: Speech-to-Text (STT)
+
+Once the audio is clean, our core STT engine converts the spoken words into a raw text transcript. 
+This engine is optimized for a wide range of languages and specialized vocabularies.
+
+### Stage 3: Text Post-processing
+
+The raw text from the STT engine is then refined by a Large Language Model (LLM) to produce a final, polished document that is ready to use.
+
+This final stage includes:
+- **Intelligent Punctuation**: The LLM automatically adds periods, commas, question marks, and other punctuation based on the conversational context.
+- **Contextual Correction**: By analyzing the full conversation, the model can fix potential transcription errors that may have occurred in the previous stage.
+- **Formatting**: Ensures that numbers, dates, currencies, and other entities are formatted in a consistent and readable way.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="How much does audio quality affect the results?">
+    Audio quality is the single most important factor for accuracy.
+    While our pre-processing stage is designed to handle noise, the best results will always come from a clear recording with minimal background noise and consistent speaker volume.
+  </Accordion>
+  <Accordion title="Can it handle multiple languages in the same recording?">
+    Yes.
+    Our system can detect and transcribe multiple languages within the same audio file.
+    For the highest accuracy, we still recommend specifying the primary language if it is known.
+  </Accordion>
+  <Accordion title="How do I improve accuracy for my industry's specific terminology?">
+    The best way is to use the "Custom Vocabulary" feature.
+    By providing a list of hotwords—such as brand names, technical terms, or specific jargon—you can significantly improve the recognition accuracy for those words.
+  </Accordion>
+</AccordionGroup>

@@ -32,6 +32,7 @@
             "pages": [
               "/documentation/capabilities/device_operations",
               "/documentation/capabilities/file_management",
+              "/documentation/capabilities/transcription",
               "/documentation/capabilities/ai_summary",
               "/documentation/capabilities/ai_workflow"
             ]
@@ -100,39 +101,6 @@
         ]
       },
     {
-      "tab": "AI Platform",
-      "groups": [
-        {
-          "group": "GET STARTED",
-          "pages": [
-            "/ai_platform/get_started/overview",
-            "/ai_platform/get_started/quickstart",
-            "/ai_platform/get_started/dashboard"
-          ]
-        },
-        {
-          "group": "CUSTOMIZATIONS",
-          "pages": [
-            {
-              "group": "ASR",
-              "icon": "microphone",
-              "pages": [
-                "/ai_platform/custiomizations/asr/overview",
-                "/ai_platform/custiomizations/asr/stt",
-                "/ai_platform/custiomizations/asr/vad"
-              ]
-            }
-          ]
-        },
-        {
-          "group": "BEST PRACTICES",
-          "pages": [
-            "/ai_platform/best_practices/workflow"
-          ]
-        }
-      ]
-    },
-    {
       "tab": "API Guide",
       "groups": [
         {
@@ -156,20 +124,6 @@
             "/api_guide/sdks/overview",
             "/api_guide/sdks/ios",
             "/api_guide/sdks/android"
-          ]
-        }
-      ]
-    },
-    {
-      "tab": "Release Note",
-      "groups": [
-        {
-          "group": "Release Notes",
-          "pages": [
-            "/release_notes/overview",
-            "/release_notes/api",
-            "/release_notes/sdk",
-            "/release_notes/ai_platform"
           ]
         }
       ]
