@@ -20,17 +20,23 @@ By using Plaud's workflow capabilities, you can:
   <img src="/assets/workflow.png" alt="Workflow Flowchart" caption="A Healthcare Workflow Usecase"/>
 </Frame>
 
-In many healthcare settings, such as clinics and hospitals, practitioners handle numerous patient consultations daily. A significant amount of time is spent manually documenting these interactions. This use case demonstrates how a Plaud workflow can fully automate this process, transforming a long audio file of back-to-back patient visits into structured, actionable clinical notes.
+In busy healthcare settings, practitioners spend significant time manually documenting patient consultations.
+This administrative work is often inefficient and diverts focus from essential patient care.
+Plaud solves this by combining its recording hardware with a powerful AI workflow, automating the entire process from conversation to structured clinical notes.
+The following steps break down how it works.
 
 <Steps>
   <Step title="1. From Voice to Text">
-    The workflow starts with a single long audio file containing multiple patient consultations. The first step is to accurately transcribe the entire recording into text, creating a complete written record of all conversations.
+    The workflow begins by transcribing the long audio file of multiple consultations.
+    This creates a single, complete text record of all conversations.
   </Step>
   <Step title="2. Identifying Individual Consultations">
-    Manually separating conversations is tedious. The workflow automates this by intelligently identifying where one consultation ends and another begins, using cues like speaker changes to split the long transcript into separate segments for each patient.
+    The system then automatically identifies where each consultation begins and ends.
+    This process splits the long transcript into a separate, manageable segment for each patient.
   </Step>
   <Step title="3. Extracting Key Medical Information">
-    For each patient's transcript, the workflow acts like a highly-trained assistant. It reads the text and pulls out critical information based on a pre-defined template. This could include the patient's chief complaint, prescribed treatments, and other important details. The result is organized, structured data, much like filling out a digital form automatically.
+    For each patient's segment, the workflow extracts key information like **chief complaints** and **treatments**.
+    It follows a pre-defined template to produce structured data, much like filling out a digital form automatically.
     <Info>
       **For Developers**: The extracted data is delivered as a clean JSON object based on your schema. This structured format allows for easy integration into Electronic Health Record (EHR) systems.
       ```json
@@ -48,13 +54,15 @@ In many healthcare settings, such as clinics and hospitals, practitioners handle
     </Info>
   </Step>
   <Step title="4. Generating Reports and Sending Alerts">
-    Finally, the structured information from all patients is compiled into a comprehensive summary report, providing a clear overview of all consultations. Once the report is ready, an automatic notification is sent, ensuring the medical team can review the information promptly.
+    Finally, the structured data from all patients is compiled into a comprehensive summary report.
+    An automatic notification is then sent to the medical team, ensuring timely review.
   </Step>
 </Steps>
 
-## Developer Integration
+## Developer Guide
 
-Integrate AI Workflow into your applications to automate data collection and enrichment. Use our simple API to submit, monitor, and retrieve workflow results.
+Integrate AI Workflow into your applications to automate data collection and enrichment.
+Use our simple API to submit, monitor, and retrieve workflow results.
 
 <CardGroup cols={2}>
   <Card
@@ -63,6 +71,13 @@ Integrate AI Workflow into your applications to automate data collection and enr
     href="/documentation/developer_guides/tutorials/ai_workflow"
   >
     Submit your first workflow and process a recording in minutes.
+  </Card>
+  <Card
+    title="Custom Extraction Schema"
+    icon="binary"
+    href="/documentation/developer_guides/tutorials/custom_schemas"
+  >
+    Define custom schemas to extract the exact data your business needs.
   </Card>
   <Card
     title="Webhook Notifications"
