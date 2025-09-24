@@ -1,66 +1,56 @@
 ---
 title: "Customized Workflow"
-description: "Automate complex data processing and extract structured information from recordings using flexible, multi-step AI Workflows."
+description: "Automate complex data processing and extract structured information from recordings using flexible, multi-step workflows."
 sidebarTitle: "Customized Workflow"
 ---
 
 ## Overview
 
-Plaud's AI Workflow is a powerful automation engine that streamlines complex data processing tasks for your audio recordings. It allows you to chain together multiple AI capabilities—such as transcription, summarization, and structured data extraction—into a single, seamless pipeline.
+Workflow automation tools like **n8n** and **Zapier** excel at orchestrating different services into reusable, multi-step tasks. 
+For more general and diverse post-recording processing, Plaud offers powerful, customizable workflows designed to transform raw audio into structured, actionable data.
 
-## Intelligent Extraction (AI ETL)
+By using Plaud's workflow capabilities, you can:
+- **Automate End-to-End Processing**: Save significant manual effort by automating the entire pipeline from raw audio to structured insights.
+- **Ensure Data Consistency**: Standardize processes with repeatable workflows for reliable and consistent data extraction.
+- **Build Custom Solutions**: Create bespoke pipelines by combining Plaud's core AI services with your own business logic.
 
-The centerpiece of the AI Workflow is **Intelligent Extraction**, also known as AI ETL (Extract, Transform, Load). 
-This feature is designed to read a transcription and automatically pull out specific, structured information based on predefined rules.
+## Use Case: Healthcare Automation
 
-It works by using a **schema**, which acts like a blueprint or a template. 
-The schema tells the AI exactly what pieces of information to find, what to call them, and what format to use.
+<Frame>
+  <img src="/assets/workflow.png" alt="Workflow Flowchart" caption="A Healthcare Workflow Usecase"/>
+</Frame>
+
+In many healthcare settings, such as clinics and hospitals, practitioners handle numerous patient consultations daily. A significant amount of time is spent manually documenting these interactions. This use case demonstrates how a Plaud workflow can fully automate this process, transforming a long audio file of back-to-back patient visits into structured, actionable clinical notes.
 
 <Steps>
-  <Step title="1. Start with a Transcript">
-    The process begins with the raw text transcribed from an audio recording. This text is unstructured and contains all the conversational details.
+  <Step title="1. From Voice to Text">
+    The workflow starts with a single long audio file containing multiple patient consultations. The first step is to accurately transcribe the entire recording into text, creating a complete written record of all conversations.
   </Step>
-  <Step title="2. Apply a Schema">
-    You apply an industry-specific or custom-defined schema. This schema contains the fields you want to extract, like `patient_name`, `symptoms`, or `next_steps`.
+  <Step title="2. Identifying Individual Consultations">
+    Manually separating conversations is tedious. The workflow automates this by intelligently identifying where one consultation ends and another begins, using cues like speaker changes to split the long transcript into separate segments for each patient.
   </Step>
-  <Step title="3. Extract Structured Data">
-    The AI reads the transcript and intelligently fills in the fields from the schema, transforming the unstructured conversation into clean, predictable JSON data.
+  <Step title="3. Extracting Key Medical Information">
+    For each patient's transcript, the workflow acts like a highly-trained assistant. It reads the text and pulls out critical information based on a pre-defined template. This could include the patient's chief complaint, prescribed treatments, and other important details. The result is organized, structured data, much like filling out a digital form automatically.
+    <Info>
+      **For Developers**: The extracted data is delivered as a clean JSON object based on your schema. This structured format allows for easy integration into Electronic Health Record (EHR) systems.
+      ```json
+      {
+        "chief_complaint": {
+          "item": "Persistent headaches",
+          "description": "Patient reports daily headaches for the past two weeks, primarily in the morning."
+        },
+        "treatments": {
+          "items": ["Pain relievers"],
+          "description": "Currently taking over-the-counter pain relievers with little effect."
+        }
+      }
+      ```
+    </Info>
   </Step>
-  <Step title="4. Power Your Applications">
-    The resulting JSON output can be directly fed into your CRM, database, or any other business application, automating data entry and other downstream tasks.
+  <Step title="4. Generating Reports and Sending Alerts">
+    Finally, the structured information from all patients is compiled into a comprehensive summary report, providing a clear overview of all consultations. Once the report is ready, an automatic notification is sent, ensuring the medical team can review the information promptly.
   </Step>
 </Steps>
-
-## Feature Highlights
-
-AI Workflow is designed to be both powerful and flexible, supporting a wide range of use cases.
-
-<CardGroup cols={2}>
-  <Card
-    title="Automated Data Extraction"
-    icon="robot"
-  >
-    Automatically extract key info from conversations, cutting manual data entry and errors.
-  </Card>
-  <Card
-    title="Industry-Specific Templates"
-    icon="files"
-  >
-    Use pre-built schemas for industries like healthcare and legal to get started quickly.
-  </Card>
-  <Card
-    title="Customizable Schemas"
-    icon="pen-line"
-  >
-    Define custom schemas to extract the exact data your business needs.
-  </Card>
-  <Card
-    title="Flexible Pipeline Engine"
-    icon="arrows-spin"
-  >
-    Combine AI tasks like transcription and extraction into an end-to-end pipeline.
-  </Card>
-</CardGroup>
 
 ## Developer Integration
 
@@ -86,9 +76,6 @@ Integrate AI Workflow into your applications to automate data collection and enr
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="What is a schema in the context of AI ETL?">
-    A schema is a blueprint that defines the structure of the data you want to extract. It specifies the names of the data fields (e.g., `customer_name`), their data types (e.g., string, number), and a description of what each field means. It guides the AI to ensure the output is consistent and predictable.
-  </Accordion>
 
   <Accordion title="How is Intelligent Extraction different from a summary?">
     A summary condenses a conversation into a brief, narrative overview of the key points. In contrast, Intelligent Extraction (AI ETL) pulls out specific, discrete data points and organizes them into a structured format like JSON. A summary gives you the gist, while extraction gives you actionable data fields.

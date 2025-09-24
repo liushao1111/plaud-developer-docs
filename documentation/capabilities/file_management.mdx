@@ -6,6 +6,10 @@ sidebarTitle: "File Management"
 
 ## Overview
 
+<Frame>
+  <img src="/assets/file_lifecycle.png" alt="Plaud File Whole Lifecycle" />
+</Frame>
+
 Plaud's file API handles the entire lifecycle of your recording, from raw audio to AI-generated assets, like **summaries** and **structured extractions**.
 They can be used to:
 
@@ -13,7 +17,7 @@ They can be used to:
 - **Automate Information Discovery**: Intelligently search and pinpoint key information across all your conversations.
 - **Power Custom Workflows**: Feed structured, AI-enriched data directly into your business applications and workflows.
 
-### Types
+### File Types
 
 - **Raw Recordings**: Original recording files in `opus` and `mp3` formats from Plaud devices, direct API or SDK uploads
 - **Audio Transcripts**: Speech-to-text conversion results generated from audio files
@@ -30,9 +34,9 @@ Therefore, a device must first be bound to an owner account before any file oper
     Bind your device and start a developing journey in minutes.
 </Card>
 
-### File Upload
+### Recording Upload
 
-With file upload, you can upload recording files in streaming mode during recording or upload completed files after recording.
+After binding your device successfully, you can start yo upload recordings.
 
 <Columns cols={1}>
     <Card title="File Upload Quickstart" href="/documentation/developer_guides/tutorials/files/upload" icon="upload">
