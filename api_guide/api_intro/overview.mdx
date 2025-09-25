@@ -1,5 +1,19 @@
-# API Overview
+---
+title: "Overview"
+sidebarTitle: "Overview"
+description: "Welcome to the Plaud API Reference"
+---
 
-Introduction to the Plaud API.
+## Authentication
 
-Learn about authentication, endpoints, and basic concepts.
+All requests to the Plaud API must include an `Authorization` header with an API Token token.
+For detailed instructions on how to generate an API token, please refer to [Authorization](./authorization).
+
+<Tip>
+We will release the **Client SDKs** in coming releases. The SDK will send the header on your behalf with every request.
+</Tip>
+
+## Content types
+
+The Plaud API accepts JSON in request bodies and returns JSON in all response bodies. You must include the `Content-Type: application/json` header in all requests that send a JSON payload (e.g., POST, PUT, PATCH).
+

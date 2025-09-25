@@ -59,6 +59,7 @@
                   "/documentation/developer_guides/tutorials/ai_workflow"
                 ]
               },
+              
               "/documentation/developer_guides/libraries",
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
@@ -96,7 +97,7 @@
       "tab": "API Guide",
       "groups": [
         {
-          "group": "Using the APIs",
+          "group": "INTRODUCTION",
           "pages": [
             "/api_guide/api_intro/overview",
             "/api_guide/api_intro/authorization",
@@ -105,13 +106,13 @@
           ]
         },
         {
-          "group": "API Reference",
+          "group": "ENDPOINTS",
           "openapi": {
             "source": "https://platform.plaud.ai/openapi.json"
           }
         },
         {
-          "group": "SDKs",
+          "group": "SDK",
           "pages": [
             "/api_guide/sdks/overview",
             "/api_guide/sdks/ios",
