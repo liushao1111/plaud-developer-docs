@@ -1,0 +1,265 @@
+---
+title: "Device Operations"
+description: "Learn how to operate Plaud devices with the Plaud API."
+sidebarTitle: "Device Operations"
+icon: "mobile-signal"
+iconType: "duotone"
+---
+
+This guide will show you how to bind, unbind, and monitor devices using the Plaud Device API.
+
+## Using the Device API
+
+<Steps>
+
+<Step title="Create an API Token">
+Create an API token using your [client credentials](/api_guide/api_intro/authorization) to securely access the API.
+```
+PLAUD_API_TOKEN = <your_api_token_here>
+```
+</Step>
+
+<Step title="Bind or Unbind a Device">
+A recording's ownership is inherited from the user account that owns the device. 
+Therefore, you must bind a device to a user before uploading any recordings.
+
+<Tabs>
+<Tab title="Bind Device">
+Bind a device to a user account. If the device has no association with any account, this API will return a `device_id`, an unique identifier under current `App`.
+
+<CodeGroup>
+```python Python
+import requests
+
+PLAUD_API_TOKEN = "<your_api_token_here>"
+BASE_URL = "https://api.plaud.ai/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+def bind_device(owner_id, device_type, serial_number):
+    """Bind a device to an account"""
+    response = requests.post(
+        f"{BASE_URL}/devices/bind",
+        headers=headers,
+        json={
+            "owner_id": owner_id,
+            "sn_type": device_type,  # "notepin", "note", "notepro"
+            "sn": serial_number
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Example usage
+device = bind_device(
+    owner_id="user_12345",
+    device_type="notepin", 
+    serial_number="NP20240001"
+)
+
+print(f"Device bound successfully!")
+print(f"Device ID: {device['id']}")
+```
+
+```curl cURL
+# Bind the device and capture the ID
+DEVICE_ID=$(curl -X POST "https://api.plaud.ai/api/devices/bind" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN" \
+  -H "Content-Type": "application/json" \
+  -d '{
+    "owner_id": "user_12345",
+    "sn_type": "notepin",
+    "sn": "NP20240001"
+  }' | jq -r '.id')
+
+echo "Device bound with ID: $DEVICE_ID"
+```
+</CodeGroup>
+</Tab>
+
+<Tab title="Unbind Device">
+Unbind a device from a user account, removing the association between them.
+<CodeGroup>
+```python Python
+import requests
+
+PLAUD_API_TOKEN = "<your_api_token_here>"
+BASE_URL = "https://api.plaud.ai/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+def unbind_device(owner_id, device_type, serial_number):
+    """Unbind a device from a user account"""
+    response = requests.post(
+        f"{BASE_URL}/devices/unbind",
+        headers=headers,
+        json={
+            "owner_id": owner_id,
+            "sn_type": device_type,
+            "sn": serial_number
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Example usage
+device = unbind_device(
+    owner_id="user_12345",
+    device_type="notepin",
+    serial_number="NP20240001"
+)
+print(f"Device unbound successfully!")
+print(f"Device ID: {device['id']}")
+```
+
+```curl cURL
+curl -X POST "https://api.plaud.ai/api/devices/unbind" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN" \
+  -H "Content-Type": "application/json" \
+  -d '{
+    "owner_id": "user_12345",
+    "sn_type": "notepin",
+    "sn": "NP20240001"
+  }'
+```
+</CodeGroup>
+</Tab>
+</Tabs>
+</Step>
+
+<Step title="Get Device Information">
+After binding a device, you can use its `device_id` to fetch its status and health metrics.
+
+<CodeGroup>
+```python Python
+# This snippet assumes 'BASE_URL' and 'headers' are defined as in the previous steps.
+# PLAUD_API_TOKEN = "<your_api_token_here>"
+
+def get_device_info(device_id):
+    """Get device status and health metrics"""
+    response = requests.get(
+        f"{BASE_URL}/devices/{device_id}",
+        headers=headers
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Example usage using the ID from the binding step
+# device_id = bound_device['id']
+device_id = "<your_device_id>" 
+device_info = get_device_info(device_id)
+
+print(f"✅ Device info for {device_id}:")
+print(f"   Battery: {device_info.get('battery')}%")
+print(f"   Storage: {device_info.get('free_space')}MB available")
+```
+
+```curl cURL
+# Use the DEVICE_ID captured from the binding step
+curl -X GET "https://api.plaud.ai/api/devices/$DEVICE_ID" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN"
+```
+</CodeGroup>
+
+</Step>
+
+<Step title="Execute the Code">
+To run the full workflow, you can combine the Python snippets into a single script. Create a file named `example.py`:
+
+<CodeGroup>
+```python example.py
+import requests
+
+PLAUD_API_TOKEN = "<your_api_token_here>"
+BASE_URL = "https://api.plaud.ai/api"
+headers = {
+    "Authorization": f"Bearer {PLAUD_API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+def bind_device(owner_id, device_type, serial_number):
+    """Bind a device to an account"""
+    response = requests.post(
+        f"{BASE_URL}/devices/bind",
+        headers=headers,
+        json={
+            "owner_id": owner_id,
+            "sn_type": device_type,  # "notepin", "note", "notepro"
+            "sn": serial_number
+        }
+    )
+    response.raise_for_status()
+    return response.json()
+
+def get_device_info(device_id):
+    """Get device status and health metrics"""
+    response = requests.get(
+        f"{BASE_URL}/devices/{device_id}",
+        headers=headers
+    )
+    response.raise_for_status()
+    return response.json()
+
+# Main execution
+if __name__ == "__main__":
+    print("Binding device...")
+    bound_device = bind_device(
+        owner_id="user_12345",
+        device_type="notepin", 
+        serial_number="NP20240001"
+    )
+    device_id = bound_device.get('id')
+    print(f"Device bound successfully with ID: {device_id}")
+
+    if device_id:
+        print(f"\nFetching info for device {device_id}...")
+        device_info = get_device_info(device_id)
+        print(f"✅ Device info retrieved:")
+        print(f"   Battery: {device_info.get('battery')}%")
+        print(f"   Storage: {device_info.get('free_space')}MB available")
+```
+</CodeGroup>
+
+Then, run it from your terminal:
+<CodeGroup>
+    ```python Python
+    python example.py
+    ```
+</CodeGroup>
+You should see `device_id` and health information printed to the console.
+
+</Step>
+
+</Steps>
+
+## Monitoring Metrics
+
+When you fetch device information, you can monitor the following metrics.
+
+| Metric | Description | Alert Threshold |
+|:-------|:------------|:----------------|
+| **Battery Level** | Device battery percentage | < 20% |
+| **Storage Usage** | Used storage percentage | > 90% |
+| **WiFi Signal** | WiFi signal strength (dBm) | < -70 dBm |
+| **Last Update** | Time since last status update | > 24 hours |
+| **Binding Status** | Whether device is bound to user | Unbound devices |
+
+
+## Common Error Scenarios
+
+| Operation | Error Code| Cause  |
+|:----------|:----------|:-------|
+| Binding | **Device Already Bound** | If the device is already bound to another user, you'll receive a `400` error with detail `DEVICE_BOUND` |
+| Unbinding | **Device Not Found** | When unbinding, if the device isn't found, you'll receive a `400` error with detail `DEVICE_NOT_FOUND` |
+| Monitoring | **Device Not Found** | If the device doesn't exist in the system, returns `404` |
+| Monitoring | **Invalid Status Data** | If the status update is malformed, returns `422` validation error |
+| Monitoring | **Rate Limit Exceeded** | If too many status updates are sent, returns `429` |
+
+
+## Next Steps
+
+Explore the [API reference](/api-reference/device/bind-device-to-user) for more information on the Device API and its details.

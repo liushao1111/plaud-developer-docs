@@ -45,15 +45,7 @@
                 "icon": "code",
                 "iconType": "duotone",
                 "pages": [
-                  {
-                    "group": "Device Operations",
-                    "icon": "mobile-signal",
-                    "iconType": "duotone",
-                    "pages": [
-                      "/documentation/developer_guides/tutorials/devices/binding",
-                      "/documentation/developer_guides/tutorials/devices/monitor"
-                    ]
-                  },
+                  "/documentation/developer_guides/tutorials/device_operations",
                   {
                     "group": "Files & Recordings",
                     "icon": "files",
