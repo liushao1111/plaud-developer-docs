@@ -52,7 +52,6 @@
                     "iconType": "duotone",
                     "pages": [
                       "/documentation/developer_guides/tutorials/files/upload",
-                      "/documentation/developer_guides/tutorials/files/management",
                       "/documentation/developer_guides/tutorials/files/webhooks"
                     ]
                   },
@@ -61,7 +60,8 @@
                 ]
               },
               "/documentation/developer_guides/libraries",
-              "/documentation/developer_guides/errors"
+              "/documentation/developer_guides/errors",
+              "/documentation/developer_guides/webhook_events"
             ]
           },
           {

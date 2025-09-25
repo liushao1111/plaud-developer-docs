@@ -1,23 +1,21 @@
 ---
-title: "Webhooks"
-description: "Learn how to receive real-time notifications for file uploads, transcriptions, and processing events with Plaud webhooks."
+title: "File Webhooks"
+description: "Learn how to use webhooks to receive real-time notifications when specified files events happen."
 sidebarTitle: "Webhooks"
 ---
 
-Learn how to use webhooks to receive automatic notifications when your file uploads, transcriptions, and AI processing tasks are completed, eliminating the need to continuously poll the API for status updates.
-
 ## Overview
 
-Webhooks allow you to receive automatic notifications when key events occur in your Plaud applications, such as:
+Webhooks allow you to receive automatic notifications when file-related events occur in your Plaud applications, such as:
 
 - File upload completion
-- Transcription processing completion  
-- AI processing task completion
-- Device binding/unbinding events
+- File metadata updates
+- File deletion
 
-When an event occurs, Plaud will send a POST request to your specified webhook URL with the event data, enabling you to build real-time, event-driven applications.
+When a file event occurs, Plaud will send a POST request to your specified webhook URL with the event data, enabling you to build real-time, event-driven applications. 
+For other event types, see the [Webhook Event Reference](/documentation/developer_guides/webhook_events).
 
-## Setup webhooks
+## Setup File Webhooks
 
 <Steps>
 
@@ -38,13 +36,13 @@ def handle_plaud_webhook():
     event_data = request.get_json()
     event_type = event_data.get('event_type')
     
-    # Handle different event types
+    # Handle file event types
     if event_type == 'file.created':
         file_info = event_data.get('data', {})
         print(f"File uploaded: {file_info.get('name')}")
-    elif event_type == 'audio_transcribe.completed':
-        task_info = event_data.get('data', {})
-        print(f"Transcription completed: {task_info.get('file_id')}")
+    elif event_type == 'file.updated':
+        file_info = event_data.get('data', {})
+        print(f"File updated: {file_info.get('id')}")
     
     return jsonify({'received': True}), 200
 
@@ -72,60 +70,39 @@ Your webhook endpoint is ready to receive notifications.
 
 <Step title="Configure Webhook URL">
 
-Configure your webhook URL in the Plaud platform through your client settings or dashboard.
+Configure your webhook URL in the Plaud platform through your client settings or dashboard to subscribe to file events.
 
 ```python Python
 # Example webhook configuration
 webhook_url = "https://your-domain.com/webhook/plaud"
-events = ["file.created", "audio_transcribe.completed"]
+events = ["file.created", "file.updated", "file.deleted"]
 ```
-
-Configure your webhook endpoint to receive the events you need.
 
 </Step>
 
 <Step title="Test Your Webhook">
 
-Test your webhook by uploading a file, which will trigger a webhook notification:
+Test your webhook by uploading a file, which will trigger a `file.created` event:
 
 ```python Python
-# Upload a file to trigger webhook
-# (Use the file upload process from previous tutorial)
-# This will automatically send a file.created event to your webhook
+# Upload a file to trigger a webhook
+# (Use the file upload process from the previous tutorial)
+# This will automatically send a file.created event to your webhook endpoint.
 ```
 
-Your webhook should receive notifications when events occur.
+Your webhook should receive a notification.
 
 </Step>
 
 </Steps>
 
-## Webhook Events
-
-### File Events
+## File Webhook Events
 
 | Event Type | Description | Payload |
 |:-----------|:------------|:--------|
 | **file.created** | File upload completed successfully | File information with ID, name, owner, device |
 | **file.updated** | File metadata updated | Updated file information |
 | **file.deleted** | File deleted from system | File ID and deletion timestamp |
-
-### Transcription Events
-
-| Event Type | Description | Payload |
-|:-----------|:------------|:--------|
-| **audio_transcribe.completed** | Transcription processing finished | Task info, file ID, transcript results |
-| **audio_transcribe.failed** | Transcription processing failed | Task info, file ID, error details |
-| **audio_transcribe.started** | Transcription processing started | Task info, file ID, estimated completion time |
-
-### Device Events
-
-| Event Type | Description | Payload |
-|:-----------|:------------|:--------|
-| **device.created** | New device registered | Device information |
-| **device.bound** | Device bound to user | Device and user information |
-| **device.unbound** | Device unbound from user | Device and previous user information |
-| **device.updated** | Device information updated | Updated device information |
 
 ## Webhook Payload Structure
 
@@ -142,9 +119,7 @@ All webhook payloads follow this consistent structure:
 }
 ```
 
-### Example Payloads
-
-#### File Created Event
+### Example: File Created Payload
 ```json
 {
   "event_type": "file.created",
@@ -162,41 +137,13 @@ All webhook payloads follow this consistent structure:
 }
 ```
 
-#### Transcription Completed Event
-```json
-{
-  "event_type": "audio_transcribe.completed", 
-  "timestamp": 1703981400,
-  "event_id": "evt_transcribe_001",
-  "data": {
-    "task_id": "task_abc123",
-    "file_id": "file_abc123def456",
-    "status": "SUCCESS",
-    "processing_time": 15.3,
-    "result": {
-      "text": "Hello everyone, welcome to today's meeting...",
-      "language": "en-US",
-      "confidence": 0.94,
-      "segments": [
-        {
-          "start": 0.0,
-          "end": 2.1,
-          "text": "Hello everyone",
-          "confidence": 0.96
-        }
-      ]
-    }
-  }
-}
-```
-
 ## Best Practices
 
-- **Return 200**: Always return HTTP 200 for successful processing
-- **Keep it fast**: Process webhooks quickly (< 5 seconds)  
-- **Use HTTPS**: Webhook URLs must use HTTPS for security
-- **Handle duplicates**: Be prepared for duplicate webhook deliveries
+- **Return 200**: Always return a `200 OK` response to acknowledge receipt of a webhook.
+- **Keep it fast**: Process webhooks quickly. If you need to perform long-running tasks, do so asynchronously.
+- **Use HTTPS**: Your webhook endpoint URL must use HTTPS for security.
+- **Handle duplicates**: Design your endpoint to be idempotent in case of duplicate event deliveries.
 
 ## Next Steps
 
-Now that you have webhooks set up, you can build real-time applications that respond immediately to file upload and processing events.
+Now that you have webhooks set up, you can build real-time applications that respond immediately to file upload events.

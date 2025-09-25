@@ -1,0 +1,57 @@
+---
+title: "Webhook Events"
+description: "A comprehensive reference for webhook events in Plaud."
+sidebarTitle: "Webhook Events"
+icon: "webhook"
+iconType: "duotone"
+---
+
+This guide provides a reference for all webhook events under whole Plaud lifecycle. 
+For a tutorial on handling webhooks, see the [File Webhooks guide](/documentation/developer_guides/tutorials/files/webhooks).
+
+## Transcription Events
+
+| Event Type | Description | Payload |
+|:-----------|:------------|:--------|
+| **audio_transcribe.completed** | Transcription processing finished | Task info, file ID, transcript results |
+| **audio_transcribe.failed** | Transcription processing failed | Task info, file ID, error details |
+| **audio_transcribe.started** | Transcription processing started | Task info, file ID, estimated completion time |
+
+## Device Events
+
+| Event Type | Description | Payload |
+|:-----------|:------------|:--------|
+| **device.created** | New device registered | Device information |
+| **device.bound** | Device bound to user | Device and user information |
+| **device.unbound** | Device unbound from user | Device and previous user information |
+| **device.updated** | Device information updated | Updated device information |
+
+## Example Payloads
+
+### Transcription Completed Event
+```json
+{
+  "event_type": "audio_transcribe.completed", 
+  "timestamp": 1703981400,
+  "event_id": "evt_transcribe_001",
+  "data": {
+    "task_id": "task_abc123",
+    "file_id": "file_abc123def456",
+    "status": "SUCCESS",
+    "processing_time": 15.3,
+    "result": {
+      "text": "Hello everyone, welcome to today's meeting...",
+      "language": "en-US",
+      "confidence": 0.94,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 2.1,
+          "text": "Hello everyone",
+          "confidence": 0.96
+        }
+      ]
+    }
+  }
+}
+```
