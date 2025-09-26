@@ -7,6 +7,9 @@
     "light": "#FFFFFF",
     "dark": "#16171f"
   },
+  "styling": {
+    "codeblocks": "system"
+  },
   "favicon": "/assets/favicon.svg",
   "api": {
     "examples": {
@@ -97,7 +100,7 @@
       "tab": "API Guide",
       "groups": [
         {
-          "group": "INTRODUCTION",
+          "group": "API REFERENCE",
           "pages": [
             "/api_guide/api_intro/overview",
             "/api_guide/api_intro/authorization",

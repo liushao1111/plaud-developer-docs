@@ -96,7 +96,7 @@ upload_id = upload_info["UploadId"]
 parts = upload_info["Parts"]
 ```
 
-```curl cURL
+```bash cURL
 curl -X POST "https://api.plaud.ai/api/files/upload-s3/generate-presigned-urls" \
   -H "Authorization: Bearer <your_api_token>" \
   -H "Content-Type: application/json" \
