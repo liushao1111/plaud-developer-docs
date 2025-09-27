@@ -104,8 +104,7 @@
           "pages": [
             "/api_guide/api_intro/overview",
             "/api_guide/api_intro/authorization",
-            "/api_guide/api_intro/rate_limit",
-            "/api_guide/api_intro/error_messages"
+            "/api_guide/api_intro/rate_limit"
           ]
         },
         {
