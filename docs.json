@@ -49,15 +49,7 @@
                 "iconType": "duotone",
                 "pages": [
                   "/documentation/developer_guides/tutorials/device_operations",
-                  {
-                    "group": "Files & Recordings",
-                    "icon": "files",
-                    "iconType": "duotone",
-                    "pages": [
-                      "/documentation/developer_guides/tutorials/files/upload",
-                      "/documentation/developer_guides/tutorials/files/webhooks"
-                    ]
-                  },
+                  "/documentation/developer_guides/tutorials/files",
                   "/documentation/developer_guides/tutorials/ai_workflow"
                 ]
               },
@@ -66,33 +58,7 @@
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
             ]
-          },
-          {
-            "group": "PRODUCT GUIDES",
-            "pages": [
-              "/documentation/product_guides/overview",
-              {
-                "group": "Playground",
-                "pages": [
-                  "/documentation/product_guides/playground/ai_workflow"
-                ]
-              },
-              {
-                "group": "Products",
-                "pages": [
-                  "/documentation/product_guides/products/ai_workflow"
-                ]
-              },
-              {
-                "group": "Adminstration",
-                "pages": [
-                  "/documentation/product_guides/administration/usage",
-                  "/documentation/product_guides/administration/webhook"
-                ]
-              }
-            ]
           }
-          
         ]
       },
     {
