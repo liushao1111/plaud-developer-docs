@@ -71,10 +71,10 @@ sequenceDiagram
   <Card title="2. Bind Device to User" icon="mobile-notch" href="/documentation/developer_guides/tutorials/device_operations">
     Associate a device with a user account to enable file uploads.
   </Card>
-  <Card title="3. Upload Audio Recording" icon="upload" href="/documentation/developer_guides/tutorials/files/upload">
+  <Card title="3. Upload Audio Recording" icon="upload" href="/documentation/developer_guides/tutorials/files">
     Upload your audio files to our platform for processing.
   </Card>
-  <Card title="4. Create Custom Template" icon="pen-to-square" href="#">
+  <Card title="4. Create Custom Template" icon="pen-to-square">
     Design a template to define your data extraction rules. *(Coming Soon)*
   </Card>
 </CardGroup>
@@ -86,7 +86,7 @@ sequenceDiagram
 First, submit a workflow that combines audio transcription with a pre-existing custom ETL template.
 
 <CodeGroup>
-```python
+```python Python
 import requests
 
 # Configuration
@@ -121,7 +121,8 @@ response = requests.post(
 workflow_id = response.json()["id"]
 print(f"Workflow submitted with ID: {workflow_id}")
 ```
-```bash
+
+```bash cURL
 curl -X POST "https://api.plaud.ai/api/workflow/submit" \
   -H "Authorization: Bearer <your_api_token_here>" \
   -H "Content-Type: application/json" \
@@ -145,7 +146,7 @@ curl -X POST "https://api.plaud.ai/api/workflow/submit" \
 You can check the status of your workflow by polling the status endpoint.
 
 <CodeGroup>
-```python
+```python Python
 import requests
 
 # Configuration
@@ -163,7 +164,7 @@ status_info = response.json()
 print(f"Status: {status_info['status']}")
 print(f"Progress: {status_info['completed_tasks']}/{status_info['total_tasks']}")
 ```
-```bash
+```bash cURL
 curl -X GET "https://api.plaud.ai/api/workflow/{workflow_id}/status" \
   -H "Authorization: Bearer <your_api_token_here>"
 ```
@@ -180,7 +181,7 @@ curl -X GET "https://api.plaud.ai/api/workflow/{workflow_id}/status" \
 Once the workflow status is `SUCCESS`, you can fetch the final results.
 
 <CodeGroup>
-```python
+```python Python
 import requests
 import json
 
@@ -200,7 +201,7 @@ if response.status_code == 200:
     print("✅ Workflow results retrieved:")
     print(json.dumps(results, indent=2))
 ```
-```bash
+```bash cURL
 curl -X GET "https://api.plaud.ai/api/workflow/{workflow_id}/result" \
   -H "Authorization: Bearer <your_api_token_here>"
 ```
@@ -379,10 +380,10 @@ python complete_workflow_example.py
 ## Explore More
 
 <CardGroup cols={2}>
-  <Card title="Custom Templates" icon="pen-ruler" href="#">
+  <Card title="Custom Templates" icon="pen-ruler" >
     Learn to create, manage, and version templates for precise data extraction.
   </Card>
-  <Card title="Webhook Events" icon="webhook" href="#">
+  <Card title="Webhook Events" icon="webhook" href="/documentation/developer_guides/webhook_events">
     Receive real-time notifications for workflow and task status updates.
   </Card>
 </CardGroup>
