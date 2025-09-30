@@ -10,7 +10,7 @@
   "styling": {
     "codeblocks": "system"
   },
-  "favicon": "/assets/favicon.svg",
+  "favicon": "/assets/favicon/light.svg",
   "api": {
     "examples": {
       "languages": ["curl", "python"],
