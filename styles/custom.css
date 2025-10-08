@@ -1,0 +1,30 @@
+
+.nav-logo {
+    width: 102px;
+    height: 63px;
+}
+
+#search-bar-entry {
+    border-radius: 5px;
+}
+
+.accordion-group {
+    border-radius: 5px;
+}
+
+.card {
+    border-radius: 5px;
+}
+
+.code-group {
+    border-radius: 5px;
+}
+
+.code-block {
+    border-radius: 5px;
+}
+
+.frame {
+    border-radius: 5px !important;
+}
+

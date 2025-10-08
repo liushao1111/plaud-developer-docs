@@ -158,6 +158,6 @@
   },
   "backgroundImage": "/images/background.png",
   "stylesheets": [
-    "/styles/table.css"
+    "/styles/custom.css"
   ]
 }
