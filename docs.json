@@ -74,9 +74,37 @@
         },
         {
           "group": "ENDPOINTS",
-          "openapi": {
-            "source": "https://platform.plaud.ai/openapi.json"
-          }
+          "openapi": "https://platform.plaud.ai/openapi.json",
+          "pages": [
+            {
+              "group": "Oauth",
+              "pages": ["POST /api/oauth/api-token"]
+            },
+            {
+              "group": "Devices",
+              "pages": [
+                "GET /api/devices/{device_id}",
+                "POST /api/devices/bind",
+                "POST /api/devices/unbind"
+              ]
+            },
+            {
+              "group": "Files",
+              "pages": [
+                "GET /api/files/{file_id}",
+                "POST /api/files/upload-s3/generate-presigned-urls",
+                "POST /api/files/upload-s3/complete-upload"
+              ]
+            },
+            {
+              "group": "Workflows",
+              "pages": [
+                "GET /api/workflows/{workflow_id}/result",
+                "GET /api/workflows/{workflow_id}/status",
+                "POST /api/workflows/submit"
+              ]
+            }
+          ]
         },
         {
           "group": "SDK",
@@ -97,6 +125,11 @@
   "navbar": {
     "links": [
       {
+        "label": "Request Access",
+        "href": "https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform",
+        "icon": "key"
+      },
+      {
         "label": "Community",
         "href": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw",
         "icon": "slack"
@@ -111,45 +144,8 @@
   "footer": {
     "socials":{
       "website": "https://plaud.ai",
-      "github": "https://github.com/Plaud-AI/plaud-sdk",
-      "slack": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw"
-    },
-    "links": [
-      {
-        "header": "Resources",
-        "items": [
-          {
-            "label": "Customers",
-            "href": "https://example.com/customers"
-          },
-          {
-            "label": "Enterprise",
-            "href": "https://example.com/enterprise"
-          },
-          {
-            "label": "Request Preview",
-            "href": "https://example.com/preview"
-          }
-        ]
-      },
-      {
-        "header": "Company",
-        "items": [
-          {
-            "label": "Careers",
-            "href": "https://example.com/careers"
-          },
-          {
-            "label": "Blog",
-            "href": "https://example.com/blog"
-          },
-          {
-            "label": "Privacy Policy",
-            "href": "https://example.com/legal/privacy"
-          }
-        ]
-      }
-    ]
+      "github": "https://github.com/Plaud-AI/plaud-sdk"
+    }
   },
   "feedback": {
     "suggestEdit": true,
@@ -161,16 +157,6 @@
     "isHidden": false
   },
   "backgroundImage": "/images/background.png",
-  "topbarLinks": [
-    {
-      "name": "Contact Us",
-      "url": "mailto:dev-support@plaud.ai"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Get API Key",
-    "url": "https://console.plaud.ai"
-  },
   "stylesheets": [
     "/styles/table.css"
   ]
