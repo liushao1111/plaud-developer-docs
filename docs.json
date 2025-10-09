@@ -89,7 +89,6 @@
             {
               "group": "Files",
               "pages": [
-                "GET /api/files/{file_id}",
                 "POST /api/files/upload-s3/generate-presigned-urls",
                 "POST /api/files/upload-s3/complete-upload"
               ]
