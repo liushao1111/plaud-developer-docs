@@ -149,8 +149,5 @@
     "default": "light",
     "isHidden": false
   },
-  "backgroundImage": "/images/background.png",
-  "stylesheets": [
-    "/styles/custom.css"
-  ]
+  "backgroundImage": "/images/background.png"
 }
