@@ -1,0 +1,98 @@
+---
+title: "Error Messages"
+description: "Explore error messages and solutions."
+sidebarTitle: "Error Messages"
+icon: "/assets/icons/sidebar/error_messages.svg"
+---
+
+This guide includes an overview of error messages you might see in the Plaud dashboard & API.
+
+## Dashboard errors
+
+| Error Message       | Cause         | Solutions       |
+|---------------------|---------------|-----------------|
+|                     |               |                 |
+|                     |               |                 |
+
+<Note>If error messages persist after following these solutions, 
+please contact our [support team](mailto:dev-support@plaud.ai) or 
+join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw) for further assistance.</Note>
+
+## API errors
+
+### Code 400
+
+| Error Code | Cause | Solution |
+|------------|-------|----------|
+| max_character_limit_exceeded | Too many characters sent in a single request | Split the request content, see character limits for more information |
+| PAGINATION_TOKEN_INVALID | Pagination token format is invalid or expired | Use a valid pagination token or restart pagination |
+| DEVICE_ALREADY_EXISTS | Attempting to create a device that already exists | Check device type and serial number, use update interface |
+| DEVICE_BOUND | Attempting to bind a device that is already bound | Unbind the device first or use another device |
+| DEVICE_NOT_BOUND | Attempting to operate on an unbound device | Bind the device first before operation |
+| DEVICE_NOT_FOUND | Device ID does not exist | Check the correctness of the device ID |
+| FILE_UPLOAD_FAILED | Error occurred during file upload process | Retry upload or check file format |
+| FILE_MD5_NOT_MATCH | File integrity verification failed | Re-upload the file |
+| FILE_TYPE_INVALID | File type is not supported | Use supported file formats |
+| FILE_SIZE_INVALID | File size exceeds limit | Compress file or split upload |
+| ORGANIZATION_ALREADY_EXISTS | Attempting to create an organization that already exists | Use existing organization or change organization name |
+| CLIENT_WEBHOOK_ALREADY_EXISTS | Attempting to create duplicate webhook | Use existing webhook or delete and recreate |
+| CLIENT_WEBHOOK_ENDPOINT_URL_INVALID | Webhook URL format is invalid or inaccessible | Provide a valid webhook URL |
+| CLIENT_TEMPLATE_ALREADY_EXISTS | Attempting to create duplicate template | Use existing template or update existing template |
+| CLIENT_APP_KEY_ALREADY_EXISTS | Attempting to create duplicate application key | Use existing key or delete and recreate |
+| WORKFLOW_PARAMS_INVALID | Workflow configuration parameters are invalid | Check workflow parameter format and content |
+| TASK_PARAMS_INVALID | Task parameter configuration is invalid | Check task parameter format and content |
+| STAT_PARAMS_INVALID | Statistics query parameters are invalid | Check date range and parameter format |
+| LOG_PARAMS_INVALID | Log query parameters are invalid | Check log query parameter format |
+
+### Code 401
+
+| Error Code | Cause | Solution |
+|------------|-------|----------|
+| invalid_api_key | API key is not set correctly | Ensure the request is correctly authenticated, see authentication documentation |
+| ACCESS_TOKEN_INVALID | Authentication token is invalid or expired | Obtain a new valid access token |
+| SECRET_KEY_INVALID | Client secret key is invalid | Check client secret key configuration |
+| SIGNATURE_INVALID | HMAC signature verification failed | Check signature generation method and key |
+| GRANT_TYPE_INVALID | OAuth grant type is invalid | Use the correct grant type |
+| USER_NOT_FOUND | User credentials are invalid | Check username and password |
+| USER_PASSWORD_INCORRECT | Password is incorrect | Use the correct password |
+
+### Code 403
+
+| Error Code | Cause | Solution |
+|:---|-------|----------|
+| only_for_creator+ | Attempting to use professional features on free or basic subscription | Upgrade to Creator tier or higher to access professional voices |
+| CLIENT_INSUFFICIENT_PERMISSION | Client lacks permission to perform operation | Check client permission settings |
+| CLIENT_APP_KEY_INSUFFICIENT_PERMISSION | Application key has insufficient permissions | Contact administrator to elevate key permissions |
+| CLIENT_TEMPLATE_INSUFFICIENT_PERMISSION | Insufficient permissions for template operations | Contact administrator to obtain template permissions |
+| ORGANIZATION_INSUFFICIENT_PERMISSION | Organization user lacks permission to perform operation | Contact organization administrator to obtain permissions |
+
+### Code 404
+
+| Error Code | Cause | Solution |
+|------------|-------|----------|
+| voice_not_found | Incorrect voice_id is being used | Check that you are using the correct voice_id for the voice you want to use. You can verify this in My Voices |
+| USER_NOT_FOUND | User ID does not exist | Check the correctness of the user ID |
+| DEVICE_NOT_FOUND | Device ID does not exist | Check the correctness of the device ID |
+| DEVICE_VERSION_NOT_FOUND | Device version does not exist | Check device version information |
+| FILE_NOT_FOUND | File ID does not exist | Check the correctness of the file ID |
+| FILE_DATA_NOT_FOUND | File data does not exist | Check if the file has been deleted |
+| TASK_NOT_FOUND | Task ID does not exist | Check the correctness of the task ID |
+| WORKFLOW_NOT_FOUND | Workflow ID does not exist | Check the correctness of the workflow ID |
+| CLIENT_NOT_FOUND | Client ID does not exist | Check the correctness of the client ID |
+| CLIENT_APP_KEY_NOT_FOUND | Application key does not exist | Check the correctness of the application key |
+| CLIENT_WEBHOOK_NOT_FOUND | Webhook configuration does not exist | Check the correctness of the webhook ID |
+| CLIENT_TEMPLATE_NOT_FOUND | Template does not exist | Check the correctness of the template ID |
+| ORGANIZATION_NOT_FOUND | Organization ID does not exist | Check the correctness of the organization ID |
+| ORGANIZATION_USER_NOT_FOUND | Organization user does not exist | Check if the user belongs to the organization |
+
+### Code 429
+
+| Error Code | Cause | Solution |
+|------------|-------|----------|
+| quota_exceeded | Insufficient request quota | Enable usage-based billing from your Subscription page |
+| too_many_concurrent_requests | Exceeded concurrency limit for subscription | See concurrency limits and priority for more information |
+| system_busy | High traffic levels prevent request processing | Retry the request later, with exponential backoff. Consider upgrading your subscription to get higher priority |
+
+<Note>If error messages persist after following these solutions, 
+please contact our [support team](mailto:dev-support@plaud.ai) or 
+join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw) for further assistance.</Note>

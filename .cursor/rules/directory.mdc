@@ -1,0 +1,156 @@
+---
+alwaysApply: true
+---
+
+# 项目目录管理指南
+
+## 核心原则
+本文件定义了该项目的目录结构规则。核心原则是：**文件结构驱动导航，`docs.json` 同步更新**。所有目录和文件的创建、重命名、删除都必须在 `docs.json` 中有相应的配置变更。
+
+## 导航结构管理
+
+导航栏由 **Tabs -> Groups -> Pages** 三级结构组成。
+
+### 1. Tab (顶级导航) 管理
+
+**规则**: 一个根目录文件夹对应一个 Tab。
+
+**操作指南**:
+- **新增 Tab**:
+  1.  在项目根目录下创建一个新的文件夹 (例如，`ai_platform`)。文件夹名称应为小写，并用下划线 `_` 分隔单词。
+  2.  在 `docs.json` 的 `navigation.tabs` 数组中，添加一个新的 JSON 对象。
+  3.  `"tab"` 字段的值应为新文件夹名称的格式化版本 (例如, "AI Platform")。
+  4.  初始化一个空的 `"groups"` 数组。
+
+- **删除 Tab**:
+  1.  删除项目根目录下对应的文件夹。
+  2.  从 `docs.json` 的 `navigation.tabs` 数组中移除对应的 JSON 对象。
+
+- **重命名 Tab**:
+  1.  重命名根目录下的文件夹。
+  2.  更新 `docs.json` 中对应 Tab 对象的 `"tab"` 字段值。
+
+### 2. Group (分组) 管理
+
+**规则**: Tab 文件夹下的子目录对应一个 Group。
+
+**操作指南**:
+- **新增 Group**:
+  1.  在对应的 Tab 文件夹内创建一个新的子文件夹 (例如, `ai-platform/models`)。
+  2.  在 `docs.json` 中，找到对应的 Tab 对象，在其 `"groups"` 数组中添加一个新的 JSON 对象。
+  3.  `"group"` 字段的值应为子文件夹名称的格式化版本 (例如, "MODELS")。
+  4.  初始化一个空的 `"pages"` 数组。
+
+- **删除 Group**:
+  1.  删除 Tab 文件夹内对应的子文件夹。
+  2.  从 `docs.json` 中对应 Tab 的 `"groups"` 数组中移除相应的 Group 对象。
+
+- **重命名 Group**:
+  1.  重命名 Tab 文件夹内的子文件夹。
+  2.  更新 `docs.json` 中对应 Group 对象的 `"group"` 字段值。
+
+### 3. Page (页面) 管理
+
+**规则**: Group 文件夹下的 `.mdx` 文件对应一个 Page。
+
+**操作指南**:
+- **新增 Page**:
+  1.  在对应的 Group 文件夹内创建一个新的 `.mdx` 文件 (例如, `ai-platform/models/introduction.mdx`)。
+  2.  在 `docs.json` 中，找到对应的 Group 对象，在其 `"pages"` 数组中添加一个字符串，值为该文件的相对路径 (不含 `.mdx` 后缀)。
+      - 示例: `"ai-platform/models/introduction"`
+
+- **删除 Page**:
+  1.  删除对应的 `.mdx` 文件。
+  2.  从 `docs.json` 的 `"pages"` 数组中移除对应的路径字符串。
+
+- **移动 Page (跨 Group)**:
+  1.  将 `.mdx` 文件移动到新的 Group 文件夹下。
+  2.  在 `docs.json` 中，从旧 Group 的 `"pages"` 数组中移除路径，并将其添加到新 Group 的 `"pages"` 数组中，同时更新路径。
+
+## 当前规划的四大导航栏
+以下目录结构将用于实现规划中的四个主要 Tab：
+
+1.  **Documentation**: `docs/` (此目录结构较为特殊，直接使用 `getting-started/` 和 `guides/` 作为 group)
+2.  **AI Platform**: `ai-platform/`
+3.  **API Guide**: `api-guide/`
+4.  **Release Note**: `release-notes/`
+
+## 其他目录
+- **assets/**: 存放静态资源 (图片, favicon等)，此目录不参与导航结构。
+- **styles/**: 存放自定义 CSS，此目录不参与导航结构。
+# 项目目录管理指南
+
+## 核心原则
+本文件定义了该项目的目录结构规则。核心原则是：**文件结构驱动导航，`docs.json` 同步更新**。所有目录和文件的创建、重命名、删除都必须在 `docs.json` 中有相应的配置变更。
+
+## 导航结构管理
+
+导航栏由 **Tabs -> Groups -> Pages** 三级结构组成。
+
+### 1. Tab (顶级导航) 管理
+
+**规则**: 一个根目录文件夹对应一个 Tab。
+
+**操作指南**:
+- **新增 Tab**:
+  1.  在项目根目录下创建一个新的文件夹 (例如，`ai_platform`)。文件夹名称应为小写，并用下划线 `_` 分隔单词。
+  2.  在 `docs.json` 的 `navigation.tabs` 数组中，添加一个新的 JSON 对象。
+  3.  `"tab"` 字段的值应为新文件夹名称的格式化版本 (例如, "AI Platform")。
+  4.  初始化一个空的 `"groups"` 数组。
+
+- **删除 Tab**:
+  1.  删除项目根目录下对应的文件夹。
+  2.  从 `docs.json` 的 `navigation.tabs` 数组中移除对应的 JSON 对象。
+
+- **重命名 Tab**:
+  1.  重命名根目录下的文件夹。
+  2.  更新 `docs.json` 中对应 Tab 对象的 `"tab"` 字段值。
+
+### 2. Group (分组) 管理
+
+**规则**: Tab 文件夹下的子目录对应一个 Group。
+
+**操作指南**:
+- **新增 Group**:
+  1.  在对应的 Tab 文件夹内创建一个新的子文件夹 (例如, `ai-platform/models`)。
+  2.  在 `docs.json` 中，找到对应的 Tab 对象，在其 `"groups"` 数组中添加一个新的 JSON 对象。
+  3.  `"group"` 字段的值应为子文件夹名称的格式化版本 (例如, "MODELS")。
+  4.  初始化一个空的 `"pages"` 数组。
+
+- **删除 Group**:
+  1.  删除 Tab 文件夹内对应的子文件夹。
+  2.  从 `docs.json` 中对应 Tab 的 `"groups"` 数组中移除相应的 Group 对象。
+
+- **重命名 Group**:
+  1.  重命名 Tab 文件夹内的子文件夹。
+  2.  更新 `docs.json` 中对应 Group 对象的 `"group"` 字段值。
+
+### 3. Page (页面) 管理
+
+**规则**: Group 文件夹下的 `.mdx` 文件对应一个 Page。
+
+**操作指南**:
+- **新增 Page**:
+  1.  在对应的 Group 文件夹内创建一个新的 `.mdx` 文件 (例如, `ai-platform/models/introduction.mdx`)。
+  2.  在 `docs.json` 中，找到对应的 Group 对象，在其 `"pages"` 数组中添加一个字符串，值为该文件的相对路径 (不含 `.mdx` 后缀)。
+      - 示例: `"ai-platform/models/introduction"`
+
+- **删除 Page**:
+  1.  删除对应的 `.mdx` 文件。
+  2.  从 `docs.json` 的 `"pages"` 数组中移除对应的路径字符串。
+
+- **移动 Page (跨 Group)**:
+  1.  将 `.mdx` 文件移动到新的 Group 文件夹下。
+  2.  在 `docs.json` 中，从旧 Group 的 `"pages"` 数组中移除路径，并将其添加到新 Group 的 `"pages"` 数组中，同时更新路径。
+
+## 当前规划的四大导航栏
+以下目录结构将用于实现规划中的四个主要 Tab：
+
+1.  **Documentation**: `docs/` (此目录结构较为特殊，直接使用 `getting-started/` 和 `guides/` 作为 group)
+2.  **AI Platform**: `ai-platform/`
+3.  **API Guide**: `api-guide/`
+4.  **Release Note**: `release-notes/`
+
+## 其他目录
+- **assets/**: 存放静态资源 (图片, favicon等)，此目录不参与导航结构。
+- **styles/**: 存放自定义 CSS，此目录不参与导航结构。

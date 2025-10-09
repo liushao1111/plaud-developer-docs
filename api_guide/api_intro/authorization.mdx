@@ -1,0 +1,54 @@
+---
+title: "Authorization"
+sidebarTitle: "Authorization"
+---
+
+The Plaud API uses a two-step authorization flow to secure requests. This process involves generating an API token using your credentials, then using that token for authenticated requests.
+
+## Client ID & Secret Key
+
+The Plaud API uses Client ID and Secret Key to identify your unique application. 
+
+Each application has:
+
+1. **Client ID:** Your application's public identifier
+2. **Secret Key:** A permanent credential used to track usage quota and permissions
+
+**Remember that your Secret Key is a secret.** Do not share it with others or expose it in any client-side code (browsers, apps).
+
+## API Token
+
+Before making API requests, you need to generate an `API token` using your `Client ID` and `Secret Key`. 
+The token is obtained by sending **base64-encoded credentials** in the Authorization header.
+
+All token requests should include your credentials in an `Authorization` HTTP header as follows:
+
+```bash
+Authorization: Bearer base64(client_id:secret_key)
+```
+
+## Making Requests
+
+You can paste the command below into your terminal to run your first API request. Make sure to replace `$PLAUD_API_TOKEN` with your generated API token.
+
+```bash
+curl https://api.plaud.ai/devices/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $PLAUD_API_TOKEN"
+```
+
+Example with Python:
+
+```python
+import requests
+
+response = requests.get(
+    'https://api.plaud.ai/devices/',
+    headers={
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+)
+
+devices = response.json()
+```

@@ -1,0 +1,327 @@
+---
+title: "Rate limits"
+sidebarTitle: "Rate limits"
+---
+
+To ensure fair usage and maintain service quality, the Plaud Platform implements comprehensive rate limiting across all API endpoints.
+
+## About Our Limits
+
+<Info>
+Limits are designed to prevent API abuse while minimizing impact on common usage patterns.
+</Info>
+
+- Limits are enforced at both **client** and **user** levels using Redis-based distributed rate limiting
+- Rate limits apply to different time windows: **minute**, **hour**, and **day**
+- We use a token bucket algorithm for smooth rate limiting rather than hard resets
+- All limits represent maximum allowed usage, not guaranteed minimums
+- Limits are monitored in real-time through our Prometheus metrics system
+
+## Authentication Tiers
+
+Different authentication methods have varying access levels and rate limits.
+
+### API Token Authentication
+
+Used for server-to-server API calls.
+
+```http
+POST /api/oauth/api-token
+Authorization: Bearer {base64(client_id:secret_key)}
+```
+
+| Property | Value |
+| --- | --- |
+| **Use Case** | System integrations |
+| **Token Duration** | 1 hour (6 × NORMAL_TOKEN_EXPIRE_DURATION) |
+| **Required Headers** | `Authorization: Bearer {credentials}` |
+
+### SDK Token Authentication
+
+Designed for mobile and client applications.
+
+```http
+POST /api/oauth/sdk-token
+Authorization: Bearer {base64(app_key:app_secret)}
+```
+
+| Property | Value |
+| --- | --- |
+| **Use Case** | Mobile apps, SDKs |
+| **Token Duration** | 1 hour (6 × NORMAL_TOKEN_EXPIRE_DURATION) |
+| **Required Headers** | `Authorization: Bearer {credentials}` |
+
+### Access Token Authentication
+
+For portal and dashboard access.
+
+```http
+POST /api/oauth/access-token
+Content-Type: application/x-www-form-urlencoded
+```
+
+| Property | Value |
+| --- | --- |
+| **Use Case** | Web portals, admin dashboards |
+| **Token Duration** | 24 hours (6 × 24 × NORMAL_TOKEN_EXPIRE_DURATION) |
+| **Grant Type** | Password flow |
+
+## Rate Limits
+
+### Standard Rate Limits
+
+Our API implements flexible rate limiting based on different time windows:
+
+<CodeGroup>
+```python Default Limits
+async def check_rate_limit(
+    key: str,                    # Limiting key (user_id, client_id, ip)
+    period: "minute" | "hour" | "day" = "minute",
+    limit: int = 10,            # Request count limit
+) -> Any
+```
+
+```python Usage Example
+# Apply rate limit in your endpoint
+await check_rate_limit(
+    key=f"client_{client_id}",
+    period="minute", 
+    limit=60
+)
+```
+</CodeGroup>
+
+| Time Window | Default Limit | Error Response |
+| --- | --- | --- |
+| **Per Minute** | 10 requests | HTTP 429 |
+| **Per Hour** | Configurable | HTTP 429 |
+| **Per Day** | Configurable | HTTP 429 |
+
+<Warning>
+Rate limits are applied per unique key (client_id, user_id, or IP address). Exceeding any limit will result in a `429 Too Many Requests` response.
+</Warning>
+
+### Task Processing Limits
+
+Background task processing uses Celery with queue-based rate limiting:
+
+```python
+# Queue Configuration
+TASK_QUEUES = [
+    Queue("transcode", routing_key="transcode"),  # Audio transcoding
+    Queue("merge", routing_key="merge"),          # Audio merging
+    Queue("split", routing_key="split"),          # Audio splitting
+    Queue("default", queue_arguments={"x-max-priority": 5}),
+    Queue("others", queue_arguments={"x-max-priority": 10}),
+]
+
+# Task-level Rate Limiting
+@app_celery.task(rate_limit="60/m")  # 60 tasks per minute
+def process_audio_task(self, params):
+    pass
+```
+
+## Pagination Limits
+
+All list endpoints enforce consistent pagination limits to ensure optimal performance.
+
+### Standard Pagination
+
+| Parameter | Min Value | Max Value | Default |
+| --- | --- | --- | --- |
+| `limit` | 10 | 1000 | 25 |
+| `next_page_token` | - | JWT token | None |
+
+```http
+GET /api/files/?limit=50&next_page_token={token}
+```
+
+### Time Range Limits
+
+Statistical and logging endpoints implement strict time window restrictions:
+
+<Note>
+**Maximum Query Range:** 30 days  
+**Future Dates:** Not allowed  
+**Date Validation:** start_date ≤ end_date ≤ today
+</Note>
+
+```python
+# Automatic validation for date ranges
+if (start_date > end_date) or \
+   (end_date > date.today()) or \
+   (end_date - start_date).days > 30:
+    raise HTTPException(status_code=400, detail="STAT_PARAMS_INVALID")
+```
+
+## File Upload Limits
+
+### S3 Upload Restrictions
+
+```python
+# File type validation
+filetype: str = Field(pattern="(opus|mp3)")
+
+# File size validation
+filesize: int = Field(exclusiveMinimum=0.0)
+
+# Multipart upload support
+part_list: List[Dict[str, Any]]
+```
+
+| Property | Restriction |
+| --- | --- |
+| **File Types** | opus, mp3 |
+| **Size Limit** | Configurable per client |
+| **Upload Method** | Multipart supported |
+| **Validation** | MD5 checksum required |
+
+### Temporary Upload Limits
+
+```python
+# MIME type restrictions
+@router.post("/upload-tmp/")
+async def upload_temp_file(
+    file: UploadFile = File(..., content_type=["audio/mpeg", "audio/mp3"])
+):
+    pass
+```
+
+## Monitoring Your Rate Limits
+
+### Prometheus Metrics
+
+The platform provides comprehensive monitoring through Prometheus metrics:
+
+```python
+# Key Metrics
+http_requests_total              # Total HTTP requests
+http_request_duration_seconds    # Request duration distribution
+redis_rate_limit_hits           # Rate limit violations
+```
+
+**Metric Labels:**
+- `method`: HTTP method (GET, POST, etc.)
+- `endpoint`: API endpoint path
+- `status_code`: HTTP response code
+- `client_id`: Client identifier
+
+### Request Tracing
+
+Every API request includes detailed tracing information:
+
+```json
+{
+  "request_id": "550e8400-e29b-41d4-a716-446655440000",
+  "context_data": {
+    "client_id": "client_123",
+    "user_id": "user_456", 
+    "file_id": "file_789"
+  }
+}
+```
+
+## Error Responses
+
+### Rate Limit Errors
+
+When rate limits are exceeded, you'll receive a structured error response:
+
+```json
+{
+  "detail": "Rate limit exceeded",
+  "error_code": "RATE_LIMIT_EXCEEDED",
+  "retry_after": 60
+}
+```
+
+### Standard HTTP Status Codes
+
+| Status Code | Error Type | Description |
+| --- | --- | --- |
+| `400` | Bad Request | Invalid request parameters |
+| `401` | Unauthorized | Invalid or expired authentication |
+| `403` | Forbidden | Insufficient permissions |
+| `404` | Not Found | Resource does not exist |
+| `422` | Validation Error | Request data validation failed |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Server-side error |
+
+### Response Headers
+
+Rate limit responses include helpful headers for managing your requests:
+
+```http
+HTTP/1.1 429 Too Many Requests
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1640995200
+Retry-After: 60
+```
+
+## Configuration Management
+
+### Environment Variables
+
+Rate limiting behavior can be configured through environment variables:
+
+```bash
+# Token expiration settings
+DPA_NORMAL_TOKEN_EXPIRE_DURATION=600      # 10 minutes
+DPA_ACCESS_TOKEN_EXPIRE_DURATION=259200   # 3 days  
+DPA_PAGINATION_TOKEN_EXPIRE_DURATION=3600 # 1 hour
+
+# Redis configuration
+DPA_REDIS_URI="redis://localhost:6379"
+```
+
+### Dynamic Configuration
+
+<Info>
+The platform supports dynamic configuration through AWS Secrets Manager, allowing for runtime adjustments without service restarts.
+</Info>
+
+```python
+# AWS Secrets Manager integration
+settings.init_from_secret_manager(secret_manager_service)
+```
+
+## Best Practices
+
+### Rate Limit Management
+
+1. **Implement Exponential Backoff**: When receiving 429 responses, implement exponential backoff with jitter
+2. **Monitor Your Usage**: Use the provided metrics to track your API usage patterns
+3. **Cache Responses**: Cache API responses when appropriate to reduce request frequency
+4. **Batch Requests**: Use batch endpoints when available to reduce API calls
+
+### Error Handling
+
+```python
+import asyncio
+import random
+
+async def api_call_with_retry(endpoint, data, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = await make_api_call(endpoint, data)
+            return response
+        except RateLimitError as e:
+            if attempt == max_retries - 1:
+                raise
+            # Exponential backoff with jitter
+            wait_time = (2 ** attempt) + random.uniform(0, 1)
+            await asyncio.sleep(wait_time)
+```
+
+### Optimization Tips
+
+- Use appropriate page sizes for list endpoints (default: 25, max: 1000)
+- Implement client-side caching for frequently accessed data
+- Monitor your token expiration times and refresh proactively
+- Use batch operations when processing multiple items
+
+<Note>
+If you need higher rate limits for your use case, please contact our support team with details about your integration requirements.
+</Note>
+

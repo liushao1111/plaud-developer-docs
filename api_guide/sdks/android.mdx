@@ -1,0 +1,337 @@
+---
+title: "Android SDK"
+sidebarTitle: "Kotlin"
+description: "start customized, interactive Android apps with Plaud devices"
+icon: "android"
+iconType: "duotone"
+---
+
+## Installation
+
+Add the Plaud SDK to your Android project by including the following steps:
+
+<Steps>
+  <Step title="Add the ARR file">
+    Add the [provided plaud-sdk.aar file](https://github.com/Plaud-AI/plaud-sdk/blob/main/examples/android-demo/app/libs) under `{your_project}/app/libs/`
+```text
+your-project/
+│── app/
+│   │── libs/
+│      │── plaud-sdk.aar   // Place SDK AAR here
+│   │── src/
+│   │── build.gradle
+```
+  </Step>
+  <Step title="Add dependency and plugin">
+  Add dependencies and plugins in your **app-level** `build.gradle` file:
+    ```kotlin build.gradle.kts
+    dependencies {
+        // Plaud SDK(Android)
+        implementation(name: "plaud-sdk", ext: "aar")
+
+        // Required dependencies
+        // Kotlin coroutines, AndroidX, etc., as needed by your app
+        implementation "com.google.guava:guava:28.2-android"
+        implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
+        implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
+        implementation "com.squareup.retrofit2:retrofit:2.9.0"
+        implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+        implementation "com.squareup.okhttp3:okhttp:4.10.0"
+        implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+        implementation platform("com.google.firebase:firebase-bom:32.7.4")
+        implementation "com.google.firebase:firebase-analytics"
+    }
+
+    plugins {
+        id 'com.android.application'
+        id 'kotlin-android'
+        id 'com.google.gms.google-services'  // For Firebase
+    }
+    ```
+  </Step>
+
+</Steps>
+
+## Requirements
+- **Supported Versions**: The SDK requires a minimum of Android 5.0 (API 21) and is built against Android 14 (API 34).
+- **Internet**: Required for making API calls to Plaud Cloud.
+- **Bluetooth**: Essential for device scanning, connection, and communication.
+- **Network Security**: Configuration must allow secure HTTPS traffic for all API communication.
+
+## Setup
+
+### Manifest Configuration
+Add the following permissions to your `AndroidManifest.xml`:
+```xml
+<!-- Bluetooth permissions -->
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+<!-- For Android 12+ (API 31+) -->
+<uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+<!-- Location permissions (required for BLE scanning) -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<!-- Network permissions -->
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+<!-- Storage permissions -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+<!-- For Android 13+ (API 33+) media access -->
+<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+<!-- Wake lock for background operations -->
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+
+<!-- Foreground service (if needed) -->
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+```
+
+### Runtime Permissions
+For Android 12 (API level 31) and higher, Bluetooth permissions have changed, requiring runtime requests for `BLUETOOTH_SCAN` and `BLUETOOTH_CONNECT`. The following helper class demonstrates how to handle permissions for both newer and older Android versions:
+``` kotlin
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
+class PermissionManager(private val context: Context) {
+    companion object {
+        private val BLUETOOTH_PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            arrayOf(
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        } else {
+            arrayOf(
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        }
+    }
+
+    fun hasAllPermissions(): Boolean {
+        return BLUETOOTH_PERMISSIONS.all { permission ->
+            ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    fun requestPermissions(activity: Activity) {
+        ActivityCompat.requestPermissions(activity, BLUETOOTH_PERMISSIONS, 1001)
+    }
+}
+```
+
+### Network Security Configuration
+For apps targeting Android 9 (API level 28) or higher, ensure your network security configuration allows clear text traffic if needed:
+```xml
+<!-- In AndroidManifest.xml -->
+<application
+    android:networkSecurityConfig="@xml/network_security_config"
+    ... >
+```
+```xml
+<!-- res/xml/network_security_config.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">your-api-domain.com</domain>
+    </domain-config>
+</network-security-config>
+```
+## Start Development
+
+### Prerequisites
+- **Android Studio**: Arctic Fox or newer recommended
+- **Kotlin**: 1.6.21 or newer
+- **Java**: 8 or newer
+- **Gradle**: 7.3.1 or newer
+
+### Initialization
+Initialize the Plaud SDK in your Application class or main activity:
+
+```kotlin
+import android.content.Context
+import android.util.Log
+import sdk.NiceBuildSdk
+import sdk.penblesdk.TntAgent
+import sdk.penblesdk.entity.BleDevice
+import sdk.penblesdk.entity.BluetoothStatus
+import sdk.penblesdk.impl.ble.BleAgentListener
+import sdk.penblesdk.Constants
+import sdk.penblesdk.entity.bean.ble.response.RecordStartRsp
+import sdk.penblesdk.entity.bean.ble.response.RecordStopRsp
+
+val bleAgentListener = object : BleAgentListener {
+    override fun scanBleDeviceReceiver(device: BleDevice) {
+        // Handle scanned device - add device to your UI list
+        Log.d("BLE", "Found device: ${device.serialNumber}")
+    }
+    
+    override fun btStatusChange(sn: String?, status: BluetoothStatus) {
+        // Handle Bluetooth status changes - update connection UI
+        when (status) {
+            BluetoothStatus.CONNECTED -> Log.d("BLE", "Device connected")
+            BluetoothStatus.DISCONNECTED -> Log.d("BLE", "Device disconnected")
+            else -> Log.d("BLE", "Status changed: $status")
+        }
+    }
+    
+    override fun bleConnectFail(sn: String?, reason: Constants.ConnectBleFailed) {
+        // Handle connection failures - show error message to user
+        Log.e("BLE", "Connection failed: $reason")
+    }
+    
+    override fun handshakeWaitSure(sn: String?, param: Long) {
+        // Device handshake confirmation
+        Log.d("BLE", "Handshake confirmation required")
+    }
+    
+    override fun deviceOpRecordStart(sn: String?, response: RecordStartRsp) {
+        // Device started recording
+        Log.d("BLE", "Recording started: ${response.sessionId}")
+    }
+    
+    override fun deviceOpRecordStop(sn: String?, response: RecordStopRsp) {
+        // Device stopped recording
+        Log.d("BLE", "Recording stopped: ${response.sessionId}")
+    }
+    
+    override fun batteryLevelUpdate(sn: String?, level: Int) {
+        // Battery level changes
+        Log.d("BLE", "Battery level: $level%")
+    }
+    
+    override fun rssiChange(sn: String?, rssi: Int) {
+        // Signal strength changes
+        Log.d("BLE", "RSSI changed: $rssi")
+    }
+    
+    override fun mtuChange(sn: String?, mtu: Int, success: Boolean) {
+        // MTU size changes
+        Log.d("BLE", "MTU changed: $mtu, success: $success")
+    }
+    
+    override fun chargingStatusChange(sn: String?, isCharging: Boolean) {
+        // Charging status changes
+        Log.d("BLE", "Charging: $isCharging")
+    }
+    
+    override fun deviceStatusRsp(sn: String?, response: sdk.penblesdk.entity.bean.ble.response.GetStateRsp) {
+        // Device status response
+        Log.d("BLE", "Device status: ${response.state}")
+    }
+    
+    override fun scanFail(reason: Constants.ScanFailed) {
+        // Bluetooth scan failed
+        Log.e("BLE", "Scan failed: ${reason.errMsg}")
+    }
+}
+
+// Initialize SDK
+val appKey = "{your_developer_platform_app_key}"
+val appSecret = "{your_developer_platform_app_secret}"
+val hostName = "{your_app_identifier}" // e.g., "MyCompany Demo App"
+val customDomain = "https://your-custom-domain.com" // Optional
+
+NiceBuildSdk.initSdk(
+    context = applicationContext,
+    appKey = appKey,
+    appSecret = appSecret,
+    bleAgentListener = bleAgentListener,
+    hostName = hostName,
+    extra = null, // Optional extra parameters
+    customDomain = customDomain
+)
+```
+
+### Callbacks Overview
+
+<Tip>
+The most common use for these callbacks is to trigger UI updates based on host app's user experience.
+</Tip>
+
+- **scanBleDeviceReceiver** - Called when discovered BLE devices are received during scanning.
+- **btStatusChange** - Called when Bluetooth connection status changes(`BluetoothStatus.CONNECTED`, `BluetoothStatus.CONNECTED`).
+- **bleConnectFail** - Called when Bluetooth connection fails. This is userful for implementing retry logic for higher stability.
+- **handshakeWaitSure** - Called when device pair handshake needs to be confirmed by users.
+- **deviceOpRecordStart** - Called when device starts recording. This event can be used to update custom UI.
+- **deviceOpRecordStop** - Called when device stops recording. This event can be used to update custom UI.
+- **batteryLevelUpdate** - Called when battery level changes.
+- **rssiChange** - Called when signal strength changes.
+- **mtuChange** - Called when MTU size negotiation.
+- **chargingStatusChange** - Called when charging status changes.
+- **deviceStatusRsp** - Called when device status reponses.
+- **scanFail** - Called when Bluetooth scan fails.
+
+## Methods
+
+### Device Scanning 
+
+```kotlin
+val bleAgent = TntAgent.getInstant().bleAgent
+bleAgent.scanBle(true) { errorCode ->
+    Log.e("BLE", "Scan error: $errorCode")
+}
+```
+
+### Connect Device
+```kotlin
+import sdk.penblesdk.TntAgent
+import sdk.penblesdk.entity.BleDevice
+
+// Sample BleDevice (obtained from scanBleDeviceReceiver callback)
+val scannedDevice = BleDevice(
+    name = "PLAUD NOTE",
+    ...
+)
+
+val bindToken = "{unique_device_binding_identifier}" // e.g., "user123_device456_token"
+val connectTimeout = 10000L // 10 seconds
+val handshakeTimeout = 30000L // 30 seconds
+
+agent.connectionBLE(
+    device = scannedDevice,
+    bindToken = bindToken,
+    devToken = null, // Reserved for future use
+    userName = null, // Reserved for future use
+    connectTimeout = connectTimeout,
+    handshakeTimeout = handshakeTimeout
+)
+```
+
+### Start Recording
+```kotlin
+bleAgent.startRecord(scene = recordingScene)
+```
+
+### Stop Recording
+A method to manually end the current recording.
+
+```kotlin
+bleAgent.stopRecord(scene = recordingScene)
+```
+
+## Example implementation
+<Tip>An example Android app using this SDK can be found [here](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/android-demo)</Tip>
+
+For an example implementation, see the example app in the [Plaud Android SDK repository](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/android-demo). The app demostrates:
+- Device scan/connect/disconnect
+- Recording control（start/stop/pause/resume）
+- Recording File Management(Upload/Download)
+- Device Wi-Fi Setting/Test
+- Transcription and Summary

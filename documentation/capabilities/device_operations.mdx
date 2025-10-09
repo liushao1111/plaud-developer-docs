@@ -1,0 +1,99 @@
+---
+title: "Device Operations"
+description: "Learn how to start and use AI-powered Devices with Plaud"
+sidebarTitle: "Device Operations"
+---
+
+## Overview
+
+Plaud provides powerful audio and text processing capabilities with state-of-the-art AI. 
+The foundation for leveraging these AI features begins with our intelligent recording hardware.
+
+### Device Types
+
+- **NotePin**: Lightweight wearable recorder (30g) for interviews and hands-free recording
+- **Note**: Foundational AI recorder for daily voice memos and meeting notes
+- **NotePro**: Professional-grade device for board meetings and legal depositions
+
+## Core Capabilities
+
+Plaud devices are equipped with a range of capabilities designed for seamless control and reliable performance.
+
+<CardGroup cols={2}>
+  <Card
+    title="Device Control"
+    icon="/assets/icons/content/device_management-1.svg"
+  >
+    Remotely control devices and settings through Plaud Companion App or customized application.
+  </Card>
+  <Card
+    title="Recording Management"
+    icon="/assets/icons/content/recording_management.svg"
+  >
+    Control the full recording lifecycle—start, stop, and pause—and manage all audio files stored directly on the device.
+  </Card>
+  <Card
+    title="Network Connectivity"
+    icon="/assets/icons/content/network_connectivity.svg"
+  >
+    Automatically sync to the cloud through Wi-Fi network.
+  </Card>
+  <Card
+    title="Version Management"
+    icon="/assets/icons/content/version_management.svg"
+  >
+    Keep devices up-to-date through Over-the-Air (OTA) firmware updates.
+  </Card>
+</CardGroup>
+
+## Developer Guide
+<CardGroup cols={2}>
+  <Card
+    title="API Integration"
+    icon="/assets/icons/content/api_integration.svg"
+    href="/api_guide/api_intro/overview"
+  >
+    Get started to access raw recordings, transcriptions, and AI capabilities.
+  </Card>
+  <Card
+    title="SDK Integration"
+    icon="/assets/icons/content/sdk_integration.svg"
+    href="/api_guide/sdks/overview"
+  >
+    Integrate and control your Plaud devices through your APP or SaaS.
+  </Card>
+</CardGroup>
+
+## FAQ
+
+<AccordionGroup>
+
+<Accordion title="Can I manage devices across multiple applications?">
+Yes, devices registered to your client can be accessed across all your applications using the same client credentials.
+</Accordion>
+
+<Accordion title="How do I handle device binding conflicts?">
+Our API prevents binding conflicts by ensuring each device can only be bound to one user at a time. Use the unbind endpoint to release a device before reassigning.
+</Accordion>
+
+<Accordion title="What happens when a device goes offline?">
+The platform maintains the last known status and will sync updates when the device reconnects. You can configure webhooks to receive connectivity status changes.
+</Accordion>
+
+<Accordion title="How do I bulk manage enterprise devices?">
+Use our batch operations endpoints to register, bind, and configure multiple devices simultaneously. Enterprise customers also have access to advanced fleet management features.
+</Accordion>
+
+<Accordion title="Can I integrate device status into my mobile app?">
+Absolutely! Our REST API and WebSocket connections make it easy to display real-time device status in mobile applications.
+</Accordion>
+
+<Accordion title="How secure is device communication?">
+All device-platform communication uses end-to-end encryption. Device binding uses cryptographic verification to ensure only authorized users can access devices.
+</Accordion>
+
+<Accordion title="What's the difference between device types?">
+Each device type (Note, NotePin, NotePro) has different capabilities and use cases. The API provides the same management interface regardless of device type, with device-specific features available through configuration parameters.
+</Accordion>
+
+</AccordionGroup>

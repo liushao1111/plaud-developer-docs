@@ -1,0 +1,96 @@
+---
+title: "File Management"
+description: "Learn how to manage files and recordings under your account"
+sidebarTitle: "File Management"
+---
+
+## Overview
+
+<Frame>
+  <img src="/assets/file_lifecycle.png" alt="Plaud File Whole Lifecycle" />
+</Frame>
+
+Plaud's file API handles the entire lifecycle of your recording, from raw audio to AI-generated assets, like **summaries** and **structured extractions**.
+They can be used to:
+
+- **Generate Actionable Insights**: Transform recordings into clear action items, decisions, and follow-ups.
+- **Automate Information Discovery**: Intelligently search and pinpoint key information across all your conversations.
+- **Power Custom Workflows**: Feed structured, AI-enriched data directly into your business applications and workflows.
+
+### File Types
+
+- **Raw Recordings**: Original recording files in `opus` and `mp3` formats from Plaud devices, direct API or SDK uploads
+- **Audio Transcripts**: Speech-to-text conversion results generated from audio files
+- **Summary Files**: Intelligent summaries created from transcripts or text content
+- **ETL Outputs**: Structured data extraction and transformation results for different industries and customized configuration
+
+### Ownership
+
+In the Plaud ecosystem, each file is assigned an `owner`. 
+The ownership is inherited from the device that created the recording; the owner can be an individual user, a team, or an organization. 
+Therefore, a device must first be bound to an owner account before any file operations can be performed.
+
+<Card title="Device Bind Quickstart" href="/documentation/developer_guides/tutorials/device_operations" icon="/assets/icons/content/device_bind_quickstart.svg">
+    Bind your device and start a developing journey in minutes.
+</Card>
+
+### Recording Upload
+
+After binding your device successfully, you can start yo upload recordings.
+
+<Columns cols={1}>
+    <Card title="File Upload Quickstart" href="/documentation/developer_guides/tutorials/files" icon="/assets/icons/content/file_upload_quickstart.svg">
+        Learn upload process for recording files.
+    </Card>
+</Columns>
+
+### AI Capabilities
+
+Enhance your recordings with intelligent processing capabilities including automated summaries and structured data extraction workflows.
+
+<Columns cols={2}>
+    <Card title="AI Summary" href="/documentation/capabilities/ai_summary" icon="/assets/icons/content/ai_summary-1.svg">
+        Generate intelligent summaries from transcripts.
+    </Card>
+    <Card title="AI Workflow" href="/documentation/capabilities/ai_workflow" icon="/assets/icons/content/ai_workflow-1.svg">
+        Build custom AI processing workflows.
+    </Card>
+</Columns>
+
+## FAQ
+
+<AccordionGroup>
+
+<Accordion title="What file formats are supported for upload?">
+The platform supports opus and mp3 audio formats. Opus is the preferred format for original recordings from Plaud devices, while mp3 is supported for broader compatibility.
+</Accordion>
+
+<Accordion title="What's the maximum file size for uploads?">
+The platform uses multipart upload supporting files up to several GB in size. Files are uploaded in 5MB chunks for reliability and can be resumed if interrupted.
+</Accordion>
+
+<Accordion title="How secure is my file data?">
+All files are stored in encrypted cloud storage with secure access controls. Download links are pre-signed with automatic expiration, and all API access requires authentication tokens.
+</Accordion>
+
+<Accordion title="How long does transcription take?">
+Transcription processing time depends on audio length and quality. Typical processing is 1:4 ratio (1 minute audio = ~15 seconds processing). You'll receive webhook notifications when complete.
+</Accordion>
+
+<Accordion title="Can I process multiple files simultaneously?">
+Yes, the platform supports batch operations and concurrent processing. You can submit multiple transcription tasks and monitor their progress through the task status API.
+</Accordion>
+
+<Accordion title="What happens to processed data like transcripts?">
+Processed data (transcripts, summaries, ETL results) are stored as structured JSON data linked to the original audio file. You can retrieve, update, or delete this data independently.
+</Accordion>
+
+<Accordion title="Do you support webhook notifications?">
+Yes, the platform sends webhook notifications for key events including file upload completion, transcription completion, and AI processing results. Learn more in our [Webhooks guide](/docs/webhooks).
+</Accordion>
+
+<Accordion title="How do I organize files by project or category?">
+Files support metadata fields including custom names, device associations, and time-based organization. You can also use group_id for logical file grouping and parent-child relationships for file splitting/merging.
+</Accordion>
+
+</AccordionGroup>

@@ -7,7 +7,10 @@
     "light": "#FFFFFF",
     "dark": "#16171f"
   },
-  "favicon": "/favicon.svg",
+  "styling": {
+    "codeblocks": "system"
+  },
+  "favicon": "/assets/favicon/light.svg",
   "api": {
     "examples": {
       "languages": ["curl", "python"],
@@ -15,62 +18,98 @@
     }
   },
   "navigation": {
-  "tabs": [
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "GET STARTED",
+            "pages": [
+              "/documentation/get_started/overview",
+              "/documentation/get_started/quickstart",
+              "/documentation/get_started/changelog"
+            ]
+          },
+          {
+            "group": "CAPABILITIES",
+            "pages": [
+              "/documentation/capabilities/device_operations",
+              "/documentation/capabilities/file_management",
+              "/documentation/capabilities/transcription",
+              "/documentation/capabilities/ai_summary",
+              "/documentation/capabilities/ai_workflow"
+            ]
+          },
+          {
+            "group": "DEVELOPER GUIDES",
+            "pages": [
+              {
+                "group": "Tutorials",
+                "icon": "/assets/icons/sidebar/tutorials.svg",
+                "pages": [
+                  "/documentation/developer_guides/tutorials/device_operations",
+                  "/documentation/developer_guides/tutorials/files",
+                  "/documentation/developer_guides/tutorials/ai_workflow"
+                ]
+              },
+              "/documentation/developer_guides/libraries",
+              "/documentation/developer_guides/errors",
+              "/documentation/developer_guides/webhook_events"
+            ]
+          }
+        ]
+      },
     {
-      "tab": "Guides",
+      "tab": "API Guide",
       "groups": [
         {
-          "group": "Getting Started",
+          "group": "API REFERENCE",
           "pages": [
-            "/getting-started/overview",
-            "/getting-started/api",
-            "/getting-started/sdk"
+            "/api_guide/api_intro/overview",
+            "/api_guide/api_intro/authorization",
+            "/api_guide/api_intro/rate_limit"
           ]
         },
         {
-          "group": "Feature Guides",
-          "pages": [
-            "guides/device-management",
-            "guides/user-management",
-            "guides/file-management"
-          ]
-        }
-      ]
-    },
-    {
-      "tab": "API Reference",
-      "groups": [
-        {
-          "group": "API Reference",
-          "openapi": {
-            "source": "https://platform.plaud.ai/openapi.json"
-          }
-        }
-      ]
-    },
-    {
-      "tab": "SDK",
-      "groups": [
-        {
-          "group": "Mobile SDK",
-          "collapsible": true,
+          "group": "ENDPOINTS",
+          "openapi": "https://platform.plaud.ai/openapi.json",
           "pages": [
             {
-              "group": "iOS SDK",
+              "group": "Oauth",
+              "pages": ["POST /api/oauth/api-token"]
+            },
+            {
+              "group": "Devices",
               "pages": [
-                "sdk/ios/overview",
-                "sdk/ios/get-started",
-                "sdk/ios/reference"
+                "GET /api/devices/{device_id}",
+                "POST /api/devices/bind",
+                "POST /api/devices/unbind"
               ]
             },
             {
-              "group": "Android SDK",
+              "group": "Files",
               "pages": [
-                "sdk/android/overview",
-                "sdk/android/get-started",
-                "sdk/android/reference"
+                "GET /api/files/{file_id}",
+                "POST /api/files/upload-s3/generate-presigned-urls",
+                "POST /api/files/upload-s3/complete-upload"
+              ]
+            },
+            {
+              "group": "Workflows",
+              "pages": [
+                "GET /api/workflows/{workflow_id}/result",
+                "GET /api/workflows/{workflow_id}/status",
+                "POST /api/workflows/submit"
               ]
             }
+          ]
+        },
+        {
+          "group": "SDK",
+          "pages": [
+            "/api_guide/sdks/overview",
+            "/api_guide/sdks/ios",
+            "/api_guide/sdks/android"
           ]
         }
       ]
@@ -78,18 +117,18 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/assets/logo/light.svg",
+    "dark": "/assets/logo/dark.svg"
   },
   "navbar": {
     "links": [
       {
-        "label": "Community",
-        "href": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw",
-        "icon": "slack"
+        "label": "Request Access",
+        "href": "https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform",
+        "icon": "key"
       },
       {
-        "label": "Help",
+        "label": "Contact Us",
         "href": "mailto:dev-support@plaud.ai",
         "icon": "envelope"
       }
@@ -98,45 +137,8 @@
   "footer": {
     "socials":{
       "website": "https://plaud.ai",
-      "github": "https://github.com/Plaud-AI/plaud-sdk",
-      "slack": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw"
-    },
-    "links": [
-      {
-        "header": "Resources",
-        "items": [
-          {
-            "label": "Customers",
-            "href": "https://example.com/customers"
-          },
-          {
-            "label": "Enterprise",
-            "href": "https://example.com/enterprise"
-          },
-          {
-            "label": "Request Preview",
-            "href": "https://example.com/preview"
-          }
-        ]
-      },
-      {
-        "header": "Company",
-        "items": [
-          {
-            "label": "Careers",
-            "href": "https://example.com/careers"
-          },
-          {
-            "label": "Blog",
-            "href": "https://example.com/blog"
-          },
-          {
-            "label": "Privacy Policy",
-            "href": "https://example.com/legal/privacy"
-          }
-        ]
-      }
-    ]
+      "github": "https://github.com/Plaud-AI/plaud-sdk"
+    }
   },
   "feedback": {
     "suggestEdit": true,
@@ -148,16 +150,6 @@
     "isHidden": false
   },
   "backgroundImage": "/images/background.png",
-  "topbarLinks": [
-    {
-      "name": "Contact Us",
-      "url": "mailto:dev-support@plaud.ai"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Get API Key",
-    "url": "https://console.plaud.ai"
-  },
   "stylesheets": [
     "/styles/custom.css"
   ]

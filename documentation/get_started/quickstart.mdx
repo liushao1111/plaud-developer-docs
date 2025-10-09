@@ -1,0 +1,105 @@
+---
+title: "Developer quickstart"
+description: "Learn how to make your first Plaud API request"
+icon: "/assets/icons/sidebar/quickstart.svg"
+sidebarTitle: "Quickstart"
+---
+
+The Plaud API provides a simple interface to state-of-the-art recording devices and features. 
+Follow this guide to learn how to bind your Plaud device. 
+See the [developer guides](/documentation/get_started/quickstart#explore-our-developer-guides) for more examples with our other products.
+
+## Using the API
+
+<Steps>
+  <Step title="Create an APP">
+    [Create an APP in the dashboard here,]() which you'll use to securely [access the API](/api_guide/api_intro/authorization).
+    <Tip>
+      Don’t have access yet? Book a call with our [Developer Platform team]("mailto:dev-support@plaud.ai") here.
+    </Tip>
+    Store `Client ID` and `Secret Key` as managed secrets as a environment variable via an `.env` file, or directly in your app’s configuration depending on your preference.
+    ```bash .env
+    PLAUD_CLIENT_ID=<PLAUD_CLIENT_ID>
+    PLAUD_CLIENT_SECRET_KEY=<PLAUD_CLIENT_SECRET_KEY>
+    ```
+  </Step>
+  <Step title="Install Dependencies">
+    We’ll also use the `dotenv` library to load our Client ID and Secret Key from environment variables.
+    <CodeGroup>
+    ```python Python
+    pip install python-dotenv
+    ```
+    </CodeGroup>
+  </Step>
+  <Step title="Make your first request">
+    Create a new file named `example.py`, depending on your language of choice and add the following code:
+    <CodeGroup>
+    ```python Python
+    import base64
+    import requests
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
+    # Step 1: Generate API token
+    client_id = os.getenv("PLAUD_CLIENT_ID")
+    secret_key = os.getenv("PLAUD_CLIENT_SECRET_KEY")
+    
+    # Create base64 encoded credentials
+    credentials = base64.b64encode(f"{client_id}:{secret_key}".encode()).decode()
+    
+    # Request API token
+    token_response = requests.post(
+        'https://api.plaud.ai/oauth/api-token',
+        headers={
+            'Authorization': f'Bearer: {credentials}',
+            'Content-Type': 'application/json'
+        }
+    )
+    
+    token_data = token_response.json()
+    api_token = token_data['api_token']
+    
+    # Step 2: Use token to get device list
+    devices_response = requests.get(
+        'https://api.plaud.ai/devices/',
+        headers={
+            'Authorization': f'Bearer {api_token}',
+            'Content-Type': 'application/json'
+        }   
+    )
+
+    devices = devices_response.json()
+    print(devices)
+    ```
+    </CodeGroup>
+  </Step>
+  <Step title="Run the code">
+    <CodeGroup>
+    ```python Python
+    python example.py
+    ```
+    </CodeGroup>
+    You can get a device list managed under your app.
+  </Step>
+</Steps>
+
+## Explore our developer guides
+Now that you’ve made your first Plaud API request, you can explore the other products that Plaud offers.
+<Columns cols={2}>
+    <Card icon="/assets/icons/content/device_management-1.svg" title="Device Management" href="/documentation/developer_guides/tutorials/devive_management">
+        Control and Operate Plaud Devices
+    </Card>
+    <Card icon="/assets/icons/content/file_management.svg" title="File Management" href="/documentation/developer_guides/tutorials/file_management">
+        Manage recording and text files 
+    </Card>
+</Columns>
+
+<Columns cols={2}>
+    <Card icon="/assets/icons/content/ai_summary.svg" title="AI Summary" href="/documentation/developer_guides/tutorials/ai_summary">
+        Summarize audio recording intelligently
+    </Card>
+    <Card icon="/assets/icons/content/ai_workflow-1.svg" title="AI Workflow" href="/documentation/developer_guides/tutorials/ai_workflow">
+        Customize transcription workflow
+    </Card>
+</Columns>
