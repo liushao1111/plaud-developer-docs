@@ -11,7 +11,7 @@ This guide includes an overview of error messages you might see in the Plaud das
 ## Dashboard errors
 
 | Error Message       | Cause         | Solutions       |
-|---------------------|---------------|-----------------|
+|:--------------------|:--------------|:----------------|
 |                     |               |                 |
 |                     |               |                 |
 
@@ -24,7 +24,7 @@ join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/
 ### Code 400
 
 | Error Code | Cause | Solution |
-|------------|-------|----------|
+|:-----------|:------|:---------|
 | max_character_limit_exceeded | Too many characters sent in a single request | Split the request content, see character limits for more information |
 | PAGINATION_TOKEN_INVALID | Pagination token format is invalid or expired | Use a valid pagination token or restart pagination |
 | DEVICE_ALREADY_EXISTS | Attempting to create a device that already exists | Check device type and serial number, use update interface |
@@ -48,7 +48,7 @@ join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/
 ### Code 401
 
 | Error Code | Cause | Solution |
-|------------|-------|----------|
+|:-----------|:------|:---------|
 | invalid_api_key | API key is not set correctly | Ensure the request is correctly authenticated, see authentication documentation |
 | ACCESS_TOKEN_INVALID | Authentication token is invalid or expired | Obtain a new valid access token |
 | SECRET_KEY_INVALID | Client secret key is invalid | Check client secret key configuration |
@@ -60,7 +60,7 @@ join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/
 ### Code 403
 
 | Error Code | Cause | Solution |
-|:---|-------|----------|
+|:---|:------|:---------|
 | only_for_creator+ | Attempting to use professional features on free or basic subscription | Upgrade to Creator tier or higher to access professional voices |
 | CLIENT_INSUFFICIENT_PERMISSION | Client lacks permission to perform operation | Check client permission settings |
 | CLIENT_APP_KEY_INSUFFICIENT_PERMISSION | Application key has insufficient permissions | Contact administrator to elevate key permissions |
@@ -70,7 +70,7 @@ join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/
 ### Code 404
 
 | Error Code | Cause | Solution |
-|------------|-------|----------|
+|:-----------|:------|:---------|
 | voice_not_found | Incorrect voice_id is being used | Check that you are using the correct voice_id for the voice you want to use. You can verify this in My Voices |
 | USER_NOT_FOUND | User ID does not exist | Check the correctness of the user ID |
 | DEVICE_NOT_FOUND | Device ID does not exist | Check the correctness of the device ID |
@@ -89,11 +89,10 @@ join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/
 ### Code 429
 
 | Error Code | Cause | Solution |
-|------------|-------|----------|
+|:-----------|:------|:---------|
 | quota_exceeded | Insufficient request quota | Enable usage-based billing from your Subscription page |
 | too_many_concurrent_requests | Exceeded concurrency limit for subscription | See concurrency limits and priority for more information |
 | system_busy | High traffic levels prevent request processing | Retry the request later, with exponential backoff. Consider upgrading your subscription to get higher priority |
 
 <Note>If error messages persist after following these solutions, 
-please contact our [support team](mailto:dev-support@plaud.ai) or 
-join our [community](https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw) for further assistance.</Note>
+please contact our [support team](mailto:dev-support@plaud.ai).</Note>
