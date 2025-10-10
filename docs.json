@@ -45,13 +45,15 @@
             "pages": [
               {
                 "group": "Tutorials",
-                "icon": "/assets/icons/sidebar/tutorials.svg",
+                "icon": "code",
+                "iconType": "duotone",
                 "pages": [
                   "/documentation/developer_guides/tutorials/device_operations",
                   "/documentation/developer_guides/tutorials/files",
                   "/documentation/developer_guides/tutorials/ai_workflow"
                 ]
               },
+              
               "/documentation/developer_guides/libraries",
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
@@ -126,6 +128,11 @@
         "label": "Request Access",
         "href": "https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform",
         "icon": "key"
+      },
+      {
+        "label": "Community",
+        "href": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw",
+        "icon": "slack"
       },
       {
         "label": "Contact Us",
