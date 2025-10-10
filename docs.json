@@ -129,11 +129,6 @@
         "icon": "key"
       },
       {
-        "label": "Community",
-        "href": "https://join.slack.com/t/plaudaidevcommunity/shared_invite/zt-393rhhb2f-nuZkeX3byDxEK3AEtJCsUw",
-        "icon": "slack"
-      },
-      {
         "label": "Contact Us",
         "href": "mailto:dev-support@plaud.ai",
         "icon": "envelope"
