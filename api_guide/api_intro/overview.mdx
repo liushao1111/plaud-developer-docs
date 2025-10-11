@@ -4,10 +4,16 @@ sidebarTitle: "Overview"
 description: "Welcome to the Plaud API Reference"
 ---
 
+## Introduction
+This API reference describes the RESTful, streaming, and realtime APIs you can use to interact with Plaud Platform.
+REST APIs are usable via HTTP in any environment that supports HTTP requests.
+Language-specific SDKs are listed [on the library page](/documentation/developer_guides/libraries).
+
 ## Authentication
 
-All requests to the Plaud API must include an `Authorization` header with an API Token token.
-For detailed instructions on how to generate an API token, please refer to [Authorization](./authorization).
+All requests to the Plaud API must include an `Authorization` header with an API Token. For detailed instructions on how to generate an API token, please refer to [Authorization](./authorization).
+
+API Token should be provided via [HTTP Bearer authentication](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/).
 
 <Tip>
 We will release the **Client SDKs** in coming releases. The SDK will send the header on your behalf with every request.
