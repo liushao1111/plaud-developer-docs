@@ -51,9 +51,9 @@ See the [developer guides](/documentation/get_started/quickstart#explore-our-dev
     
     # Request API token
     token_response = requests.post(
-        'https://api.plaud.ai/oauth/api-token',
+        'https://api.plaud.ai/apis/oauth/api-token',
         headers={
-            'Authorization': f'Bearer: {credentials}',
+            'Authorization': f'Bearer {credentials}',
             'Content-Type': 'application/json'
         }
     )
