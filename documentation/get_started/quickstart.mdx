@@ -10,13 +10,17 @@ The Plaud API provides a simple interface to state-of-the-art recording devices 
 Follow this guide to learn how to bind your Plaud device. 
 See the [developer guides](/documentation/get_started/quickstart#explore-our-developer-guides) for more examples with our other products.
 
+## Prerequisites
+1. You need to have an iOS/Android app that your users can download, OR
+2. Your users need to have bluetooth-enabled computers/laptops that they can use to transfer recordings over to your web app
+
 ## Using the API
 
 <Steps>
   <Step title="Create an APP">
     [Create an APP in the dashboard here,]() which you'll use to securely [access the API](/api_guide/api_intro/authorization).
     <Tip>
-      Don’t have access yet? Book a call with our [Developer Platform team]("mailto:dev-support@plaud.ai") here.
+      Don’t have access yet? Book a call with our [Submit Request Form](https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform) here.
     </Tip>
     Store `Client ID` and `Secret Key` as managed secrets as a environment variable via an `.env` file, or directly in your app’s configuration depending on your preference.
     ```bash .env
@@ -88,19 +92,10 @@ See the [developer guides](/documentation/get_started/quickstart#explore-our-dev
 ## Explore our developer guides
 Now that you’ve made your first Plaud API request, you can explore the other products that Plaud offers.
 <Columns cols={2}>
-    <Card icon="mobile-signal" title="Device Management" href="/documentation/developer_guides/tutorials/devive_operations">
+    <Card icon="mobile-signal" title="Device Management" href="/documentation/developer_guides/tutorials/device_operations">
         Control and Operate Plaud Devices
     </Card>
     <Card icon="files" title="File Management" href="/documentation/developer_guides/tutorials/files">
         Manage recording and text files 
-    </Card>
-</Columns>
-
-<Columns cols={2}>
-    <Card icon="file-lines" title="AI Summary" href="/documentation/developer_guides/tutorials/ai_summary">
-        Summarize audio recording intelligently
-    </Card>
-    <Card icon="arrows-spin" title="AI Workflow" href="/documentation/developer_guides/tutorials/ai_workflow">
-        Customize transcription workflow
     </Card>
 </Columns>

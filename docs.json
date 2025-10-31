@@ -36,8 +36,7 @@
               "/documentation/capabilities/device_operations",
               "/documentation/capabilities/file_management",
               "/documentation/capabilities/transcription",
-              "/documentation/capabilities/ai_summary",
-              "/documentation/capabilities/ai_workflow"
+              "/documentation/capabilities/ai_summary"
             ]
           },
           {
@@ -49,8 +48,7 @@
                 "iconType": "duotone",
                 "pages": [
                   "/documentation/developer_guides/tutorials/device_operations",
-                  "/documentation/developer_guides/tutorials/files",
-                  "/documentation/developer_guides/tutorials/ai_workflow"
+                  "/documentation/developer_guides/tutorials/files"
                 ]
               },
               
@@ -130,7 +128,7 @@
       },
       {
         "label": "Contact Us",
-        "href": "mailto:dev-support@plaud.ai",
+        "href": "https://www.plaud.ai/pages/contact-sales",
         "icon": "envelope"
       }
     ]
