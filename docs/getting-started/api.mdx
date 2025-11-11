@@ -34,14 +34,14 @@ The Plaud API makes it easy to fetch a complete list of your audio recordings. U
 <CodeGroup dropdown>
 
 ```bash bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/files/
 ```
 
 ```python python
 import requests
 
 headers = {'Authorization': '<YOUR_API_KEY>'}
-resp = requests.get('https://api.plaud.ai/files/', headers=headers)
+resp = requests.get('https://platform.plaud.ai/api/files/', headers=headers)
 print(resp.json())
 ```
 </CodeGroup>
@@ -52,7 +52,7 @@ You can retrieve the detail of an audio recording by specifying `file_id`:
 <CodeGroup dropdown>
 
 ```bash bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/{file_id}
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/files/{file_id}
 ```
 
 ```python python
@@ -60,7 +60,7 @@ import requests
 
 file_id = "your_file_id"  # Replace with actual file ID
 headers = {'Authorization': '<YOUR_API_KEY>'}
-resp = requests.get(f'https://api.plaud.ai/files/{file_id}', headers=headers)
+resp = requests.get(f'https://platform.plaud.ai/api/files/{file_id}', headers=headers)
 print(resp.json())
 ```
 </CodeGroup>

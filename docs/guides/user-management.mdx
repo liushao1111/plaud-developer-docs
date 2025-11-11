@@ -17,7 +17,7 @@ In Plaud's API, a tenant represents an organization or a distinct group of users
 Retrieve a list of all tenants with optional pagination:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/tenants/
+curl -H "Authorization: <YOUR_API_KEY>" hhttps://platform.plaud.ai/api/tenants/
 ```
 
 ### Get Tenant Details
@@ -25,7 +25,7 @@ curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/tenants/
 Get detailed information about a specific tenant:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/tenants/{tenant_id}
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/tenants/{tenant_id}
 ```
 
 ### Create a Tenant
@@ -40,7 +40,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "name": "Company ABC",
     "tag": "enterprise"
   }' \
-  https://api.plaud.ai/tenants/
+  https://platform.plaud.ai/api/tenants/
 ```
 
 ### Update a Tenant
@@ -54,7 +54,7 @@ curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
     "name": "Company ABC Updated",
     "tag": "enterprise-premium"
   }' \
-  https://api.plaud.ai/tenants/{tenant_id}
+  https://platform.plaud.ai/api/tenants/{tenant_id}
 ```
 
 ### Delete a Tenant
@@ -63,7 +63,7 @@ Remove a tenant from the system:
 
 ```bash
 curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
-  https://api.plaud.ai/tenants/{tenant_id}
+  https://platform.plaud.ai/api/tenants/{tenant_id}
 ```
 
 ## User Management
@@ -75,7 +75,7 @@ Users in Plaud's system can be associated with tenants and devices.
 Retrieve a list of all users with optional pagination:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/users/
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/users/
 ```
 
 ### Get User Details
@@ -83,7 +83,7 @@ curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/users/
 Get detailed information about a specific user:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/users/{user_id}
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/users/{user_id}
 ```
 
 ### Create a User
@@ -99,7 +99,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "name": "John Doe",
     "tag": "manager"
   }' \
-  https://api.plaud.ai/users/
+  https://platform.plaud.ai/api/users/
 ```
 
 ### Update a User
@@ -114,7 +114,7 @@ curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
     "tag": "senior-manager",
     "tenant_id": "tenant-456"
   }' \
-  https://api.plaud.ai/users/{user_id}
+  https://platform.plaud.ai/api/{user_id}
 ```
 
 ### Delete a User
@@ -123,7 +123,7 @@ Remove a user from the system:
 
 ```bash
 curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
-  https://api.plaud.ai/users/{user_id}
+  https://platform.plaud.ai/api/users/{user_id}
 ```
 
 ## User-Device Relationship
@@ -140,7 +140,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "sn": "NP12345678",
     "owner_id": "user-123"
   }' \
-  https://api.plaud.ai/users/bind
+  https://platform.plaud.ai/api/users/bind
 ```
 
 ### Unbind Device from User
@@ -155,5 +155,5 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "sn": "NP12345678",
     "owner_id": "user-123"
   }' \
-  https://api.plaud.ai/users/unbind
+  https://platform.plaud.ai/api/users/unbind
 ```

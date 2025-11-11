@@ -24,7 +24,7 @@ Plaud's API provides powerful features for managing audio recordings, allowing y
 Retrieve a list of all files with optional pagination:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/files/
 ```
 
 **Response:**
@@ -54,7 +54,7 @@ curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/
 Get detailed information about a specific file:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/files/{file_id}
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/files/{file_id}
 ```
 
 ### Create a File
@@ -72,7 +72,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "duration": 7200,
     "device_id": "device-123"
   }' \
-  https://api.plaud.ai/files/
+  https://platform.plaud.ai/api/files/
 ```
 
 ### Update File Information
@@ -86,7 +86,7 @@ curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
     "name": "Board Meeting - April",
     "desc": "Updated description for April board meeting"
   }' \
-  https://api.plaud.ai/files/{file_id}
+  https://platform.plaud.ai/api/files/{file_id}
 ```
 
 ### Delete a File
@@ -95,7 +95,7 @@ Remove a file from the system:
 
 ```bash
 curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
-  https://api.plaud.ai/files/{file_id}
+ https://platform.plaud.ai/api/files/{file_id}
 ```
 
 ## File Merging
@@ -109,7 +109,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "file_id_list": ["file-123", "file-456", "file-789"],
     "owner_id": "user-123"
   }' \
-  https://api.plaud.ai/files/merge
+  https://platform.plaud.ai/api/files/merge
 ```
 
 ## AI Processing

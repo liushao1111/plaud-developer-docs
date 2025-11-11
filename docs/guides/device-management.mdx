@@ -32,7 +32,7 @@ Plaud supports the following device types:
 Retrieve a list of all devices with optional pagination:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/devices/
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/devices/
 ```
 
 **Response:**
@@ -60,7 +60,7 @@ curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/devices/
 Get detailed information about a specific device:
 
 ```bash
-curl -H "Authorization: <YOUR_API_KEY>" https://api.plaud.ai/devices/{device_id}
+curl -H "Authorization: <YOUR_API_KEY>" https://platform.plaud.ai/api/devices/{device_id}
 ```
 
 ### Create a Device
@@ -77,7 +77,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "model": "NotePin Pro",
     "version": "1.0.2"
   }' \
-  https://api.plaud.ai/devices/
+  https://platform.plaud.ai/api/devices/
 ```
 
 ### Update Device Information
@@ -92,7 +92,7 @@ curl -X PATCH -H "Authorization: <YOUR_API_KEY>" \
     "battery": 90,
     "version": "1.0.3"
   }' \
-  https://api.plaud.ai/devices/{device_id}
+  https://platform.plaud.ai/api/devices/{device_id}
 ```
 
 ### Check Device Status
@@ -106,7 +106,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "sn_type": "notepin",
     "sn": "NP12345678"
   }' \
-  https://api.plaud.ai/devices/check
+  https://platform.plaud.ai/api/devices/check
 ```
 
 ### Delete a Device
@@ -115,7 +115,7 @@ Remove a device from the system:
 
 ```bash
 curl -X DELETE -H "Authorization: <YOUR_API_KEY>" \
-  https://api.plaud.ai/devices/{device_id}
+  https://platform.plaud.ai/api/devices/{device_id}
 ```
 
 ## Device-User Binding
@@ -132,7 +132,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "sn": "NP12345678",
     "owner_id": "user-456"
   }' \
-  https://api.plaud.ai/users/bind
+  https://platform.plaud.ai/api/users/bind
 ```
 
 ### Unbind a Device from a User
@@ -147,7 +147,7 @@ curl -X POST -H "Authorization: <YOUR_API_KEY>" \
     "sn": "NP12345678",
     "owner_id": "user-456"
   }' \
-  https://api.plaud.ai/users/unbind
+  https://platform.plaud.ai/api/users/unbind
 ```
 
 ## Common Device Operations

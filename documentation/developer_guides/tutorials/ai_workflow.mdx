@@ -91,7 +91,7 @@ import requests
 
 # Configuration
 PLAUD_API_TOKEN = "<your_api_token_here>"
-BASE_URL = "https://api.plaud.ai/api"
+BASE_URL = "https://platform.plaud.ai/api"
 headers = {
     "Authorization": f"Bearer {PLAUD_API_TOKEN}",
     "Content-Type": "application/json"
@@ -123,7 +123,7 @@ print(f"Workflow submitted with ID: {workflow_id}")
 ```
 
 ```bash cURL
-curl -X POST "https://api.plaud.ai/api/workflow/submit" \
+curl -X POST "https://platform.plaud.ai/api/workflow/submit" \
   -H "Authorization: Bearer <your_api_token_here>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -151,7 +151,7 @@ import requests
 
 # Configuration
 PLAUD_API_TOKEN = "<your_api_token_here>"
-BASE_URL = "https://api.plaud.ai/api"
+BASE_URL = "https://platform.plaud.ai/api"
 headers = { "Authorization": f"Bearer {PLAUD_API_TOKEN}" }
 
 # Assumes workflow_id is available from the previous step
@@ -165,7 +165,7 @@ print(f"Status: {status_info['status']}")
 print(f"Progress: {status_info['completed_tasks']}/{status_info['total_tasks']}")
 ```
 ```bash cURL
-curl -X GET "https://api.plaud.ai/api/workflow/{workflow_id}/status" \
+curl -X GET "https://platform.plaud.ai/api/workflow/{workflow_id}/status" \
   -H "Authorization: Bearer <your_api_token_here>"
 ```
 </CodeGroup>
@@ -187,7 +187,7 @@ import json
 
 # Configuration
 PLAUD_API_TOKEN = "<your_api_token_here>"
-BASE_URL = "https://api.plaud.ai/api"
+BASE_URL = "https://platform.plaud.ai/api"
 headers = { "Authorization": f"Bearer {PLAUD_API_TOKEN}" }
 
 # Assumes workflow_id is available
@@ -202,7 +202,7 @@ if response.status_code == 200:
     print(json.dumps(results, indent=2))
 ```
 ```bash cURL
-curl -X GET "https://api.plaud.ai/api/workflow/{workflow_id}/result" \
+curl -X GET "https://platform.plaud.ai/api/workflow/{workflow_id}/result" \
   -H "Authorization: Bearer <your_api_token_here>"
 ```
 </CodeGroup>
@@ -220,7 +220,7 @@ from typing import Optional, Dict, Any
 class PlaudWorkflowClient:
     """Complete client for Plaud AI Workflow operations."""
     
-    def __init__(self, api_token: str, client_id: str, base_url: str = "https://api.plaud.ai/api"):
+    def __init__(self, api_token: str, client_id: str, base_url: str = "https://platform.plaud.ai/api"):
         self.api_token = api_token
         self.client_id = client_id
         self.base_url = base_url

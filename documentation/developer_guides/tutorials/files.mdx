@@ -71,7 +71,7 @@ import requests
 import os
 
 PLAUD_API_TOKEN = "<your_api_token_here>"
-BASE_URL = "https://api.plaud.ai/api"
+BASE_URL = "https://platform.plaud.ai/api"
 headers = {
     "Authorization": f"Bearer {PLAUD_API_TOKEN}",
     "Content-Type": "application/json"
@@ -99,7 +99,7 @@ parts = upload_info["Parts"]
 ```
 
 ```bash cURL
-curl -X POST "https://api.plaud.ai/api/files/upload-s3/generate-presigned-urls" \
+curl -X POST "https://platform.plaud.ai/api//files/upload-s3/generate-presigned-urls" \
   -H "Authorization: Bearer <your_api_token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -183,7 +183,7 @@ print(f"Upload completed! File ID: {file_info.get('id')}")
 ```
 
 ```curl cURL
-curl -X POST "https://api.plaud.ai/api/files/upload-s3/complete-upload" \
+curl -X POST "https://platform.plaud.ai/api/files/upload-s3/complete-upload" \
   -H "Authorization: Bearer <your_api_token>" \
   -H "Content-Type": application/json" \
   -d '{
@@ -220,7 +220,7 @@ OWNER_ID = "user_12345" # The user this recording belongs to
 DEVICE_SN = "NP20240001" # Optional: The device that generated the recording
 
 # API Configuration
-BASE_URL = "https://api.plaud.ai/api"
+BASE_URL = "https://platform.plaud.ai/api"
 HEADERS = {
     "Authorization": f"Bearer {PLAUD_API_TOKEN}",
     "Content-Type": "application/json"
