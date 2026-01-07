@@ -51,7 +51,7 @@
                   "/documentation/developer_guides/tutorials/files"
                 ]
               },
-              
+
               "/documentation/developer_guides/libraries",
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
@@ -72,7 +72,7 @@
         },
         {
           "group": "ENDPOINTS",
-          "openapi": "https://platform.plaud.ai/openapi.json",
+          "openapi": "https://platform.plaud.cn/openapi.json",
           "pages": [
             {
               "group": "Oauth",
