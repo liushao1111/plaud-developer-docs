@@ -40,6 +40,28 @@ Add the Plaud SDK to your iOS project using the Swift Package Manager.
 ### Initialization
 The best place to initialize the SDK is within your `AppDelegate` or in a dedicated singleton manager class. This ensures it's configured once when your app starts.
 
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `hostName` | String | ✅ | Your app identifier (e.g., "YourAppName") |
+| `appKey` | String | ✅ | Your application key from developer platform |
+| `appSecret` | String | ✅ | Your application secret from developer platform |
+| `bindToken` | String | ✅ | Unique identifier for user/session binding |
+| `extra` | Dictionary | ❌ | Optional extra parameters (e.g., language, customDomain) |
+| `partnerToken` | String | ❌ | User-level access token from Partner API |
+
+<Tip>
+**Device-specific authentication:**
+- **NotePro / NotePins**: Use `partnerToken` for authentication. For `appKey`/`appSecret`/`bindToken`, you can pass any non-empty placeholder value (e.g., "placeholder")
+- **Note / NotePin**: Depends on firmware version. Newer firmware supports `partnerToken`, older firmware requires `appKey` + `appSecret` + `bindToken`
+</Tip>
+
+<Note>
+**About partnerToken:**
+The `partnerToken` is a **user-level access token** obtained from the Partner API. Each token is associated with a specific end-user in your application.
+</Note>
+
 ```swift
 import UIKit
 
@@ -48,19 +70,35 @@ class YourAppManager {
     // Hold a strong reference to the device agent
     var deviceAgent: PlaudDeviceAgent?
 
-    func initializePlaudSDK() {
-        // Get the shared instance of the agent
+    // Initialize with appKey/appSecret (for older Note/NotePin firmware)
+    func initializeWithAppKey() {
         let agent = PlaudDeviceAgent.shared()
-        
-        // Assign the delegate to receive callbacks
         agent.delegate = self 
         
-        // Initialize the SDK with your app credentials
         agent.initSDK(
             hostName: "YourAppName",
             appKey: "YOUR_APP_KEY",
-            bindToken: "YOUR_BIND_TOKEN", // A unique identifier for the user or session
-            extra: [:]
+            appSecret: "YOUR_APP_SECRET",
+            bindToken: "YOUR_BIND_TOKEN",
+            extra: [:],
+            partnerToken: nil
+        )
+        
+        self.deviceAgent = agent
+    }
+    
+    // Initialize with partnerToken (for NotePro, NotePins, and newer Note/NotePin firmware)
+    func initializeWithPartnerToken() {
+        let agent = PlaudDeviceAgent.shared()
+        agent.delegate = self 
+        
+        agent.initSDK(
+            hostName: "YourAppName",
+            appKey: "placeholder",        // Can be any non-empty value
+            appSecret: "placeholder",     // Can be any non-empty value
+            bindToken: "placeholder",     // Can be any non-empty value
+            extra: [:],
+            partnerToken: "YOUR_PARTNER_TOKEN"
         )
         
         self.deviceAgent = agent
@@ -245,6 +283,37 @@ func connect(to device: BleDevice) {
 //     // Update your UI to reflect the new connection status
 // }
 ```
+### Disconnect Device
+Disconnect from the currently connected device while keeping the binding relationship.
+
+```swift
+guard let deviceAgent = self.deviceAgent else { return }
+deviceAgent.disconnect()
+```
+
+### Unbind Device
+Unbind (depair) the device, removing the binding relationship. After unbinding, the device needs to be re-paired.
+
+```swift
+guard let deviceAgent = self.deviceAgent else { return }
+deviceAgent.unbind()
+
+// Implement the delegate method to handle unbind result
+// func plaud(didUnbind status: Int) {
+//     if status == 0 {
+//         print("Device unbound successfully")
+//     } else {
+//         print("Failed to unbind device. Status: \(status)")
+//     }
+// }
+```
+
+<Note>
+**Disconnect vs Unbind:**
+- `disconnect()`: Only disconnects Bluetooth connection. The device remains bound and can reconnect without re-pairing.
+- `unbind()`: Removes the binding relationship. The device must go through the pairing process again to connect.
+</Note>
+
 ### Start Recording
 Send a command to the connected device to begin recording.
 

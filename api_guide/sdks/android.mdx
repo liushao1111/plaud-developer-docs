@@ -30,7 +30,6 @@ your-project/
         implementation(name: "plaud-sdk", ext: "aar")
 
         // Required dependencies
-        // Kotlin coroutines, AndroidX, etc., as needed by your app
         implementation "com.google.guava:guava:28.2-android"
         implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
         implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
@@ -38,14 +37,11 @@ your-project/
         implementation "com.squareup.retrofit2:converter-gson:2.9.0"
         implementation "com.squareup.okhttp3:okhttp:4.10.0"
         implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
-        implementation platform("com.google.firebase:firebase-bom:32.7.4")
-        implementation "com.google.firebase:firebase-analytics"
     }
 
     plugins {
         id 'com.android.application'
         id 'kotlin-android'
-        id 'com.google.gms.google-services'  // For Firebase
     }
     ```
   </Step>
@@ -162,7 +158,31 @@ For apps targeting Android 9 (API level 28) or higher, ensure your network secur
 - **Gradle**: 7.3.1 or newer
 
 ### Initialization
-Initialize the Plaud SDK in your Application class or main activity:
+Initialize the Plaud SDK in your Application class or main activity.
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `context` | Context | ✅ | Application context |
+| `appKey` | String | ✅ | Your application key from developer platform |
+| `appSecret` | String | ✅ | Your application secret from developer platform |
+| `bleAgentListener` | BleAgentListener | ✅ | Callback listener for BLE events |
+| `hostName` | String | ✅ | Your app identifier (e.g., "MyCompany Demo App") |
+| `extra` | Map | ❌ | Optional extra parameters |
+| `customDomain` | String | ❌ | Custom API domain URL |
+| `partnerToken` | String | ❌ | User-level access token from Partner API |
+
+<Tip>
+**Device-specific authentication:**
+- **NotePro / NotePins**: Use `partnerToken` for authentication. For `appKey`/`appSecret`, you can pass any non-empty placeholder value (e.g., "placeholder")
+- **Note / NotePin**: Depends on firmware version. Newer firmware supports `partnerToken`, older firmware requires `appKey` + `appSecret`
+</Tip>
+
+<Note>
+**About partnerToken:**
+The `partnerToken` is a **user-level access token** obtained from the Partner API. Each token is associated with a specific end-user in your application.
+</Note>
 
 ```kotlin
 import android.content.Context
@@ -242,20 +262,28 @@ val bleAgentListener = object : BleAgentListener {
     }
 }
 
-// Initialize SDK
-val appKey = "{your_developer_platform_app_key}"
-val appSecret = "{your_developer_platform_app_secret}"
-val hostName = "{your_app_identifier}" // e.g., "MyCompany Demo App"
-val customDomain = "https://your-custom-domain.com" // Optional
-
+// Initialize SDK with appKey/appSecret (for older Note/NotePin firmware)
 NiceBuildSdk.initSdk(
     context = applicationContext,
-    appKey = appKey,
-    appSecret = appSecret,
+    appKey = "your_app_key",
+    appSecret = "your_app_secret",
     bleAgentListener = bleAgentListener,
-    hostName = hostName,
-    extra = null, // Optional extra parameters
-    customDomain = customDomain
+    hostName = "YourAppName",
+    extra = null,
+    customDomain = null,
+    partnerToken = null
+)
+
+// Initialize SDK with partnerToken (for NotePro, NotePins, and newer Note/NotePin firmware)
+NiceBuildSdk.initSdk(
+    context = applicationContext,
+    appKey = "placeholder",           // Can be any non-empty value
+    appSecret = "placeholder",        // Can be any non-empty value
+    bleAgentListener = bleAgentListener,
+    hostName = "YourAppName",
+    extra = null,
+    customDomain = null,
+    partnerToken = "your_partner_token"
 )
 ```
 
@@ -313,6 +341,28 @@ agent.connectionBLE(
     handshakeTimeout = handshakeTimeout
 )
 ```
+
+### Disconnect Device
+Disconnect from the currently connected device while keeping the binding relationship.
+
+```kotlin
+val bleAgent = TntAgent.getInstant().bleAgent
+bleAgent.disconnectBle()
+```
+
+### Unbind Device
+Unbind (depair) the device, removing the binding relationship. After unbinding, the device needs to be re-paired.
+
+```kotlin
+val bleAgent = TntAgent.getInstant().bleAgent
+bleAgent.unBindDevice()
+```
+
+<Note>
+**Disconnect vs Unbind:**
+- `disconnectBle()`: Only disconnects Bluetooth connection. The device remains bound and can reconnect without re-pairing.
+- `unBindDevice()`: Removes the binding relationship. The device must go through the pairing process again to connect.
+</Note>
 
 ### Start Recording
 ```kotlin
