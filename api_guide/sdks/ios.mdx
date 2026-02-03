@@ -314,6 +314,29 @@ deviceAgent.unbind()
 - `unbind()`: Removes the binding relationship. The device must go through the pairing process again to connect.
 </Note>
 
+### Get File List
+Retrieve the list of recording files stored on the device.
+
+```swift
+guard let deviceAgent = self.deviceAgent else { return }
+
+// Get all files (startSessionId = 0)
+deviceAgent.getFileList(startSessionId: 0)
+
+// Get files after a specific sessionId
+deviceAgent.getFileList(startSessionId: 1234567890)
+
+// Get a single file by sessionId
+deviceAgent.getFile(sessionId: 1234567890)
+
+// Implement the delegate method to receive the file list
+// func plaud(didReceiveFileList files: [BleFile]) {
+//     for file in files {
+//         print("File: sessionId=\(file.sessionId), size=\(file.fileSize)")
+//     }
+// }
+```
+
 ### Start Recording
 Send a command to the connected device to begin recording.
 
@@ -350,6 +373,51 @@ deviceAgent.stopRecord()
 //     // Update your UI and potentially start file download
 // }
 ```
+
+### Export Audio
+Export a recording file to a specified format. This method handles downloading from device, E2EE decryption (if needed), and format conversion automatically.
+
+```swift
+guard let deviceAgent = self.deviceAgent else { return }
+
+let sessionId = 1234567890
+let outputDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
+
+deviceAgent.exportAudio(
+    sessionId: sessionId,
+    outputDir: outputDir,
+    format: .wav,  // .wav (recommended) or .pcm
+    channels: 1,   // 1 = mono, 2 = stereo
+    callback: self
+)
+
+// Implement AudioExportCallback protocol
+// extension YourViewController: AudioExportCallback {
+//     func onProgress(_ progress: Int, message: String) {
+//         print("Export progress: \(progress)% - \(message)")
+//     }
+//     
+//     func onSuccess(_ outputPath: String) {
+//         print("Export completed: \(outputPath)")
+//     }
+//     
+//     func onError(_ error: String) {
+//         print("Export failed: \(error)")
+//     }
+// }
+
+// Get supported export formats
+let formats = PlaudDeviceAgent.getSupportedExportFormats()
+// Returns: [.wav, .pcm]
+```
+
+<Note>
+**Export process:**
+1. Check if local cache exists
+2. If not, download from device via BLE
+3. Decrypt E2EE encryption (if applicable)
+4. Convert to target format (WAV/PCM)
+</Note>
 
 ## Example Implementation
 

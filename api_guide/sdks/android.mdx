@@ -364,6 +364,20 @@ bleAgent.unBindDevice()
 - `unBindDevice()`: Removes the binding relationship. The device must go through the pairing process again to connect.
 </Note>
 
+### Get File List
+Retrieve the list of recording files stored on the device.
+
+```kotlin
+val bleCore = BleCore.getInstance()
+bleCore.getFileList(sessionId = 0L) { files ->
+    // sessionId = 0 means get all files
+    // sessionId > 0 means get files after this sessionId
+    files?.forEach { file ->
+        Log.d("BLE", "File: sessionId=${file.sessionId}, size=${file.fileSize}")
+    }
+}
+```
+
 ### Start Recording
 ```kotlin
 bleAgent.startRecord(scene = recordingScene)
@@ -375,6 +389,50 @@ A method to manually end the current recording.
 ```kotlin
 bleAgent.stopRecord(scene = recordingScene)
 ```
+
+### Export Audio
+Export a recording file to a specified format. This method handles downloading from device, E2EE decryption (if needed), and format conversion automatically.
+
+```kotlin
+import sdk.NiceBuildSdk
+import sdk.audio.AudioExportFormat
+import sdk.audio.AudioExporter
+
+val sessionId = 1234567890L
+val outputDir = File(context.getExternalFilesDir(null), "exports")
+
+NiceBuildSdk.exportAudio(
+    sessionId = sessionId,
+    outputDir = outputDir,
+    format = AudioExportFormat.WAV,  // WAV (recommended) or PCM
+    channels = 1,  // 1 = mono, 2 = stereo
+    callback = object : AudioExporter.ExportCallback {
+        override fun onProgress(progress: Int, message: String) {
+            Log.d("Export", "Progress: $progress% - $message")
+        }
+        
+        override fun onSuccess(outputPath: String) {
+            Log.d("Export", "Export completed: $outputPath")
+        }
+        
+        override fun onError(error: String) {
+            Log.e("Export", "Export failed: $error")
+        }
+    }
+)
+
+// Get supported export formats
+val formats = NiceBuildSdk.getSupportedExportFormats()
+// Returns: [AudioExportFormat.WAV, AudioExportFormat.PCM]
+```
+
+<Note>
+**Export process:**
+1. Check if local cache exists
+2. If not, download from device via BLE
+3. Decrypt E2EE encryption (if applicable)
+4. Convert to target format (WAV/PCM)
+</Note>
 
 ## Example implementation
 <Tip>An example Android app using this SDK can be found [here](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/android-demo)</Tip>
