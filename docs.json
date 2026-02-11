@@ -11,6 +11,11 @@
     "codeblocks": "system"
   },
   "favicon": "/assets/favicon/light.svg",
+  "seo": {
+    "metatags": {
+      "robots": "noindex"
+    }
+  },
   "api": {
     "examples": {
       "languages": ["curl", "python"],
