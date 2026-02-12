@@ -419,6 +419,300 @@ let formats = PlaudDeviceAgent.getSupportedExportFormats()
 4. Convert to target format (WAV/PCM)
 </Note>
 
+### Export Audio via Wi-Fi
+
+Export a recording file using Wi-Fi Fast Transfer for faster download speeds.
+The API signature is identical to `exportAudio`, making it easy to switch between BLE and Wi-Fi transfer channels.
+
+<Note>
+**Prerequisites:** Wi-Fi must be connected and handshake completed before calling this method. See the [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) section below for connection setup.
+</Note>
+
+```swift
+// Ensure Wi-Fi is connected and ready
+guard PlaudWiFiAgent.shared.isConnected else {
+    print("WiFi not connected")
+    return
+}
+
+let sessionId = 1234567890
+let outputDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
+
+PlaudWiFiAgent.shared.exportAudioViaWiFi(
+    sessionId: sessionId,
+    outputDir: outputDir,
+    format: .wav,  // .wav (recommended) or .pcm
+    channels: 1,   // 1 = mono, 2 = stereo
+    callback: self
+)
+
+// Implement AudioExportCallback protocol (same as exportAudio)
+// extension YourViewController: AudioExportCallback {
+//     func onProgress(_ progress: Int, message: String) {
+//         print("Export progress: \(progress)% - \(message)")
+//     }
+//     
+//     func onComplete(outputPath: String) {
+//         print("Export completed: \(outputPath)")
+//     }
+//     
+//     func onError(_ error: String) {
+//         print("Export failed: \(error)")
+//     }
+// }
+```
+
+<Note>
+**Export via Wi-Fi process:**
+1. Check if local cache exists
+2. If not, download from device via Wi-Fi (high-speed)
+3. Decrypt E2EE encryption (if applicable)
+4. Convert to target format (WAV/PCM)
+
+The only difference from `exportAudio` is that the download step uses Wi-Fi instead of BLE, resulting in much faster transfer speeds.
+</Note>
+
+### Delete File
+
+Delete a recording file from the device.
+
+```swift
+guard let deviceAgent = self.deviceAgent else { return }
+
+// Delete a file by sessionId
+deviceAgent.deleteFile(sessionId: 1234567890)
+
+// Implement the delegate method to handle deletion result
+// func plaud(didDeleteFileWithSessionId sessionId: Int, status: Int) {
+//     if status == 0 {
+//         print("File deleted successfully")
+//     } else {
+//         print("Failed to delete file. Status: \(status)")
+//     }
+// }
+```
+
+### Wi-Fi Fast Transfer
+
+Wi-Fi Fast Transfer enables high-speed file transfer between the Plaud device and your app via the device's built-in Wi-Fi hotspot.
+
+<Note>
+Wi-Fi Fast Transfer requires the `PenWiFiSDK` module (already included in `import PenWiFiSDK` above).
+Ensure the device is connected via Bluetooth before initiating Wi-Fi Fast Transfer.
+On iOS 13+, location permission (`NSLocationWhenInUseUsageDescription`) is required to detect the current Wi-Fi SSID.
+</Note>
+
+#### Integration Overview
+
+<Steps>
+<Step title="Open Device Wi-Fi Hotspot">
+  Use the Bluetooth connection to instruct the device to enable its Wi-Fi hotspot.
+</Step>
+<Step title="Receive Hotspot Credentials">
+  The device returns the hotspot name (SSID) and password via the `bleWiFiOpen` callback.
+</Step>
+<Step title="Connect to Device Hotspot">
+  Use `PlaudWiFiAgent` to connect your app to the device's Wi-Fi hotspot.
+</Step>
+<Step title="Transfer Files">
+  Once connected and handshake is complete, use file operation APIs to list, download, and manage files.
+</Step>
+</Steps>
+
+#### Step 1: Open Device Wi-Fi Hotspot
+
+After the device is connected via Bluetooth, enable its Wi-Fi hotspot:
+
+```swift
+// Ensure Bluetooth is connected first
+guard PlaudDeviceAgent.shared().isConnected() else {
+    print("Bluetooth not connected")
+    return
+}
+
+// Open the device Wi-Fi hotspot
+PlaudDeviceAgent.shared().setDeviceWiFi(open: true)
+```
+
+Receive the hotspot credentials in the `PlaudDeviceAgentProtocol` delegate:
+
+```swift
+/// Device Wi-Fi hotspot opened callback
+/// - Parameters:
+///   - status: 0 = success, 1 = recording in progress, 2 = USB disk mode active
+///   - wifiName: Device hotspot SSID
+///   - wholeName: Full device name (with SN suffix)
+///   - wifiPass: Device hotspot password
+func bleWiFiOpen(_ status: Int, _ wifiName: String, _ wholeName: String, _ wifiPass: String) {
+    if status == 0 {
+        // Pass the BLE device reference to WiFi agent
+        PlaudWiFiAgent.shared.bleDevice = BleAgent.shared.bleDevice
+        // Proceed to connect WiFi
+        connectToDeviceWiFi(wifiName, wifiPass)
+    }
+}
+```
+
+#### Step 2: Set Up PlaudWiFiAgent
+
+Set the delegate to receive Wi-Fi transfer callbacks:
+
+```swift
+// Set delegate
+PlaudWiFiAgent.shared.delegate = self
+
+// Implement PlaudWiFiAgentProtocol
+class YourViewController: UIViewController, PlaudWiFiAgentProtocol {
+    // Implement delegate methods below...
+}
+```
+
+#### Step 3: Connect to Device Wi-Fi
+
+```swift
+/// Connect to the device's Wi-Fi hotspot
+/// - Parameters:
+///   - ssid: Wi-Fi hotspot name (from bleWiFiOpen callback)
+///   - passphrase: Wi-Fi hotspot password (from bleWiFiOpen callback)
+///   - overtimeSec: Connection timeout in seconds (default: 60)
+if #available(iOS 11.0, *) {
+    PlaudWiFiAgent.shared.connectWifi(wifiName, wifiPass, 60)
+} else {
+    // For iOS < 11.0, use listenPort and guide user to Settings
+    PlaudWiFiAgent.shared.listenPort(wifiName, 30)
+}
+```
+
+#### Step 4: Handle Connection Callbacks
+
+```swift
+/// Wi-Fi connection status change
+func wifiConnectionStatus(_ ssid: String, _ connected: Bool) {
+    if connected {
+        print("Connected to device Wi-Fi: \(ssid)")
+    } else {
+        print("Wi-Fi connection failed: \(ssid)")
+    }
+}
+
+/// Handshake result - connection is ready for file operations when status == 0
+func wifiHandshake(_ status: Int) {
+    if status == 0 {
+        print("Wi-Fi handshake successful, ready for file transfer")
+    }
+}
+```
+
+#### PlaudWiFiAgentProtocol Reference
+
+The key delegate callbacks for Wi-Fi transfer:
+
+| Callback | Description |
+|----------|-------------|
+| `wifiConnectionStatus(_ ssid:, _ connected:)` | Wi-Fi connection status changed |
+| `wifiHandshake(_ status:)` | Handshake result (0 = success) |
+| `wifiFileList(_ files:)` | File list received |
+| `wifiFileListFail(_ status:)` | Failed to get file list |
+| `wifiFileDelete(_ sessionId:, _ status:)` | File deletion result (0 = success) |
+| `wifiPower(_ power:, _ voltage:)` | Device battery level and voltage |
+| `wifiCommonErr(_ cmd:, _ status:)` | General error occurred |
+| `wifiClientFail()` | WebSocket connection lost unexpectedly |
+| `wifiClose(_ status:)` | Wi-Fi closed (-1 = error, -2 = timeout, -3 = system error) |
+
+#### Wi-Fi Status Properties
+
+```swift
+// Check if Wi-Fi is connected
+let connected = PlaudWiFiAgent.shared.isConnected
+
+// Check if currently downloading a file
+let downloading = PlaudWiFiAgent.shared.isDownloading
+
+// Get current download speed (KB/s)
+let speedKBps = PlaudWiFiAgent.shared.currentDownloadSpeedKBps
+
+// Get formatted download speed string (e.g., "1.5 MB/s" or "500.0 KB/s")
+let speedString = PlaudWiFiAgent.shared.getFormattedDownloadSpeed()
+
+// Get current connected Wi-Fi name
+let wifiName = PlaudWiFiAgent.shared.getCurrentWiFiName()
+
+// Check WebSocket connection status
+let wsConnected = PlaudWiFiAgent.shared.isWebSocketConnected()
+```
+
+### Get File List via Wi-Fi
+
+<Note>**Prerequisite:** Wi-Fi must be connected and handshake completed. See [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) above.</Note>
+
+```swift
+PlaudWiFiAgent.shared.getFileList(Int(Date().timeIntervalSince1970), 0)
+
+// Callback - file list received
+func wifiFileList(_ files: [BleFile]) {
+    for file in files {
+        print("File sessionId: \(file.sessionId), size: \(file.size) bytes")
+    }
+}
+
+// Callback - file list retrieval failed
+func wifiFileListFail(_ status: Int) {
+    print("Failed to get file list, error: \(status)")
+}
+```
+
+### Delete File via Wi-Fi
+
+<Note>**Prerequisite:** Wi-Fi must be connected and handshake completed. See [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) above.</Note>
+
+```swift
+// Delete a recording file on the device
+PlaudWiFiAgent.shared.deleteFile(bleFile.sessionId)
+
+// Delete result callback
+func wifiFileDelete(_ sessionId: Int, _ status: Int) {
+    // status 0 = deleted successfully
+}
+```
+
+### Disconnect Wi-Fi and Reconnect BLE
+
+After Wi-Fi file transfer is complete, the device will automatically close its Wi-Fi hotspot after approximately **15 seconds** of inactivity. You should handle this transition by disconnecting from the hotspot and reconnecting via BLE.
+
+<Warning>
+**Do not call `PlaudWiFiAgent.shared.disconnect()` directly.** This may cause certain device models to enter an abnormal state. Use `NEHotspotConfigurationManager` to disconnect from the hotspot instead.
+</Warning>
+
+```swift
+import NetworkExtension
+
+// Step 1: Remove the Wi-Fi hotspot configuration to disconnect the phone from the device hotspot
+if #available(iOS 11.0, *) {
+    NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: wifiName)
+}
+
+// Step 2: Wait ~15 seconds for the device to close Wi-Fi and resume BLE advertising
+DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
+    // Step 3: Start a BLE scan to find the device
+    PlaudDeviceAgent.shared().startScan()
+}
+
+// Step 4: In the scan callback, find the target device by serial number and reconnect
+// func bleScanResult(bleDevices: [BleDevice]) {
+//     for device in bleDevices {
+//         if device.serialNumber == targetSerialNumber {
+//             PlaudDeviceAgent.shared().stopScan()
+//             PlaudDeviceAgent.shared().connectBleDevice(bleDevice: device)
+//             return
+//         }
+//     }
+// }
+```
+
+<Note>
+After Wi-Fi transfer, you **must** perform a BLE scan and use the newly discovered `BleDevice` object to reconnect. Do not reuse the `BleDevice` object from before the Wi-Fi transfer.
+</Note>
+
 ## Example Implementation
 
 <Tip>A complete example iOS app using this SDK can be found in the [official repository](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/ios-demo).</Tip>
