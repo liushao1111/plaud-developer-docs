@@ -127,14 +127,9 @@
   "navbar": {
     "links": [
       {
-        "label": "Request Access",
+        "label": "Join Waitlist",
         "href": "https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform",
         "icon": "key"
-      },
-      {
-        "label": "Contact Us",
-        "href": "https://www.plaud.ai/pages/contact-sales",
-        "icon": "envelope"
       }
     ]
   },
