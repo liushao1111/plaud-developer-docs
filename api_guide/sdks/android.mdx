@@ -75,6 +75,7 @@ Add the following permissions to your `AndroidManifest.xml`:
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
 <!-- Storage permissions -->
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -411,8 +412,8 @@ NiceBuildSdk.exportAudio(
             Log.d("Export", "Progress: $progress% - $message")
         }
         
-        override fun onSuccess(outputPath: String) {
-            Log.d("Export", "Export completed: $outputPath")
+        override fun onComplete(outputFile: File) {
+            Log.d("Export", "Export completed: ${outputFile.absolutePath}")
         }
         
         override fun onError(error: String) {
@@ -432,6 +433,280 @@ val formats = NiceBuildSdk.getSupportedExportFormats()
 2. If not, download from device via BLE
 3. Decrypt E2EE encryption (if applicable)
 4. Convert to target format (WAV/PCM)
+</Note>
+
+### Export Audio via Wi-Fi
+
+Export a recording file using Wi-Fi Fast Transfer for faster download speeds.
+The API signature is identical to `exportAudio`, making it easy to switch between BLE and Wi-Fi transfer channels.
+
+<Note>
+**Prerequisites:** Wi-Fi transfer must be started and in `READY` state before calling this method. See the [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) section below for connection setup.
+</Note>
+
+```kotlin
+import sdk.NiceBuildSdk
+import sdk.audio.AudioExportFormat
+import sdk.audio.AudioExporter
+
+val sessionId = 1234567890L
+val outputDir = File(context.getExternalFilesDir(null), "exports")
+
+NiceBuildSdk.exportAudioViaWiFi(
+    sessionId = sessionId,
+    outputDir = outputDir,
+    format = AudioExportFormat.WAV,  // WAV (recommended) or PCM
+    channels = 1,  // 1 = mono, 2 = stereo
+    callback = object : AudioExporter.ExportCallback {
+        override fun onProgress(progress: Int, message: String) {
+            Log.d("Export", "Progress: $progress% - $message")
+        }
+        
+        override fun onComplete(outputFile: File) {
+            Log.d("Export", "Export completed: ${outputFile.absolutePath}")
+        }
+        
+        override fun onError(error: String) {
+            Log.e("Export", "Export failed: $error")
+        }
+    }
+)
+```
+
+<Note>
+**Export via Wi-Fi process:**
+1. Check if local cache exists
+2. If not, download from device via Wi-Fi (high-speed)
+3. Decrypt E2EE encryption (if applicable)
+4. Convert to target format (WAV/PCM)
+
+The only difference from `exportAudio` is that the download step uses Wi-Fi instead of BLE, resulting in much faster transfer speeds.
+</Note>
+
+### Delete File
+
+Delete a recording file from the device.
+
+```kotlin
+val bleAgent = TntAgent.getInstant().bleAgent
+bleAgent.deleteFile(sessionId = 1234567890L) { success ->
+    if (success) {
+        Log.d("BLE", "File deleted successfully")
+    } else {
+        Log.e("BLE", "Failed to delete file")
+    }
+}
+```
+
+### Wi-Fi Fast Transfer
+
+Wi-Fi Fast Transfer enables high-speed file transfer between the Plaud device and your app via the device's built-in Wi-Fi hotspot.
+
+<Note>
+Ensure the device is connected via Bluetooth before initiating Wi-Fi Fast Transfer.
+Wi-Fi related permissions (`ACCESS_WIFI_STATE`, `CHANGE_WIFI_STATE`, `ACCESS_FINE_LOCATION`) are required.
+On Android 10+, location permission must be granted at runtime to connect to Wi-Fi networks programmatically.
+</Note>
+
+#### Integration Overview
+
+<Steps>
+<Step title="Start Wi-Fi Transfer">
+  Call `startWifiTransfer()` which automatically opens the device hotspot, connects, and performs handshake.
+</Step>
+<Step title="Receive File List">
+  Once connected, retrieve the file list from the device.
+</Step>
+<Step title="Download Files">
+  Download files individually or in batch via Wi-Fi.
+</Step>
+<Step title="Stop Transfer">
+  Call `stopWifiTransfer()` when done to disconnect and release resources.
+</Step>
+</Steps>
+
+#### Get Wi-Fi Agent
+
+```kotlin
+// Get the Wi-Fi agent from NiceBuildSdk
+val wifiAgent: IWifiAgent? = NiceBuildSdk.getWifiAgent()
+```
+
+#### Start Wi-Fi Transfer
+
+The `startWifiTransfer` method handles the full connection flow automatically:
+opening the device hotspot, connecting to it, and performing the WebSocket handshake.
+
+```kotlin
+val success = NiceBuildSdk.startWifiTransfer(userId, object : IWifiAgent.WifiTransferCallback {
+
+    override fun onConnectionStateChanged(state: WifiConnectionState) {
+        // NONE -> CONNECTING -> CONNECTED -> HANDSHAKING -> READY
+        Log.d("WiFi", "Connection state: $state")
+    }
+
+    override fun onHandshakeCompleted(sessionId: String) {
+        Log.d("WiFi", "Handshake completed, session: $sessionId")
+        // Wi-Fi is now ready for file operations
+    }
+
+    override fun onError(errorCode: Int, errorMessage: String) {
+        Log.e("WiFi", "Error $errorCode: $errorMessage")
+    }
+})
+```
+
+#### Connection States
+
+```kotlin
+enum class WifiConnectionState {
+    NONE,           // Not connected
+    CONNECTING,     // Connecting to device hotspot
+    CONNECTED,      // Wi-Fi connected, not yet handshaken
+    HANDSHAKING,    // WebSocket handshake in progress
+    READY,          // Ready for file operations
+    DISCONNECTED,   // Disconnected
+    ERROR           // Connection error
+}
+```
+
+#### WifiTransferCallback Reference
+
+| Callback | Description |
+|----------|-------------|
+| `onConnectionStateChanged(state)` | Connection state changed |
+| `onHandshakeCompleted(sessionId)` | WebSocket handshake completed, ready for transfer |
+| `onFileListReceived(files)` | File list received from device |
+| `onTransferProgress(sessionId, progress, speedKbps, bytesTransferred, totalBytes)` | Per-file download progress |
+| `onFileTransferCompleted(sessionId, filePath)` | Single file download completed |
+| `onWifiTransferStopped()` | Wi-Fi transfer stopped |
+| `onDeviceBatteryUpdate(batteryLevel, isCharging, voltage)` | Device battery status update |
+| `onBatchDownloadStarted(totalFiles)` | Batch download started |
+| `onBatchDownloadProgress(currentIndex, totalFiles, currentFileName)` | Batch download per-file progress |
+| `onBatchDownloadCompleted(successCount, failedCount, results)` | Batch download completed with results |
+| `onError(errorCode, errorMessage)` | Error occurred |
+
+#### Check Transfer Status
+
+```kotlin
+// Check if Wi-Fi transfer is currently active
+val isActive: Boolean = NiceBuildSdk.isWifiTransferActive()
+
+// Get current connection state
+val state: WifiConnectionState? = wifiAgent?.getConnectionState()
+
+// Check if prerequisites are met (Bluetooth connected, permissions granted)
+val ready: Boolean = wifiAgent?.checkPrerequisites() ?: false
+```
+
+### Get File List via Wi-Fi
+
+<Note>**Prerequisite:** Wi-Fi transfer must be started and in `READY` state. See [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) above.</Note>
+
+```kotlin
+wifiAgent?.getFileList()
+
+// Callback
+override fun onFileListReceived(files: List<WifiFileInfo>) {
+    for (file in files) {
+        Log.d("WiFi", "File: sessionId=${file.sessionId}, size=${file.fileSize}")
+    }
+}
+```
+
+### Download Single File via Wi-Fi
+
+For advanced use cases where you need the raw downloaded file without format conversion:
+
+<Note>**Prerequisite:** Wi-Fi transfer must be started and in `READY` state. See [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) above.</Note>
+
+```kotlin
+wifiAgent?.downloadFile(sessionId, null)
+
+// Per-file transfer progress
+override fun onTransferProgress(sessionId: Long, progress: Int, speedKbps: Float,
+                                 bytesTransferred: Long, totalBytes: Long) {
+    Log.d("WiFi", "File $sessionId: $progress%, speed: ${speedKbps}KB/s")
+}
+
+// File download completed
+override fun onFileTransferCompleted(sessionId: Long, filePath: String) {
+    Log.d("WiFi", "File $sessionId saved to: $filePath")
+}
+```
+
+### Download All Files via Wi-Fi
+
+Download all files from the device in batch via Wi-Fi:
+
+<Note>**Prerequisite:** Wi-Fi transfer must be started and in `READY` state. See [Wi-Fi Fast Transfer](#wi-fi-fast-transfer) above.</Note>
+
+```kotlin
+wifiAgent?.downloadAllFiles()
+
+// Batch download started
+override fun onBatchDownloadStarted(totalFiles: Int) {
+    Log.d("WiFi", "Starting batch download of $totalFiles files")
+}
+
+// Per-file progress within batch
+override fun onBatchDownloadProgress(currentIndex: Int, totalFiles: Int, currentFileName: String) {
+    Log.d("WiFi", "Downloading file $currentIndex/$totalFiles: $currentFileName")
+}
+
+// Batch download completed
+override fun onBatchDownloadCompleted(
+    successCount: Int,
+    failedCount: Int,
+    results: List<IWifiAgent.BatchDownloadResult>
+) {
+    Log.d("WiFi", "Batch complete: $successCount succeeded, $failedCount failed")
+    results.forEach { result ->
+        if (result.success) {
+            Log.d("WiFi", "  ${result.fileInfo.sessionId} -> ${result.filePath}")
+        } else {
+            Log.e("WiFi", "  ${result.fileInfo.sessionId} failed: ${result.errorMessage}")
+        }
+    }
+}
+```
+
+### Stop Wi-Fi Transfer and Reconnect BLE
+
+After Wi-Fi file transfer is complete, the device will automatically close its Wi-Fi hotspot after approximately **15 seconds** of inactivity. You should handle this transition by stopping the Wi-Fi transfer and reconnecting via BLE.
+
+```kotlin
+// Step 1: Stop Wi-Fi transfer
+NiceBuildSdk.stopWifiTransfer()
+
+// Step 2: Wait ~15 seconds for the device to close Wi-Fi and resume BLE advertising
+Handler(Looper.getMainLooper()).postDelayed({
+    // Step 3: Start a BLE scan to find the device
+    val bleAgent = TntAgent.getInstant().bleAgent
+    bleAgent.scanBle(true) { errorCode ->
+        Log.e("BLE", "Scan error: $errorCode")
+    }
+}, 15_000) // 15 seconds delay
+
+// Step 4: In the scan callback, find the target device by serial number and reconnect
+// override fun scanBleDeviceReceiver(device: BleDevice) {
+//     if (device.serialNumber == targetSerialNumber) {
+//         val bleAgent = TntAgent.getInstant().bleAgent
+//         bleAgent.scanBle(false) {} // Stop scan
+//         bleAgent.connectionBLE(
+//             device = device,
+//             bindToken = bindToken,
+//             devToken = null,
+//             userName = null,
+//             connectTimeout = 10000L,
+//             handshakeTimeout = 30000L
+//         )
+//     }
+// }
+```
+
+<Note>
+After Wi-Fi transfer, you **must** perform a BLE scan and use the newly discovered `BleDevice` object to reconnect. Do not reuse the `BleDevice` object from before the Wi-Fi transfer.
 </Note>
 
 ## Example implementation

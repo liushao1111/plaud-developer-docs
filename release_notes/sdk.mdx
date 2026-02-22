@@ -3,3 +3,36 @@
 SDK updates and changelog.
 
 Track changes and improvements to our SDKs.
+
+## February 2026
+
+### Wi-Fi Fast Transfer Support
+
+**iOS SDK & Android SDK**
+
+Added Wi-Fi Fast Transfer capability for high-speed file transfer between the Plaud device and your app.
+
+**New Features:**
+- **Wi-Fi Fast Transfer**: Transfer recording files via the device's built-in Wi-Fi hotspot for faster speeds compared to Bluetooth transfer
+- **`exportAudioViaWiFi`**: High-level API to download and convert audio files via Wi-Fi in one call, with the same interface as `exportAudio` (BLE). Handles download, E2EE decryption, and format conversion (WAV/PCM) automatically
+- **Batch Download**: Download all recording files from the device in one operation with progress tracking
+- **Download Speed Monitoring**: Real-time download speed tracking (KB/s or MB/s)
+- **Automatic Connection Flow**: Simplified integration with automatic hotspot activation, connection, and handshake
+
+**Important Notes:**
+- After Wi-Fi transfer, the device closes its Wi-Fi hotspot after ~15 seconds. You must re-scan and use the newly discovered device to reconnect BLE. See the SDK documentation for reconnection guidance
+
+**iOS SDK Changes:**
+- Added `PlaudWiFiAgent` class as the main entry point for Wi-Fi Fast Transfer
+- Added `PlaudWiFiAgent.exportAudioViaWiFi()` for high-level audio export via Wi-Fi
+- Added `PlaudWiFiAgentProtocol` delegate protocol for receiving transfer events
+- Added `PlaudDeviceAgent.setDeviceWiFi(open:)` to control the device Wi-Fi hotspot
+- New dependency: `PenWiFiSDK.framework`
+- Requires iOS 11.0+ for system-level Wi-Fi connection; iOS 13+ requires location permission for Wi-Fi SSID detection
+
+**Android SDK Changes:**
+- Added `IWifiAgent` interface accessible via `NiceBuildSdk.getWifiAgent()`
+- Added `NiceBuildSdk.exportAudioViaWiFi()` for high-level audio export via Wi-Fi
+- Added `NiceBuildSdk.startWifiTransfer()` / `stopWifiTransfer()` convenience methods
+- Added `WifiTransferCallback` for comprehensive transfer event handling
+- Requires `ACCESS_WIFI_STATE`, `CHANGE_WIFI_STATE`, and location permissions

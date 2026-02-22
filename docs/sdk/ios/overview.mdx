@@ -19,7 +19,8 @@ The Plaud SDK ecosystem consists of several key components:
 **SDK Capabilities**
 - **Device Connection**: Establish and manage Bluetooth connections with Plaud devices
 - **Recording Control**: Start, stop, and manage audio recording sessions
-- **Recording Export**: Transfer recorded audio files from device to app
+- **Recording Export**: Transfer recorded audio files from device to app via Bluetooth
+- **Wi-Fi Fast Transfer**: High-speed file transfer via the device's built-in Wi-Fi hotspot
 - **Cloud Processing**: Send recordings to Plaud's AI cloud services for processing
 
 **PLAUD Device**
@@ -42,3 +43,10 @@ The Plaud SDK ecosystem consists of several key components:
 
 ## Install the SDK <a id="install-the-sdk"></a>
 You need to import `PenBleSDK.framework` and `PlaudDeviceBasicSDK.framework`. For specific import methods, please refer to the [DemoApp](https://github.com/Plaud-AI/plaud-sdk/tree/main/examples/ios-demo/SDKDemo).
+
+For Wi-Fi Fast Transfer support, additionally import `PenWiFiSDK.framework`.
+
+<Note>
+Wi-Fi Fast Transfer requires iOS 11.0+ for system-level Wi-Fi connection support.
+On iOS 13+, you must add the `NSLocationWhenInUseUsageDescription` key to your `Info.plist`, as location permission is required to detect the current Wi-Fi SSID.
+</Note>
