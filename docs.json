@@ -37,6 +37,7 @@
           },
           {
             "group": "CAPABILITIES",
+            "hidden": true,
             "pages": [
               "/documentation/capabilities/device_operations",
               "/documentation/capabilities/file_management",
@@ -46,17 +47,16 @@
           },
           {
             "group": "DEVELOPER GUIDES",
+            "hidden": true,
             "pages": [
               {
                 "group": "Tutorials",
                 "icon": "code",
-                "iconType": "duotone",
                 "pages": [
                   "/documentation/developer_guides/tutorials/device_operations",
                   "/documentation/developer_guides/tutorials/files"
                 ]
               },
-
               "/documentation/developer_guides/libraries",
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
@@ -64,60 +64,62 @@
           }
         ]
       },
-    {
-      "tab": "API Guide",
-      "groups": [
-        {
-          "group": "API REFERENCE",
-          "pages": [
-            "/api_guide/api_intro/overview",
-            "/api_guide/api_intro/authorization",
-            "/api_guide/api_intro/rate_limit"
-          ]
-        },
-        {
-          "group": "ENDPOINTS",
-          "openapi": "https://platform.plaud.cn/openapi.json",
-          "pages": [
-            {
-              "group": "Oauth",
-              "pages": ["POST /api/oauth/api-token"]
-            },
-            {
-              "group": "Devices",
-              "pages": [
-                "GET /api/devices/{device_id}",
-                "POST /api/devices/bind",
-                "POST /api/devices/unbind"
-              ]
-            },
-            {
-              "group": "Files",
-              "pages": [
-                "POST /api/files/upload-s3/generate-presigned-urls",
-                "POST /api/files/upload-s3/complete-upload"
-              ]
-            },
-            {
-              "group": "Workflows",
-              "pages": [
-                "GET /api/workflows/{workflow_id}/result",
-                "GET /api/workflows/{workflow_id}/status",
-                "POST /api/workflows/submit"
-              ]
-            }
-          ]
-        },
-        {
-          "group": "SDK",
-          "pages": [
-            "/api_guide/sdks/overview",
-            "/api_guide/sdks/ios",
-            "/api_guide/sdks/android"
-          ]
-        }
-      ]
-    }
+      {
+        "tab": "API Guide",
+        "groups": [
+          {
+            "group": "API REFERENCE",
+            "pages": [
+              "/api_guide/api_intro/overview",
+              "/api_guide/api_intro/authorization",
+              "/api_guide/api_intro/rate_limit"
+            ]
+          },
+          {
+            "group": "ENDPOINTS",
+            "openapi": "https://platform.plaud.cn/openapi.json",
+            "pages": [
+              {
+                "group": "Oauth",
+                "pages": [
+                  "POST /api/oauth/api-token"
+                ]
+              },
+              {
+                "group": "Devices",
+                "pages": [
+                  "GET /api/devices/{device_id}",
+                  "POST /api/devices/bind",
+                  "POST /api/devices/unbind"
+                ]
+              },
+              {
+                "group": "Files",
+                "pages": [
+                  "POST /api/files/upload-s3/generate-presigned-urls",
+                  "POST /api/files/upload-s3/complete-upload"
+                ]
+              },
+              {
+                "group": "Workflows",
+                "pages": [
+                  "GET /api/workflows/{workflow_id}/result",
+                  "GET /api/workflows/{workflow_id}/status",
+                  "POST /api/workflows/submit"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "SDK",
+            "pages": [
+              "/api_guide/sdks/overview",
+              "/api_guide/sdks/ios",
+              "/api_guide/sdks/android"
+            ]
+          }
+        ]
+      }
     ]
   },
   "logo": {
