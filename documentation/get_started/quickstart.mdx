@@ -6,9 +6,7 @@ iconType: "duotone"
 sidebarTitle: "Quickstart"
 ---
 
-The Plaud API provides a simple interface to state-of-the-art recording devices and features. 
-Follow this guide to learn how to bind your Plaud device. 
-See the [developer guides](/documentation/get_started/quickstart#explore-our-developer-guides) for more examples with our other products.
+The Partner API is a REST API for partners. You can use it for partner authentication, user token issuance, and asynchronous audio transcription workflows.
 
 <Tip>
 **Note:**  
@@ -20,88 +18,210 @@ This documentation site is for SaaS companies that want to integrate directly wi
 1. You need to have an iOS/Android app that your users can download, OR
 2. Your users need to have bluetooth-enabled computers/laptops that they can use to transfer recordings over to your web app
 
-## Using the API
+
+## Service regions
+
+- US: `https://platform.plaud.ai/developer/api`
+- JP: `https://platform-jp.plaud.ai/developer/api`
+- EU: `https://platform-eu.plaud.ai/developer/api` (coming soon)
+
+## Authentication model
+
+The Partner API uses two token types:
+
+- Partner access token: for partner-level endpoints (for example, transcription endpoints)
+- Partner user access token: for user-level partner endpoints. Using it in sdk module.
+
+### 1) Get a partner access token
+
+`POST /oauth/partner/access-token`
+
+- Auth method: HTTP Basic Auth (`client_id:secret_key`)
+- Rate limit: 10 requests per minute per `client_id`
+
+Example:
+
+```bash
+curl -X POST "https://platform.plaud.ai/developer/api/oauth/partner/access-token" \
+  -u "<client_id>:<secret_key>"
+```
+
+Response example:
+
+```json
+{
+  "access_token": "eyJ...",
+  "refresh_token": "eyJ...",
+  "token_type": "bearer",
+  "expires_in": 86400
+}
+```
+
+### 2) Refresh a partner access token
+
+`POST /oauth/partner/access-token/refresh`
+
+- Body: `refresh_token` (form field)
+
+```bash
+curl -X POST "https://platform.plaud.ai/developer/api/oauth/partner/access-token/refresh" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "refresh_token=<refresh_token>"
+```
+
+### 3) get a partner user token
+
+`POST /open/partner/users/access-token`
+
+- Header: `Authorization: Bearer <partner_access_token>`
+- Body fields:
+	-  `user_id` (string, required, max length 120)
+	-  `expires_in` (integer, optional, range `300-86400`)
+- Rate limit: 10 requests per minute per `client_id + user_id`
+- Returns: `access_token` (no `refresh_token`)
+
+```bash
+curl -X POST "https://platform.plaud.ai/developer/api/open/partner/users/access-token" \
+  -H "Authorization: Bearer <partner_access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"external-user-123","expires_in":3600}'
+```
+
+## AI transcription (beta)
+
+### 1) Submit a transcription task
+
+`POST /open/partner/ai/transcriptions/`
+
+- Header: `Authorization: Bearer <partner_access_token>`
+- Body fields:
+  - `file_url` (string, required)
+  - `params` (object, optional), supports:
+	  - `transcribe.language` (default: `auto`)
+    - `transcribe.detection_level` (default: `segment`)
+    - `vad.decode_silence` (default: `false`)
+    - `diarization.enable` (default: `false`)
+    - `diarization.return_embedding` (default: `false`)
+- Rate limit: based on client config `qpm_transcription`, default 60 requests per minute
+
+```bash
+curl -X POST "https://platform.plaud.ai/developer/api/open/partner/ai/transcriptions/" \
+  -H "Authorization: Bearer <partner_access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "file_url":"https://example.com/demo.wav",
+    "params":{
+      "transcribe":{"language":"auto", "detection_level":"segment"},
+      "vad":{"decode_silence":false},
+      "diarization":{"enable":false,"return_embedding":false}
+    }
+  }'
+```
+
+Response example:
+
+```json
+{
+  "transcription_id": "task_exec_xxx",
+  "status": "RECEIVED",
+  "data": {}
+}
+```
+
+### 2) Get transcription result
+
+`GET /open/partner/ai/transcriptions/{transcription_id}`
+
+- Header: `Authorization: Bearer <partner_access_token>`
+- Status values: `RECEIVED | PROGRESS | SUCCESS | FAILURE | REVOKED`
+
+```bash
+curl "https://platform.plaud.ai/developer/api/open/partner/ai/transcriptions/task_exec_xxx" \
+  -H "Authorization: Bearer <partner_access_token>"
+```
+
+## Webhooks
+
+When a transcription task reaches a completed state, the system sends a webhook event to your configured webhook URL.
+
+### Event trigger
+
+- Event type: `audio_transcribe.completed`
+- Trigger states: `SUCCESS`, `FAILURE`, or `REVOKED`
+- Method: `POST`
+
+### Event payload
+
+```json
+{
+  "event_id": "event_12345678-1234-1234-1234-1234567890ab",
+  "event_type": "audio_transcribe.completed",
+  "event_data": {
+    "transcription_id": "task_exec_xxx",
+    "status": "SUCCESS",
+    "data": {}
+  },
+  "event_datetime": "2026-02-24T12:34:56.000000+00:00"
+}
+```
+
+### Signature header
+
+If your client webhook has a `secret_key`, the webhook includes:
+
+- `X-Signature: <hex_digest>`
+
+Signature algorithm: `hmac-sha256`.
+
+Signature verification steps
 
 <Steps>
-  <Step title="Create an APP">
-    [Create an APP in the dashboard here,]() which you'll use to securely [access the API](/api_guide/api_intro/authorization).
-    <Tip>
-      Don’t have access yet? Book a call with our [Submit Request Form](https://docs.google.com/forms/d/e/1FAIpQLSeMr2cRAjrWK79k6HuPOjeOoU7bqHDbk1ZQTsH3RZ8rhJPwAg/viewform) here.
-    </Tip>
-    Store `Client ID` and `Secret Key` as managed secrets as a environment variable via an `.env` file, or directly in your app’s configuration depending on your preference.
-    ```bash .env
-    PLAUD_CLIENT_ID=<PLAUD_CLIENT_ID>
-    PLAUD_CLIENT_SECRET_KEY=<PLAUD_CLIENT_SECRET_KEY>
-    ```
+  <Step title="Read inputs">
+    Read the webhook payload JSON, your webhook secret key, and header `X-Signature`.
   </Step>
-  <Step title="Install Dependencies">
-    We’ll also use the `dotenv` library to load our Client ID and Secret Key from environment variables.
-    <CodeGroup>
-    ```python Python
-    pip install python-dotenv
-    ```
-    </CodeGroup>
+  <Step title="Sort top-level fields">
+    Sort payload keys alphabetically.
   </Step>
-  <Step title="Make your first request">
-    Create a new file named `example.py`, depending on your language of choice and add the following code:
-    <CodeGroup>
-    ```python Python
-    import base64
-    import requests
-    from dotenv import load_dotenv
-
-    load_dotenv()
-
-    # Step 1: Generate API token
-    client_id = os.getenv("PLAUD_CLIENT_ID")
-    secret_key = os.getenv("PLAUD_CLIENT_SECRET_KEY")
-    
-    # Create base64 encoded credentials
-    credentials = base64.b64encode(f"{client_id}:{secret_key}".encode()).decode()
-    
-    # Request API token
-    token_response = requests.post(
-        'https://platform.plaud.ai/api/oauth/api-token',
-        headers={
-            'Authorization': f'Bearer {credentials}',
-            'Content-Type': 'application/json'
-        }
-    )
-    
-    token_data = token_response.json()
-    api_token = token_data['api_token']
-    
-    # Step 2: Use token to get device list
-    devices_response = requests.get(
-        'https://platform.plaud.ai/api/devices/',
-        headers={
-            'Authorization': f'Bearer {api_token}',
-            'Content-Type': 'application/json'
-        }   
-    )
-
-    devices = devices_response.json()
-    print(devices)
-    ```
-    </CodeGroup>
+  <Step title="Build source string">
+    Create `key=value` pairs from sorted fields, skip `null` values, join with `&`, then append `&secret_key=<secret_key>`.
   </Step>
-  <Step title="Run the code">
-    <CodeGroup>
-    ```python Python
-    python example.py
-    ```
-    </CodeGroup>
-    You can get a device list managed under your app.
+  <Step title="Compute digest">
+    Run HMAC-SHA256 using `secret_key` as key and the source string bytes as input, output as lowercase hex.
+  </Step>
+  <Step title="Compare">
+    Compare computed digest with `X-Signature` using constant-time comparison.
   </Step>
 </Steps>
 
-## Explore our developer guides
-Now that you’ve made your first Plaud API request, you can explore the other products that Plaud offers.
-<Columns cols={2}>
-    <Card icon="mobile-signal" title="Device Management" href="/documentation/developer_guides/tutorials/device_operations">
-        Control and Operate Plaud Devices
-    </Card>
-    <Card icon="files" title="File Management" href="/documentation/developer_guides/tutorials/files">
-        Manage recording and text files 
-    </Card>
-</Columns>
+Python example:
+
+```python
+import hmac
+import hashlib
+
+def create_signature(payload: dict, secret_key: str) -> str:
+    sorted_items = sorted(payload.items(), key=lambda x: x[0])
+    filtered_items = [(k, v) for k, v in sorted_items if v is not None]
+    source = "&".join([f"{k}={v}" for k, v in filtered_items])
+    source += f"&secret_key={secret_key or ''}"
+    return hmac.new(
+        secret_key.encode("utf-8"),
+        source.encode("utf-8"),
+        hashlib.sha256
+    ).hexdigest()
+
+def verify_signature(payload: dict, secret_key: str, x_signature: str) -> bool:
+    expected = create_signature(payload, secret_key)
+    return hmac.compare_digest(expected, x_signature)
+```
+
+## Common errors
+
+Common `detail` error codes:
+
+- `CLIENT_NOT_FOUND`
+- `SECRET_KEY_INVALID`
+- `ACCESS_TOKEN_INVALID`
+- `REFRESH_TOKEN_INVALID`
+- `SIGNATURE_INVALID`
+
