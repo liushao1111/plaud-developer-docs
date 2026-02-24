@@ -77,6 +77,7 @@
           },
           {
             "group": "ENDPOINTS",
+            "hidden": true,
             "openapi": "https://platform.plaud.cn/openapi.json",
             "pages": [
               {
