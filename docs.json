@@ -36,6 +36,14 @@
             ]
           },
           {
+            "group": "SDK",
+            "pages": [
+              "/api_guide/sdks/overview",
+              "/api_guide/sdks/ios",
+              "/api_guide/sdks/android"
+            ]
+          },
+          {
             "group": "CAPABILITIES",
             "hidden": true,
             "pages": [
@@ -66,6 +74,7 @@
       },
       {
         "tab": "API Guide",
+        "hidden": true,
         "groups": [
           {
             "group": "API REFERENCE",
@@ -109,14 +118,6 @@
                   "POST /api/workflows/submit"
                 ]
               }
-            ]
-          },
-          {
-            "group": "SDK",
-            "pages": [
-              "/api_guide/sdks/overview",
-              "/api_guide/sdks/ios",
-              "/api_guide/sdks/android"
             ]
           }
         ]
