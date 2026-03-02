@@ -100,7 +100,7 @@ curl -X POST "https://platform.plaud.ai/developer/api/open/partner/users/access-
 	  - `transcribe.language` (default: `auto`)
     - `transcribe.detection_level` (default: `segment`)
     - `vad.decode_silence` (default: `false`)
-    - `diarization.enable` (default: `false`)
+    - `diarization.enabled` (default: `false`)
     - `diarization.return_embedding` (default: `false`)
 - Rate limit: based on client config `qpm_transcription`, default 60 requests per minute
 
@@ -113,7 +113,7 @@ curl -X POST "https://platform.plaud.ai/developer/api/open/partner/ai/transcript
     "params":{
       "transcribe":{"language":"auto", "detection_level":"segment"},
       "vad":{"decode_silence":false},
-      "diarization":{"enable":false,"return_embedding":false}
+      "diarization":{"enabled":false,"return_embedding":false}
     }
   }'
 ```
