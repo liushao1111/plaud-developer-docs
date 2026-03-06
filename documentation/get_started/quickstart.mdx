@@ -9,15 +9,14 @@ sidebarTitle: "Quickstart"
 The Partner API is a REST API for partners. You can use it for partner authentication, user token issuance, and asynchronous audio transcription workflows.
 
 <Tip>
-**Note:**  
-This documentation site is for SaaS companies that want to integrate directly with Plaud devices and leverage Plaud’s ASR, diarization, and AI pipelines in their own SaaS product. If you are interested in integrating with existing Plaud users' accounts via the OAuth API (currently in early beta), please fill out [this survey here](https://docs.google.com/forms/d/e/1FAIpQLSdndvVU1mcRGg_E7YURPEtB13R1zHs55T-234AC6STJyW1n8w/viewform) to join the waitlist and we will notify you as soon as it’s available..
+  **Note:**\
+  This documentation site is for SaaS companies that want to integrate directly with Plaud devices and leverage Plaud’s ASR, diarization, and AI pipelines in their own SaaS product. If you are interested in integrating with existing Plaud users' accounts via the OAuth API (currently in early beta), please fill out [this survey here](https://docs.google.com/forms/d/e/1FAIpQLSdndvVU1mcRGg_E7YURPEtB13R1zHs55T-234AC6STJyW1n8w/viewform) to join the waitlist and we will notify you as soon as it’s available..
 </Tip>
 
-
 ## Prerequisites
+
 1. You need to have an iOS/Android app that your users can download, OR
 2. Your users need to have bluetooth-enabled computers/laptops that they can use to transfer recordings over to your web app
-
 
 ## Service regions
 
@@ -75,8 +74,8 @@ curl -X POST "https://platform.plaud.ai/developer/api/oauth/partner/access-token
 
 - Header: `Authorization: Bearer <partner_access_token>`
 - Body fields:
-	-  `user_id` (string, required, max length 120)
-	-  `expires_in` (integer, optional, range `300-86400`)
+  - `user_id` (string, required, max length 120)
+  - `expires_in` (integer, optional, range `300-86400`)
 - Rate limit: 10 requests per minute per `client_id + user_id`
 - Returns: `access_token` (no `refresh_token`)
 
@@ -97,7 +96,7 @@ curl -X POST "https://platform.plaud.ai/developer/api/open/partner/users/access-
 - Body fields:
   - `file_url` (string, required)
   - `params` (object, optional), supports:
-	  - `transcribe.language` (default: `auto`)
+    - `transcribe.language` (default: `auto`)
     - `transcribe.detection_level` (default: `segment`)
     - `vad.decode_silence` (default: `false`)
     - `diarization.enabled` (default: `false`)
@@ -138,6 +137,37 @@ Response example:
 ```bash
 curl "https://platform.plaud.ai/developer/api/open/partner/ai/transcriptions/task_exec_xxx" \
   -H "Authorization: Bearer <partner_access_token>"
+```
+
+Response example (when `status` is `SUCCESS`):
+
+```json
+{
+  "transcription_id": "task_exec_xxx",
+  "status": "SUCCESS",
+  "data": {
+	"results": [
+      {
+        "speaker_id": "SPEAKER_00",
+        "start": 0.0,
+        "end": 5.2,
+        "text": "大家好，今天我们来讨论项目进展。",
+        "language": "zh-CN"
+      },
+      {
+        "speaker_id": "SPEAKER_01",
+        "start": 5.5,
+        "end": 10.8,
+        "text": "好的，我先介绍一下目前的情况。",
+        "language": "zh-CN"
+      }
+    ],
+    "embeddings": {
+      "SPEAKER_00": [0.123, 0.456, ...],
+      "SPEAKER_01": [0.789, 0.012, ...]
+    }
+  }
+}
 ```
 
 ## Webhooks
@@ -224,4 +254,3 @@ Common `detail` error codes:
 - `ACCESS_TOKEN_INVALID`
 - `REFRESH_TOKEN_INVALID`
 - `SIGNATURE_INVALID`
-
