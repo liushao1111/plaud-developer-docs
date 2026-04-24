@@ -1,0 +1,121 @@
+---
+title: "iOS & Android SDK"
+description: "Install and use the Plaud mobile SDK for iOS and Android."
+sidebarTitle: "iOS & Android SDK"
+---
+
+## Installation
+
+### iOS (Swift)
+
+```swift
+.package(url: "https://github.com/plaud/plaud-ios-sdk.git", from: "2.1.0")
+import PlaudSDK
+```
+
+**Requirements:** iOS 13.0+, Xcode 15.0+, Swift 5.7+
+
+Add to `Info.plist`:
+- `NSBluetoothAlwaysUsageDescription`
+- `NSLocationWhenInUseUsageDescription`
+
+### Android (Kotlin)
+
+```kotlin
+dependencies {
+    implementation(name: "plaud-sdk", ext: "aar")
+    implementation "com.google.guava:guava:28.2-android"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+}
+```
+
+**Requirements:** Android API 21+ (target 34), Kotlin 1.6.21+, Gradle 7.3.1+
+
+Add to `AndroidManifest.xml`:
+`BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT`, `ACCESS_FINE_LOCATION`, `ACCESS_WIFI_STATE`, `CHANGE_WIFI_STATE`, `INTERNET`
+
+---
+
+## Initialization
+
+**iOS**
+
+```swift
+PlaudSDK.initialize(clientId: "YOUR_CLIENT_ID", mode: .sandbox)
+```
+
+**Android**
+
+```kotlin
+NiceBuildSdk.initSdk(
+    context = applicationContext,
+    bleAgentListener = bleAgentListener,
+    hostName = "YourAppName",
+    partnerToken = "YOUR_PARTNER_TOKEN"
+)
+```
+
+---
+
+## Core Methods
+
+### Scan for devices
+
+- **iOS:** `PlaudSDK.startScan()` → via delegate `plaud(didDiscover devices:)`
+- **Android:** `bleAgent.scanBle(true)` → via listener `scanBleDeviceReceiver(device:)`
+
+### Connect & disconnect
+
+- **iOS:** `PlaudSDK.connect(serial:)` / `disconnect()` / `unbind()`
+- **Android:** `bleAgent.connectionBLE()` / `disconnectBle()` / `unBindDevice()`
+
+Connection states: `0` = disconnected, `1` = connected, `2` = failed
+
+### Recording control
+
+- **iOS:** `PlaudSDK.startRecord()` / `stopRecord()`
+- **Android:** `bleAgent.startRecord(scene:)` / `stopRecord(scene:)`
+
+### File list & export
+
+**iOS**
+```swift
+PlaudSDK.getFileList(startSessionId:)
+PlaudSDK.exportAudio(sessionId:outputDir:format:channels:callback:)
+// format: .wav or .pcm  |  channels: 1
+PlaudSDK.deleteFile(sessionId:)
+```
+
+**Android**
+```kotlin
+BleCore.getInstance().getFileList(sessionId:)
+NiceBuildSdk.exportAudio()
+bleAgent.deleteFile()
+```
+
+Export handles BLE download + E2EE decryption + format conversion.
+
+---
+
+## Wi-Fi Fast Transfer
+
+### iOS
+
+```swift
+PlaudSDK.setDeviceWiFi(open: true)
+// Receive via delegate:
+// bleWiFiOpen(_ status:, _ wifiName:, _ wholeName:, _ wifiPass:)
+PlaudSDK.connectWifi(wifiName, wifiPass, 60)
+// Export once connected:
+PlaudSDK.exportAudioViaWiFi(...)
+```
+
+### Android
+
+```kotlin
+NiceBuildSdk.startWifiTransfer(userId, object : IWifiAgent.WifiTransferCallback { ... })
+// States: NONE → CONNECTING → CONNECTED → HANDSHAKING → READY
+NiceBuildSdk.stopWifiTransfer()
+```

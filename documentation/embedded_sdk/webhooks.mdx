@@ -1,0 +1,70 @@
+---
+title: "Webhooks"
+description: "Receive real-time event notifications from the Plaud platform."
+sidebarTitle: "Webhooks"
+---
+
+## Register an Endpoint
+
+Go to plaud.ai/console → **Webhooks** and add your HTTPS endpoint URL.
+
+---
+
+## Verify Signatures
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, timestamp, secret) {
+  const message = `${timestamp}.${payload}`;
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(message)
+    .digest('hex');
+  return `sha256=${expected}` === signature;
+}
+
+app.post('/webhooks/plaud', (req, res) => {
+  const valid = verifyWebhook(
+    JSON.stringify(req.body),
+    req.headers['plaud-signature'],
+    req.headers['plaud-timestamp'],
+    process.env.PLAUD_WEBHOOK_SECRET
+  );
+  if (!valid) return res.status(401).send('Invalid signature');
+
+  const { event, data } = req.body;
+  if (event === 'transcription.completed') {
+    console.log('Transcript ready:', data.transcriptionId);
+  }
+  res.sendStatus(200);
+});
+```
+
+---
+
+## Webhook Events
+
+| Event | Description |
+|---|---|
+| `transcription.completed` | Transcript ready to retrieve |
+| `transcription.failed` | Processing error (check `error` field) |
+| `device.synced` | Audio synced to Plaud Cloud |
+| `device.connected` | Device paired for the first time |
+| `device.disconnected` | Device goes offline |
+| `device.recording_completed` | Audio file ready (+ optional transcript) |
+| `device.battery_low` | Battery below 15% |
+| `device.ota_completed` | Firmware update finished |
+| `device.ota_failed` | Firmware update failed |
+
+---
+
+## Retry Policy
+
+| Attempt | Delay |
+|---|---|
+| 1st retry | 30 seconds |
+| 2nd retry | 5 minutes |
+| 3rd retry | 30 minutes |
+| 4th retry | 2 hours |
+| 5th retry | 24 hours |

@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Build fully branded iOS and Android apps on Plaud hardware for pairing devices, recording audio, and receiving transcripts."
+sidebarTitle: "Overview"
+---
+
+Build fully branded iOS and Android apps on Plaud hardware for pairing devices, recording audio, and receiving transcripts.
+
+**Three layers covered:**
+
+- **Hardware control** — BLE/Wi-Fi pairing, recording sessions, file transfer, firmware updates
+- **AI processing** — 112 language transcription with speaker diarization, structured summaries (10,000+ templates), action item extraction
+- **Developer tooling** — Console at platform.plaud.ai for credential management, device fleet monitoring, usage tracking, webhook configuration
+
+## Architecture
+
+| Layer | Components |
+|---|---|
+| Your app (iOS/Android) | Device control, Recording UI, File transfer, OTA updates, Template screens |
+| Plaud device | 2–4 MEMS microphone, 64 GB storage, BLE 5.x + Wi-Fi |
+| Plaud cloud | Auth, Token management, ASR (112 langs), Notes (10K templates), OTA firmware |
+| Your backend (optional) | Token exchange, webhook receiver, ASR API calls |
+| Developer console | Credentials, Fleet table, Usage, Billing, Docs, Webhooks, OTA, Showcase |
+
+## Supported Devices
+
+| Device | Mic | Range | Battery | Connectivity |
+|---|---|---|---|---|
+| Note Pro | 4 MEMS + VPU | 5 m | 30–50 h | BLE 5.4 + dual-band Wi-Fi |
+| NotePin S | 2 MEMS | 3 m | 20 h | BLE 5.2 + Wi-Fi |
+
+## Webhook Events
+
+| Event | Description |
+|---|---|
+| `device.connected` | Device comes online |
+| `device.disconnected` | Device goes offline |
+| `device.recording_completed` | Audio file ready (+ optional transcript) |
+| `device.battery_low` | Battery below 15% |
+| `device.ota_completed` | Firmware update finished |
+| `device.ota_failed` | Firmware update failed |
+
+## Key Concepts
+
+- **Authentication** — Client ID for mobile SDK initialization; Partner Access Token (server-side only) from Client ID + Secret Key exchange
+- **Device sync** — Devices record offline and store locally; app initiates sync over BLE or Wi-Fi Fast Transfer
+- **Async transcription** — Never automatic; backend submits job and receives `transcription_id` immediately; result via webhook or polling
+- **Plaud handles** — Device firmware, BLE/Wi-Fi sync, 50+ language ASR with speaker diarization, encrypted cloud storage, token management (SOC 2 Type II, GDPR, HIPAA-ready)

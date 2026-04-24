@@ -1,71 +1,182 @@
 ---
-title: "Plaud Developer Platform (In Private Beta)"
-description: "Plaud is the #1 AI notetaker that supports offline and online conversational intelligence."
-icon: "house"
-iconType: "duotone"
+title: "Overview"
+description: "The Embedded SDK lets you build a fully branded iOS and Android app on Plaud hardware — device pairing, recording, and transcription entirely inside your app, with no Plaud account required from your users."
 sidebarTitle: "Overview"
 ---
 
-## Ways to integrate?
-The Developer Platform empowers you to:
-1.  **Embed Plaud** directly into your SaaS product offering, providing your users Plaud devices and using Plaud’s ASR, diarization, and AI pipelines on the backend.
-2.  **OAuth integration** to pull data and insights from your users' Plaud accounts ([Join Waitlist](https://docs.google.com/forms/d/e/1FAIpQLSdndvVU1mcRGg_E7YURPEtB13R1zHs55T-234AC6STJyW1n8w/viewform?usp=header))
+<Note>
+  If you are an individual Plaud app user looking to access your own recordings programmatically, see [Personal Access](/documentation/mcp_en) for the MCP server and CLI options.
+</Note>
 
-<Tip>
-**Note:**  
-This documentation site is currently focused on use case #1 - embedding Plaud into your SaaS product offering. If you are interested in getting integrating with Plaud user accounts via the OAuth API (currently in progress), please fill out [this survey here](https://docs.google.com/forms/d/e/1FAIpQLSdndvVU1mcRGg_E7YURPEtB13R1zHs55T-234AC6STJyW1n8w/viewform) to join the waitlist and we will notify you as soon as it’s available..
-</Tip>
+---
 
-## How It Works
+## What it is
+
+The Plaud Developer Platform gives you everything you need to build iOS and Android applications that control Plaud recording devices and turn voice into structured data. It covers three layers in a single integration:
+
+**Hardware control.** Pair Plaud devices over BLE or Wi-Fi, manage recording sessions, transfer audio files, and push firmware updates — all through the Embedded SDK.
+
+**AI processing.** Transcribe recordings in 112 languages with speaker diarization, generate structured summaries from 10,000+ templates, and extract action items — via Plaud's cloud AI or your own processing pipeline.
+
+**Developer tooling.** A console at platform.plaud.ai where you create applications, manage credentials, monitor your device fleet, view usage, and configure webhooks.
+
+---
+
+## Architecture
+
+![Plaud Embedded SDK architecture diagram](/assets/embedded-sdk-architecture.svg)
+
+**Integration flow:** Create app in console → get Client ID + Secret Key → install SDK → pair device → start recording → transfer audio → receive transcript via webhook → *(optional)* call ASR API server-side for custom processing.
+
+---
+
+## How it works
 
 <Steps>
-<Step title="1. Capture Conversations">
-Use our mobile SDK or API to enable users to bind Plaud Devices with your application, enabling them to begin recording and capturing conversational data seamlessly to be used in your application.
-</Step>
+  <Step title="Create an application">
+    Sign up at **platform.plaud.ai** and create an Embedded SDK application. You'll receive a **Client ID** and **Secret Key**. Choose your target platform (iOS, Android, or both) and register your app's bundle ID or package name.
+  </Step>
+  <Step title="Install the SDK">
+    Add the SDK to your project via **Swift Package Manager** (iOS) or **Maven** (Android). The package includes modules for BLE device control, Wi-Fi transfer, and core device management.
+  </Step>
+  <Step title="Initialize and pair a device">
+    Initialize the SDK with your Client ID and a per-user access token, then start a scan. The SDK discovers nearby Plaud devices, negotiates the BLE or Wi-Fi connection, and handles the full pairing handshake. Your app receives callbacks for device discovery, connection state changes, and file transfer progress.
+  </Step>
+  <Step title="Record and transfer audio">
+    Once paired, your app controls recording sessions and receives a callback when audio is ready. You then choose how to process it:
 
-<Step title="2. Extract Structured Insights">
-Plaud handles the end-to-end pipelines for audio pre-processing, transcription, diarization, and AI summarization, and provides tooling so you can output structured JSON to turn that unstructured conversation data into structured insights from every conversation.
-</Step>
+    **Option A — Automatic transcription via webhook**
+    Enable the Plaud Transcription toggle in your webhook settings. Plaud processes the audio automatically and delivers the transcript in the webhook payload — no extra API calls needed.
 
-<Step title="3. Deliver Data Anywhere">
-Recieve the processed payload(s) in your application backend, ready to use in your users' subsequen workflows.
-</Step>
+    **Option B — Custom processing via ASR API**
+    Send the audio to Plaud's ASR endpoint from your own backend, or route it to any third-party transcription provider. The platform is open — you are not locked into Plaud's AI pipeline.
+  </Step>
+  <Step title="Manage your fleet">
+    The developer console shows every device paired through your app — serial number, model, firmware version, battery level, and last-seen time. Push OTA firmware updates to individual devices or groups, and tag devices by location, team, or any label that fits your workflow.
+  </Step>
 </Steps>
 
+---
 
+## Devices for every workflow
 
-## Most Popular
-<Columns cols={2}>
-    <Card title="Developer quickstart" href="/documentation/get_started/quickstart">
-        Learn how to integrate Plaud
-    </Card>
-    <Card title="AI Platform" href="/ai_platform/get_started/overview">
-        Deploy your workflows in minutes
-    </Card>
-</Columns>
+<CardGroup cols={2}>
+  <Card title="Plaud Note Pro">
+    Designed for phone calls and conversation-heavy workflows.
 
-<Columns cols={2}>
-    <Card title="Product guides" href="/documentation/product_guides/overview">
-        Learn how to use Plaud Developer Platform
-    </Card>
-</Columns>
+    | | |
+    |---|---|
+    | Battery | 30–50 h (endurance mode) |
+    | Microphones | 4-mic array |
+    | Display | AMOLED |
+    | Connectivity | Dual-band Wi-Fi + Bluetooth |
+    | Mode | Smart dual-mode (calls + in-person) |
+  </Card>
+  <Card title="Plaud NotePin S">
+    Designed for hands-free, on-the-go use in field work, healthcare, and retail.
 
-## Capabilities
+    | | |
+    |---|---|
+    | Battery | 20 h |
+    | Weight | 0.81 oz |
+    | Wearing | Magnetic pin, clip, lanyard, or wristband |
+    | Connectivity | Dual-band Wi-Fi + Bluetooth |
+    | Optimized | In-person conversations |
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-    <Card title="Device Operation" href="/documentation/capabilities/device_operations">
-        Control and Operate your Plaud Devices
-    </Card>
-    <Card title="Files & Recording" href="/documentation/capabilities/file_management">
-        Maintain your recordings and files
-    </Card>
-</Columns>
+All devices: 64 GB local storage, M4A audio output, BLE + Wi-Fi connectivity.
 
-<Columns cols={2}>
-    <Card title="AI Summary" href="/documentation/capabilities/ai_summary">
-        Summarize audio recording intelligently
-    </Card>
-    <Card title="AI Workflow" href="/documentation/capabilities/ai_workflow">
-        Customize transcription workflow
-    </Card>
-</Columns>
+---
+
+## Transcription API
+
+Plaud's ASR was trained specifically for offline audio data, delivering accuracy even with background noise, overlapping speakers, and distance from mics.
+
+<CardGroup cols={2}>
+  <Card title="Speaker Diarization">
+    Industry-leading speaker diarization built into the Transcription API. Automatically identifies and labels each speaker with word-level timestamps.
+  </Card>
+  <Card title="112 Languages">
+    Support for 112 languages with published accuracy benchmarks by language, scenario, and environment.
+  </Card>
+</CardGroup>
+
+The SDK exposes raw audio files. Plaud's transcription service is recommended, but audio can also be routed through your own pipeline if your use case requires it.
+
+---
+
+## Enterprise-grade by default
+
+Privacy and security are built into the foundation, not added on.
+
+<CardGroup cols={3}>
+  <Card title="Global compliance">
+    Plaud meets global compliance standards including SOC 2 Type II, HIPAA, GDPR, EN18031, ISO 27001, and ISO 27101.
+  </Card>
+  <Card title="Encryption in transit & at rest">
+    Data is encrypted on-device. In transit, all data is encrypted using HTTPS/TLS 1.2 or above. At rest, data is encrypted using AES-256.
+  </Card>
+  <Card title="Multi-region cloud">
+    Plaud processes and stores data in regional AWS data centers in the US, Europe, Singapore, and Japan.
+  </Card>
+</CardGroup>
+
+---
+
+## Webhook events
+
+Subscribe to device events and receive them at your backend endpoint. Webhooks are signed with HMAC-SHA256 and retried with exponential backoff.
+
+| Event | Trigger |
+|---|---|
+| `device.connected` | Device comes online |
+| `device.disconnected` | Device goes offline |
+| `device.recording_completed` | Audio file ready (+ optional transcript if enabled) |
+| `device.battery_low` | Battery below 15% |
+| `device.ota_completed` | Firmware update finished |
+| `device.ota_failed` | Firmware update failed |
+
+---
+
+## Key concepts
+
+<CardGroup cols={2}>
+  <Card title="Authentication">
+    Your mobile app uses a **Client ID** to initialize the SDK. Your backend exchanges the Client ID and Secret Key for a short-lived **Partner Access Token** to call the transcription API. Tokens are server-side only — never put them in the app.
+  </Card>
+  <Card title="Device sync">
+    Plaud devices record offline and store audio locally. Your app initiates sync over BLE (short files) or Wi-Fi Fast Transfer (large files). Audio uploads to Plaud Cloud and becomes available for transcription.
+  </Card>
+  <Card title="Async transcription">
+    Transcription is never automatic. Your backend submits a job with an audio URL and receives a `transcription_id` immediately. The result arrives via webhook or polling when processing completes.
+  </Card>
+  <Card title="What Plaud handles">
+    Device firmware, BLE/Wi-Fi sync protocol, 50+ language ASR with speaker diarization, encrypted cloud storage, and token management. SOC 2 Type II · GDPR · HIPAA-ready.
+  </Card>
+</CardGroup>
+
+---
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Do my users need a Plaud App subscription to use the SDK?">
+    No. With the SDK, Plaud acts as infrastructure for your product — you pay for transcription usage and the number of connected devices, and you own the product experience and pricing for your app.
+  </Accordion>
+  <Accordion title="Why not build a phone recording app ourselves?">
+    Phones are not designed for capturing in-person conversations, nor can they capture phone calls without significant effort. They also drain the phone battery, create an awkward end-user experience, and lack built-in state-of-the-art transcription. Plaud devices and the SDK address all of this.
+  </Accordion>
+  <Accordion title="Does Plaud train AI on my customer data?">
+    Not by default. Your customers' conversations are processed for transcripts, then stored or deleted per your retention policy. Data usage is always opt-in. Your data is yours.
+  </Accordion>
+  <Accordion title="Do I need to have a mobile application?">
+    Yes. The Plaud Embedded SDK integrates directly into your iOS or Android application. Your app handles device pairing, recording controls, and user experience — Plaud provides the SDK, transcription API, and a starter app to build from.
+  </Accordion>
+  <Accordion title="What languages are supported?">
+    112 languages, with published accuracy benchmarks by language, scenario, and environment.
+  </Accordion>
+  <Accordion title="What is the pricing?">
+    Devices follow list pricing on Plaud.ai up to 100 devices. For the embedded platform — a free developer tier is available to get started, with professional plans from $99/month.
+  </Accordion>
+</AccordionGroup>

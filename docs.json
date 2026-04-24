@@ -28,19 +28,25 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "GET STARTED",
+            "group": "Developer Platform",
             "pages": [
-              "/documentation/get_started/overview",
-              "/documentation/get_started/quickstart",
-              "/documentation/get_started/changelog"
+              "/documentation/get_started/overview"
             ]
           },
           {
-            "group": "SDK",
+            "group": "EMBEDDED SDK",
             "pages": [
-              "/api_guide/sdks/overview",
-              "/api_guide/sdks/ios",
-              "/api_guide/sdks/android"
+              "/documentation/embedded_sdk/quickstart",
+              "/documentation/embedded_sdk/ios_android_sdk",
+              "/documentation/embedded_sdk/transcription_api",
+              "/documentation/embedded_sdk/webhooks"
+            ]
+          },
+          {
+            "group": "PERSONAL ACCESS",
+            "pages": [
+              "/documentation/mcp_en",
+              "/documentation/personal_access/cli"
             ]
           },
           {
@@ -68,6 +74,13 @@
               "/documentation/developer_guides/libraries",
               "/documentation/developer_guides/errors",
               "/documentation/developer_guides/webhook_events"
+            ]
+          },
+          {
+            "group": "Support & Updates",
+            "pages": [
+              "/documentation/resources",
+              "/documentation/get_started/changelog"
             ]
           }
         ]

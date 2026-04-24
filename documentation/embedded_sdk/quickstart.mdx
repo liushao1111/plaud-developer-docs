@@ -1,0 +1,73 @@
+---
+title: "Quickstart"
+description: "Get a branded Plaud app running in minutes using the template app."
+sidebarTitle: "Quickstart"
+---
+
+## Prerequisites
+
+- 1 developer account (from plaud.ai/console)
+- 1 iOS device (Xcode 15+ for development)
+- 1 Android device (Android Studio)
+- 1 Plaud hardware device (for testing)
+- Brand assets: App name, logo (1024×1024px), primary color hex, splash image
+
+## Steps
+
+### 1. Create developer account & get API key
+
+Sign up at plaud.ai/console — no credit card required; includes 1 device + 50 hours ASR/month free.
+
+Create an application to receive your **Client ID** and **Secret Key**. The Secret Key is shown once only — copy it to a password manager immediately.
+
+### 2. Clone the template app
+
+```bash
+# iOS
+git clone https://github.com/plaud/template-app-ios
+
+# Android
+git clone https://github.com/plaud/template-app-android
+```
+
+### 3. Add Client ID
+
+- **iOS:** `AppConfig.plist` — set `PLAUD_CLIENT_ID` and `PLAUD_REGION` (`us` | `eu` | `jp`)
+- **Android:** `config.json` — set `clientId` and `region`
+
+The Secret Key stays on your backend server only.
+
+### 4. Apply branding
+
+4 files control the entire visual identity:
+
+| Asset | iOS | Android |
+|---|---|---|
+| App name | `AppConfig.plist` | `strings.xml` |
+| Logo | `Assets.xcassets/AppLogo` | `res/drawable/` |
+| Primary color | `Theme.swift` | `colors.xml` |
+| Splash screen | `LaunchScreen.storyboard` | `res/layout/` |
+
+### 5. Run & test with a real device
+
+```bash
+# iOS
+open PlaudTemplate.xcodeproj  # then ⌘R
+
+# Android
+./gradlew assembleDebug
+```
+
+Verify: app launches, device pairs, recording syncs, transcript appears.
+
+### 6. Release
+
+**iOS App Store**
+- Bluetooth usage description
+- Privacy manifest (`PrivacyInfo.xcprivacy`)
+- Privacy policy placeholder
+
+**Android Google Play**
+- `BLUETOOTH_SCAN` + `BLUETOOTH_CONNECT` permissions
+- Data safety section
+- Privacy policy placeholder

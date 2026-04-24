@@ -1,0 +1,114 @@
+---
+title: "Transcription API"
+description: "Submit audio for transcription and retrieve results via the Plaud Transcription API."
+sidebarTitle: "Transcription API"
+---
+
+## Authentication
+
+### Step 1 — Exchange credentials for a token
+
+```http
+POST /oauth/partner/access-token
+Authorization: Basic base64(client_id:secret_key)
+Content-Type: application/x-www-form-urlencoded
+```
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUz...",
+  "refresh_token": "eyJhbGci...",
+  "token_type": "bearer",
+  "expires_in": 86400
+}
+```
+
+### Regions
+
+| Region | Base URL |
+|---|---|
+| US (default) | `openapi.plaud.ai` |
+| EU (GDPR) | `openapi.plaud.eu` |
+| Japan | `openapi.plaud.jp` |
+
+### Step 2 — Refresh before expiry
+
+```http
+POST /oauth/partner/access-token/refresh
+Authorization: Basic base64(client_id:secret_key)
+Content-Type: application/x-www-form-urlencoded
+
+refresh_token=<refresh_token>
+```
+
+---
+
+## Submit Audio
+
+```http
+POST /open/partner/ai/transcriptions/
+Authorization: Bearer <access_token>
+Content-Type: application/json
+
+{
+  "audioUrl": "https://your-storage.com/recording-001.m4a",
+  "language": "en",
+  "webhookUrl": "https://your-server.com/webhooks/plaud",
+  "speakerDiarization": false
+}
+```
+
+### Body parameters
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `audioUrl` | string | Yes | Pre-signed URL (M4A, MP3, WAV) |
+| `language` | string | No | BCP-47 code (`en`, `ja`, `zh`); defaults to auto-detect |
+| `webhookUrl` | string | No | URL to receive results when complete |
+| `speakerDiarization` | boolean | No | Identify and label speakers; default: `false` |
+
+### Response
+
+```json
+{
+  "transcriptionId": "txn_01HXXXXXXXXXXXXXX",
+  "status": "processing",
+  "createdAt": "2026-03-24T10:00:00Z"
+}
+```
+
+---
+
+## Get Results
+
+```http
+GET /open/partner/ai/transcriptions/{transcriptionId}
+Authorization: Bearer <access_token>
+```
+
+```json
+{
+  "transcriptionId": "txn_01HXXXXXXXXXXXXXX",
+  "status": "completed",
+  "text": "Meeting started at 10am...",
+  "language": "en",
+  "duration": 1843,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.2,
+      "text": "Meeting started at 10am.",
+      "speaker": "Speaker 1"
+    }
+  ],
+  "completedAt": "2026-03-24T10:02:14Z"
+}
+```
+
+### Status values
+
+| Status | Meaning |
+|---|---|
+| `processing` | In progress |
+| `completed` | Ready — `text` and `segments` populated |
+| `failed` | Error — inspect `error` field |
