@@ -1,0 +1,81 @@
+---
+title: "Authentication"
+description: "How Plaud handles sign-in and token management for the CLI and MCP."
+sidebarTitle: "Authentication"
+---
+
+Plaud uses OAuth 2.1 with PKCE. Both the CLI and MCP sign in through the same flow but store tokens separately, so you can be signed into different accounts in each tool at the same time.
+
+---
+
+## Sign in
+
+**CLI**
+```bash
+plaud login
+```
+
+**MCP** — say this in your AI client:
+> Log me into Plaud
+
+Both open your browser to the Plaud authorization page. Click **Authorize**, and tokens are saved to disk automatically.
+
+---
+
+## Token storage
+
+| Tool | Token file |
+|---|---|
+| CLI | `~/.plaud/tokens.json` |
+| MCP | `~/.plaud/tokens-mcp.json` |
+
+Tokens are refreshed automatically when they expire. If refresh fails (e.g. the refresh token is also expired), you'll see a "Not authenticated" error — just sign in again.
+
+---
+
+## Sign out
+
+**CLI**
+```bash
+plaud logout
+```
+
+**MCP** — say this in your AI client:
+> Log out of Plaud
+
+Both revoke your authorization and delete the local token file.
+
+---
+
+## OAuth endpoints
+
+| Step | URL |
+|---|---|
+| Authorization | `https://web.plaud.ai/platform/oauth` |
+| Token exchange | `https://platform.plaud.ai/developer/api/oauth/third-party/access-token` |
+| Token refresh | `https://platform.plaud.ai/developer/api/oauth/third-party/access-token/refresh` |
+| Callback | `http://localhost:8199/auth/callback` |
+
+---
+
+## Advanced: environment overrides
+
+You can override any OAuth endpoint using environment variables — useful for testing against staging:
+
+```bash
+PLAUD_API_BASE=https://staging-platform.plaud.ai/developer/api
+PLAUD_AUTH_URL=https://staging-web.plaud.ai/platform/oauth
+PLAUD_TOKEN_URL=https://staging-platform.plaud.ai/developer/api/oauth/third-party/access-token
+PLAUD_REFRESH_URL=https://staging-platform.plaud.ai/developer/api/oauth/third-party/access-token/refresh
+```
+
+---
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Browser opens but sign-in never completes | Close the tab and try again. Make sure nothing else is using port 8199. |
+| `401` errors on every request after signing in | Your system clock may be out of sync. Enable automatic time sync (NTP). |
+| Browser doesn't open on a remote machine | Forward port 8199 over SSH: `ssh -L 8199:localhost:8199 user@host`, then run sign-in again and open the printed URL manually. |
+| Need to force a fresh sign-in | Delete the token file (`~/.plaud/tokens.json` for CLI, `~/.plaud/tokens-mcp.json` for MCP) and sign in again. |

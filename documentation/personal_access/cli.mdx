@@ -1,21 +1,17 @@
 ---
 title: "Plaud CLI"
-description: "Manage your Plaud recordings from the terminal — browse your recording list, get file details, extract transcripts and summaries, download audio, and manage account authorization."
+description: "Access your Plaud recordings from the terminal — browse, search, read transcripts, download audio, and view AI summaries without opening the app."
 sidebarTitle: "Plaud CLI"
----
-
-Plaud CLI lets you manage your Plaud recordings from the terminal — browse your recording list, get file details, extract transcripts and summaries, download audio, and manage account authorization.
-
 ---
 
 ## Prerequisites
 
-- Node.js >= 20
+- Node.js ≥ 20 — [download](https://nodejs.org/)
 - A Plaud account
 
 ---
 
-## Installation
+## Install
 
 ```bash
 npm install -g @plaud-ai/cli
@@ -23,231 +19,141 @@ npm install -g @plaud-ai/cli
 
 ---
 
-## Quick Start
-
-**1. Log in**
+## Quick start
 
 ```bash
-plaud login
-```
-
-Your browser will open the authorization page automatically. Once authorized, the terminal displays a login success message.
-
-**2. Verify login status**
-
-```bash
-plaud me
-```
-
-**3. List your recordings**
-
-```bash
-plaud files
-```
-
-**4. Extract a transcript**
-
-```bash
-plaud transcript <file_id>
-```
-
-**5. View an AI summary**
-
-```bash
-plaud summary <file_id>
+plaud login          # sign in via browser
+plaud files          # browse your recordings
+plaud search "Q2"    # find a recording by keyword
+plaud summary <id>   # read the AI summary
+plaud transcript <id> # read the full transcript
 ```
 
 ---
 
-## Command Reference
+## Command reference
 
-### `plaud login`
-
-Opens your browser to complete OAuth authorization. Tokens are saved locally.
+### Authentication
 
 ```bash
-plaud login
+plaud login    # sign in via browser — tokens saved automatically
+plaud logout   # sign out and revoke authorization
+plaud me       # show your current account details
 ```
 
-### `plaud logout`
-
-Logs out and revokes authorization.
+### Browse
 
 ```bash
-plaud logout
+plaud files                   # latest page of recordings
+plaud files --page 2 --page-size 50
+plaud recent                  # recordings from the last 7 days
+plaud recent --days 30        # recordings from the last 30 days
+plaud today                   # recordings from today only
 ```
 
-### `plaud version`
-
-Displays version, commit hash, and build time.
-
-```bash
-plaud version
-```
-
-Example output:
-
-```
-plaud 0.1.2
-commit  a3f9c12
-built   2026-04-14T08:30:00Z
-```
-
-### `plaud me`
-
-Displays current account information.
-
-```bash
-plaud me
-```
-
-### `plaud files`
-
-Lists your recording files.
-
-```bash
-plaud files
-plaud files --page <number> --page-size <number>
-```
+**`plaud files` options**
 
 | Option | Description | Default |
 |---|---|---|
 | `-p, --page` | Page number (1–1000) | `1` |
 | `-s, --page-size` | Items per page (10–100) | `20` |
 
-**Examples**
+### Search
 
 ```bash
-plaud files --page 2 --page-size 10
-plaud files -p 2 -s 10
+plaud search <keyword>
+plaud search "weekly" --from 2026-04-01 --to 2026-04-30
+plaud search "onboarding" --max 10
 ```
 
-### `plaud file <file_id>`
-
-Displays detailed information for a single recording.
-
-```bash
-plaud file <file_id>
-```
-
-**Example**
-
-```bash
-plaud file 4ee917c43f013423df146b97fd14610f
-```
-
-### `plaud audio <file_id>`
-
-Returns a temporary audio download URL for the recording (valid for 24 hours).
-
-```bash
-plaud audio <file_id>
-```
-
-**Example**
-
-```bash
-plaud audio 4ee917c43f013423df146b97fd14610f
-```
-
-### `plaud transcript <file_id>`
-
-Extracts a sentence-by-sentence transcript, formatted as `[MM:SS - MM:SS] Speaker: Content`.
-
-```bash
-plaud transcript <file_id>
-plaud transcript <file_id> --output <file>
-```
+Client-side keyword search (case-insensitive) against recording names. Scans up to 500 most recent recordings.
 
 | Option | Description |
 |---|---|
-| `-o, --output <file>` | Save the transcript to the specified file |
+| `--from <YYYY-MM-DD>` | Start of date range (inclusive) |
+| `--to <YYYY-MM-DD>` | End of date range (inclusive) |
+| `--max <n>` | Maximum results to display (default: `50`) |
 
-**Examples**
+### Read a recording
 
 ```bash
-plaud transcript 4ee917c43f013423df146b97fd14610f
-plaud transcript 4ee917c43f013423df146b97fd14610f -o transcript.txt
+plaud file <id>               # full metadata and availability
+plaud audio <id>              # 24-hour download URL for the audio
+plaud transcript <id>         # timestamped transcript
+plaud transcript <id> -o transcript.txt   # save to file
+plaud summary <id>            # AI summary (Markdown)
+plaud summary <id> -o summary.md          # save to file
 ```
 
-### `plaud summary <file_id>`
-
-Returns the AI-generated summary for a recording (Markdown format).
+### Utility
 
 ```bash
-plaud summary <file_id>
-plaud summary <file_id> --output <file>
-```
-
-| Option | Description |
-|---|---|
-| `-o, --output <file>` | Save the summary to the specified file |
-
-**Examples**
-
-```bash
-plaud summary 4ee917c43f013423df146b97fd14610f
-plaud summary 4ee917c43f013423df146b97fd14610f -o summary.md
+plaud version    # show installed version and build info
+plaud update     # check for a newer version and print the upgrade command
 ```
 
 ---
 
-## Data Reference
+## Data reference
 
-### Recording File Fields
+### Fields in `plaud files` / `plaud file`
 
-The following fields are returned in both the list (`plaud files`) and detail (`plaud file <id>`) views:
+| Field | Description |
+|---|---|
+| `id` | Unique recording ID — use this in other commands |
+| `name` | Recording name |
+| `created_at` | Creation time (ISO 8601) |
+| `duration` | Length of the recording |
 
-| Field | Type | Description |
-|---|---|---|
-| `id` | string | Unique file identifier |
-| `name` | string | File name |
-| `created_at` | string | Creation time (ISO 8601) |
-| `duration` | string | Recording duration (list: `Xmin`; detail: `Xmin Ysec` or `Ysec`) |
+Additional fields in `plaud file <id>` only:
 
-The following fields are returned only in the detail view (`plaud file <id>`):
+| Field | Description |
+|---|---|
+| `start_at` | Recording start time (ISO 8601) |
+| `serial_number` | Device serial number |
+| `audio` | Whether audio is available for download |
+| `transcript` | Whether a transcript is available |
+| `summary` | Whether an AI summary is available |
 
-| Field | Type | Description |
-|---|---|---|
-| `start_at` | string | Recording start time (ISO 8601) |
-| `serial_number` | string | Serial number of the device that made the recording |
-| `audio` | string | Audio availability (`available` / `unavailable`) |
-| `transcript` | string | Transcript availability (`available` / `unavailable`) |
-| `summary` | string | AI summary availability (`available` / `unavailable`) |
-
-### Local Storage
-
-Tokens are stored in `~/.plaud/tokens.json` and managed automatically by the CLI. No manual edits needed.
-
-### Configuration File
-
-Optional config file at `~/.plaud/cli.yaml`. Supported fields:
-
-```yaml
-api_base: "https://platform.plaud.ai/developer/api"
-auth_url: "https://app.plaud.ai/platform/oauth"
-timeout: 30000   # ms
-```
-
-Priority order: **environment variable > `~/.plaud/cli.yaml` > built-in default**.
-
-### Exit Codes
+### Exit codes
 
 | Code | Meaning |
 |---|---|
 | `0` | Success |
 | `1` | Invalid arguments or unknown error |
-| `2` | Authentication failed (token invalid or expired) |
-| `3` | Server unreachable (network error) |
+| `2` | Authentication failed — run `plaud login` |
+| `3` | Network error — check your connection |
 | `4` | Request timed out |
 
-### Error Output Format
-
-All errors are written to **stderr** in a structured format, leaving stdout clean for scripting:
+All errors are written to **stderr**, keeping stdout clean for piping and scripting:
 
 ```
 ✖ [AUTH_FAILED] Token invalid or expired. Run `plaud login`.
 ```
+
+---
+
+## Configuration
+
+Tokens are stored at `~/.plaud/tokens.json` and managed automatically — no manual edits needed.
+
+For advanced use, create an optional config file at `~/.plaud/cli.yaml`:
+
+```yaml
+api_base: "https://platform.plaud.ai/developer/api"
+timeout: 30000   # milliseconds
+```
+
+Environment variables override both the config file and built-in defaults:
+
+| Variable | Purpose |
+|---|---|
+| `PLAUD_API_BASE` | Override the API base URL |
+| `PLAUD_CLIENT_ID` / `PLAUD_CLI_CLIENT_ID` | OAuth client ID |
+| `PLAUD_CLIENT_SECRET` | OAuth client secret |
+| `PLAUD_AUTH_URL` | Authorization endpoint |
+| `PLAUD_TOKEN_URL` | Token exchange endpoint |
+| `PLAUD_REFRESH_URL` | Token refresh endpoint |
 
 ---
 
@@ -257,24 +163,29 @@ All errors are written to **stderr** in a structured format, leaving stdout clea
 npm install -g @plaud-ai/cli@latest
 ```
 
+Or check first:
+
+```bash
+plaud update
+```
+
 ---
 
 ## Uninstall
 
 ```bash
 npm uninstall -g @plaud-ai/cli
-```
-
-Clear local authentication data:
-
-```bash
 rm -rf ~/.plaud
 ```
 
 ---
 
-## FAQ
+## Troubleshooting
 
-**What do I do if my token expires?**
-
-The CLI refreshes tokens automatically. If refresh fails, run `plaud login` again.
+| Symptom | Fix |
+|---|---|
+| `401` / "Not authenticated" | Run `plaud login` |
+| `plaud: command not found` | Reopen your terminal; confirm `npm install -g @plaud-ai/cli` completed without errors |
+| Token refresh errors | Delete `~/.plaud/tokens.json` and run `plaud login` again |
+| Browser doesn't open during sign-in | Copy the URL printed in the terminal and open it manually |
+| `npx` returns `E404` for `@plaud-ai/cli` | Run `npm cache clean --force` and retry |

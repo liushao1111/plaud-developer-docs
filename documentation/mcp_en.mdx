@@ -1,339 +1,189 @@
 ---
 title: "Plaud MCP"
-description: "Plaud MCP lets AI tools like Claude access your Plaud recordings directly — search recordings, extract content, and view file details in conversation, without switching apps."
+description: "Connect your Plaud recordings to any MCP-compatible AI client — Claude, Cursor, ChatGPT, Codex, and more. Search recordings, read transcripts, and generate documents without leaving your AI assistant."
 sidebarTitle: "Plaud MCP"
 ---
 
-Plaud MCP supports most MCP-compatible AI clients, including:
+## Supported clients
 
-- ChatGPT
-- Copilot
-- [Claude Desktop](#configure-in-claude-desktop)
-- [Claude Code](#configure-in-claude-code)
-- [Codex Desktop](#configure-in-codex-desktop)
-
-<Note>
-  **Data handling for HTTP-based clients (e.g. ChatGPT, Copilot)**
-
-  When connecting via HTTP, your recording data is transmitted directly to Plaud's MCP server infrastructure, hosted in the central US region. Plaud does not store your data in that region after the request completes — it is processed in transit only.
-
-  Note that OpenAI and Microsoft's own data residency controls do not apply to third-party MCP servers. Data handling is governed by [Plaud's privacy policy](https://plaud.ai/privacy) rather than the AI client provider's terms.
-</Note>
+| Client | Auto-configured | Restart after install |
+|---|---|---|
+| Claude Desktop | ✓ | ⌘Q + reopen |
+| Claude Code | ✓ | Exit + new `claude` session |
+| Codex Desktop | ✓ | Quit + reopen |
+| Cursor / Windsurf / VS Code / Zed | ✓ | Reload per client UI |
+| Claude Web / ChatGPT Web | Interactive guide | No restart needed |
 
 ---
 
 ## Prerequisites
 
-- Node.js >= 20
+- Node.js ≥ 20 — [download](https://nodejs.org/)
 - A Plaud account
 
 ---
 
-## Configure in Claude Desktop
+## Install
 
-**1. Install**
-
-```bash
-npm install -g @plaud-ai/mcp
-```
-
-**2. One-command setup**
+Run this once. The installer detects your AI clients, writes the MCP configuration, and opens your browser for sign-in:
 
 ```bash
-plaud-mcp setup
+npx -y @plaud-ai/mcp@latest install
 ```
 
-This command writes to the Claude Desktop configuration file and copies the Plaud Skills to your clipboard. **Restart Claude Desktop** when done.
+When your browser opens, click **Authorize**, then restart the clients listed in the installer output. Plaud tools will be available immediately in your next session.
 
-To enable Skills, paste the clipboard content into Settings → Profile → Custom Instructions and restart.
+**Options**
+
+| Flag | What it does |
+|---|---|
+| `--yes` | Auto-configure all detected local clients without prompts |
+| `--no-login` | Skip the browser sign-in step (useful on remote or headless machines) |
+
+**Other MCP clients**
+
+If your client isn't auto-detected, add Plaud manually by pasting this into your client's MCP configuration:
+
+```json
+{ "mcpServers": { "plaud": { "command": "npx", "args": ["-y", "@plaud-ai/mcp@latest"] } } }
+```
+
+<Note>
+  **HTTP-based clients (Claude Web, ChatGPT Web)**
+
+  When connecting via HTTP, your recording data passes through Plaud's MCP server (hosted in the US). Plaud does not store this data after the request completes — it is processed in transit only. Data handling is governed by [Plaud's privacy policy](https://plaud.ai/privacy).
+</Note>
 
 ---
 
-## Configure in Claude Code
+## Quick start
 
-### Install via Marketplace
+Once installed, sign in from your AI client:
 
-In Claude Code, run:
+> Log me into Plaud
 
-```bash
-# Add the Plaud Marketplace (one-time)
-/plugin marketplace add https://github.com/cheng43426606/marketplace.git
+Your browser will open the Plaud authorization page. Click **Authorize** and return to your client — you're signed in.
 
-# Install the Plaud plugin
-/plugin install plaud
-```
+Then try:
 
-You may need to **restart Claude Code** (or start a new session) after installation. Claude Code will connect to the Plaud MCP automatically.
+> List my recent recordings
 
-> **Note:** Running `/reload-plugins` alone may not be enough — tools should be initialized at Claude Code startup to take effect.
+> Summarize Tuesday's standup
 
-### Skill
-
-After installation, the plugin provides the `/plaud` Skill automatically. It loads the Plaud tool list and usage instructions into the current conversation context, so Claude knows which tools are available and how to use them.
-
-There are two ways to trigger it:
-
-**Manual:** Type `/plaud` in the chat. Claude immediately loads the tool instructions and waits for your next command without taking any action.
-
-**Automatic:** No command needed. Claude loads the instructions automatically when it detects a Plaud-related request:
-
-> List my recordings
->
-> Show me the transcript for this recording
-
-> **Note:** If you have already run `plaud-mcp setup`, the Skills content is written to `~/.claude/CLAUDE.md` and loaded automatically at Claude Code startup — no need to type `/plaud`. The `/plaud` command is mainly useful for users who have not run setup, or when you need to explicitly reload Plaud tool instructions mid-conversation.
-
-In addition, four Plaud Skills (`search-recordings`, `extract-structured-data`, `generate-artifact`, `synthesize-corpus`) are provided as MCP Prompts and available automatically with the plugin — no extra configuration required. See [Skills](#skills).
+> Draft a follow-up email from this meeting's action items
 
 ---
 
-## Configure in Codex Desktop
+## Tools
 
-**1. Install**
+These tools are available to your AI client once Plaud MCP is connected:
 
-```bash
-npm install -g @plaud-ai/mcp
-```
+| Tool | Description |
+|---|---|
+| `login` | Opens your browser for OAuth sign-in |
+| `logout` | Signs out and revokes your authorization |
+| `get_current_user` | Shows your current account details |
+| `list_files` | Lists your recordings, with optional filters |
+| `get_file` | Returns full details for a single recording |
+| `get_note` | Returns the AI-generated summary, action items, and key topics |
+| `get_transcript` | Returns the full transcript with timestamps and speaker labels |
 
-**2. One-command setup**
+### Filtering recordings with `list_files`
 
-```bash
-plaud-mcp setup codex
-```
-
-This command writes to the Codex Desktop configuration file and copies the Plaud Skills to your clipboard. **Restart Codex Desktop** to apply the configuration.
-
-To enable Skills, paste the clipboard content into the custom instructions setting in Codex Desktop and restart.
+| Parameter | Description |
+|---|---|
+| `query` | Case-insensitive keyword match on recording name |
+| `date_from` | Start date, `YYYY-MM-DD` |
+| `date_to` | End date, `YYYY-MM-DD` |
+| `page` / `page_size` | Pagination (ignored when filters are set) |
 
 ---
 
 ## Skills
 
-Skills are pre-built workflow templates that tell the AI how to combine Plaud tools to complete complex tasks. Once loaded, just describe what you need in natural language — no special commands required.
+Skills are pre-built instructions that help your AI client handle common Plaud workflows automatically. They load when the installer runs — no extra steps needed.
 
-### Available Skills
-
-| Skill | Description |
+| Skill | Triggered when you ask things like… |
 |---|---|
-| `search-recordings` | Filter recordings by date, tag, or keyword |
-| `extract-structured-data` | Extract structured fields from recordings (e.g., action items, decisions, attendees) |
-| `generate-artifact` | Generate documents from recordings (emails, meeting notes, SOAP notes, etc.) |
-| `synthesize-corpus` | Analyze trends and patterns across multiple recordings (up to 50) |
-| `push-to-destination` | Push content to Notion, HubSpot, Slack, Linear, or a webhook (not yet supported) |
-
-### Loading Skills
-
-**Claude Code**
-
-After running `plaud-mcp setup`, Skills are automatically written to `~/.claude/CLAUDE.md` and loaded at Claude Code startup — no additional steps needed.
-
-**Claude Desktop / Codex Desktop**
-
-After running `plaud-mcp setup` or `plaud-mcp setup codex`, Skills are copied to your clipboard. Open the custom instructions setting in your client and paste:
-
-- Claude Desktop: Settings → Profile → Custom Instructions
-- Codex Desktop: See your client's documentation for custom instructions settings
-
-Restart the client to apply.
-
-### Usage
-
-Once loaded, describe what you need in natural language — no need to memorize skill names:
-
-> Find all recordings tagged "sales" from last week
->
-> Turn this meeting into a follow-up email
->
-> Analyze recurring issues across my recordings from the past month
+| `plaud-browse` | "list my recordings", "show recent files" |
+| `plaud-find` | "find the Weekly Sync", "the meeting from Monday" |
+| `plaud-read` | "show the transcript", "summarize this recording" |
+| `plaud-digest` | "weekly report", "what meetings did I have this week" |
+| `plaud-followup` | "draft a follow-up email", "list the action items" |
+| `plaud-export` | "save to Notion", "post to Slack" |
 
 ---
 
-## Quick Start
+## Data reference
 
-**1. Log in**
-
-In your AI client, say:
-
-> Log me into Plaud
-
-The client will automatically open your browser to the Plaud authorization page.
-
-**2. Complete authorization**
-
-Confirm authorization in your browser. Once complete, the page displays "Authentication successful" and the client receives the login result automatically — no manual steps needed.
-
-**3. Start using**
-
-Once logged in, you can use Plaud in conversation:
-
-> List my recent recordings
->
-> Get details for the recording with ID xxx
-
----
-
-## Available Tools
-
-| Tool | Description |
-|---|---|
-| `login` | Opens your browser to complete OAuth authorization automatically |
-| `logout` | Logs out and revokes authorization |
-| `get_current_user` | Displays current account information |
-| `list_files` | Lists recording files (supports pagination) |
-| `get_file` | Returns detailed information for a single recording |
-| `get_note` | Returns the AI-generated note for a recording (summary, action items, key topics) |
-| `get_transcript` | Returns the full transcript with timestamps and speaker labels |
-
----
-
-## Data Reference
-
-### Recording File Fields
-
-The following fields are returned in both `list_files` and `get_file`:
+### Fields returned by `list_files` and `get_file`
 
 | Field | Type | Description |
 |---|---|---|
-| `id` | string | Unique file identifier |
-| `name` | string | File name |
+| `id` | string | Unique recording ID |
+| `name` | string | Recording name |
 | `created_at` | string | Creation time (ISO 8601) |
 | `start_at` | string | Recording start time (ISO 8601) |
-| `duration` | number | Recording duration (milliseconds) |
-| `serial_number` | string | Serial number of the device that made the recording |
+| `duration` | number | Duration in milliseconds |
+| `serial_number` | string | Device serial number |
 
-The following fields are returned only in `get_file`:
+### Additional fields returned only by `get_file`
 
 | Field | Type | Description |
 |---|---|---|
-| `presigned_url` | string | Temporary audio download URL (valid for 24 hours) |
-| `source_list` | array | Transcript list; each item contains sentence-by-sentence transcription with timestamps and speaker labels |
-| `note_list` | array | Note list; each item contains an AI-generated summary in Markdown format |
-
-### Local Storage
-
-Tokens are stored in `~/.plaud/tokens.json` and managed automatically by the MCP Server.
+| `presigned_url` | string | Temporary audio download URL (valid 24 hours) |
+| `source_list` | array | Transcript segments with timestamps and speaker labels |
+| `note_list` | array | AI-generated notes in Markdown |
 
 ---
 
 ## Upgrade
 
-### Claude Code (Marketplace installation)
+```bash
+npm install -g @plaud-ai/mcp@latest
+```
 
-Run in your terminal:
+Restart your AI client after upgrading.
+
+For Claude Code specifically:
 
 ```bash
 npx -y @plaud-ai/mcp clean-plugin
 ```
 
-Then reinstall in Claude Code:
+Then reinstall inside Claude Code:
 
 ```
 /plugin install plaud
 ```
-
-Restart Claude Code to apply the new version.
-
-### Claude Desktop / Codex Desktop (manual installation)
-
-```bash
-npm install -g @plaud-ai/mcp@latest
-```
-
-Restart the AI client after upgrading to apply the new version.
 
 ---
 
 ## Uninstall
 
-### Claude Code (Marketplace installation)
+| Client | Cleanup command |
+|---|---|
+| Claude Desktop | `plaud-mcp unsetup` |
+| Claude Code | `claude mcp remove plaud --scope user && npx -y @plaud-ai/mcp clean-plugin` |
+| Codex Desktop | `plaud-mcp unsetup codex` |
+
+Then remove the package and local data:
 
 ```bash
-npx -y @plaud-ai/mcp clean-plugin
-rm -rf ~/.plaud
-```
-
-Restart Claude Code when done.
-
-If you ran `plaud-mcp setup`, the Skills content will be removed from `~/.claude/CLAUDE.md` automatically.
-
-### Claude Desktop
-
-```bash
-plaud-mcp unsetup
 npm uninstall -g @plaud-ai/mcp
-```
-
-`unsetup` automatically removes Plaud-related content from the Claude Desktop configuration file and `~/.claude/CLAUDE.md`. Restart Claude Desktop when done.
-
-If you pasted Skills into Claude Desktop's Custom Instructions, remove them manually: Settings → Profile → Custom Instructions.
-
-Clear local authentication data:
-
-```bash
-rm -rf ~/.plaud
-```
-
-### Codex Desktop
-
-```bash
-plaud-mcp unsetup codex
-npm uninstall -g @plaud-ai/mcp
-```
-
-`unsetup codex` automatically removes Plaud-related content from the Codex Desktop configuration file and `~/.claude/CLAUDE.md`. Restart Codex Desktop when done.
-
-If you pasted Skills into Codex Desktop's custom instructions, remove them manually from the corresponding settings page.
-
-Clear local authentication data:
-
-```bash
 rm -rf ~/.plaud
 ```
 
 ---
 
-## FAQ
+## Troubleshooting
 
-**I can't see Plaud tools in my AI client.**
-
-1. Confirm that the `plaud-mcp` command runs correctly in your terminal.
-2. Restart the AI client (running `/reload-plugins` alone may not be enough — a full restart or new session is required).
-
-**The version didn't update after upgrading.**
-
-If Claude Code still shows the old version after upgrading, clean and reinstall:
-
-```bash
-npx -y @plaud-ai/mcp clean-plugin
-```
-
-Then reinstall in Claude Code:
-
-```
-/plugin install plaud
-```
-
-Restart Claude Code to apply the new version.
-
-**Claude says "there's no logout tool" but it exists.**
-
-Claude discovers tools through keyword search (`tool_search`), not by loading all tools at once. If the search keywords don't match the tool description, the tool won't be found.
-
-In this case, explicitly instruct the model to search for the tool:
-
-> Search for and call the plaud logout tool
-
-**Claude Desktop shows "Server disconnected."**
-
-This usually happens because Claude Desktop starts the MCP process without a shell environment, so it can't find `node`. Re-running setup typically fixes this:
-
-```bash
-plaud-mcp unsetup
-plaud-mcp setup
-```
-
-Restart Claude Desktop when done.
-
-**What do I do if my token expires?**
-
-The MCP Server refreshes tokens automatically. If refresh fails, run the `login` flow again.
+| Symptom | Fix |
+|---|---|
+| Plaud tools don't appear after install | Make sure you did a full client restart — closing and reopening the window is not enough. For Claude Code, exit and start a new `claude` session. |
+| `401` / "Not authenticated" errors | Ask your AI client: *"log me into Plaud"*. |
+| No local clients configured in `--yes` mode | Install a supported local client first, or run without `--yes` to get interactive guidance for web clients. |
+| Token refresh errors | Delete `~/.plaud/tokens-mcp.json` and sign in again. |
+| Browser doesn't open during sign-in | Copy the URL the installer prints and open it manually. On remote machines, forward port 8199 first: `ssh -L 8199:localhost:8199 user@host`. |
+| "Server disconnected" in Claude Desktop | Re-run setup: `plaud-mcp unsetup && plaud-mcp setup`, then restart Claude Desktop. |
+| Version didn't update after upgrade | Run `npx -y @plaud-ai/mcp clean-plugin`, reinstall with `/plugin install plaud` in Claude Code, then restart. |
