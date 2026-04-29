@@ -30,12 +30,7 @@
           {
             "group": "Developer Platform",
             "pages": [
-              "/documentation/get_started/overview"
-            ]
-          },
-          {
-            "group": "EMBEDDED SDK",
-            "pages": [
+              "/documentation/get_started/overview",
               "/documentation/embedded_sdk/quickstart",
               "/documentation/embedded_sdk/ios_android_sdk",
               "/documentation/embedded_sdk/transcription_api",
