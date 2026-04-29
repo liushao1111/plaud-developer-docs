@@ -46,8 +46,7 @@
             "group": "PERSONAL ACCESS",
             "pages": [
               "/documentation/mcp_en",
-              "/documentation/personal_access/cli",
-              "/documentation/personal_access/oauth"
+              "/documentation/personal_access/cli"
             ]
           },
           {
