@@ -45,7 +45,7 @@
           {
             "group": "PERSONAL ACCESS",
             "pages": [
-              "/documentation/mcp_en",
+              "/documentation/personal_access/mcp",
               "/documentation/personal_access/cli"
             ]
           },
@@ -95,42 +95,6 @@
               "/api_guide/api_intro/overview",
               "/api_guide/api_intro/authorization",
               "/api_guide/api_intro/rate_limit"
-            ]
-          },
-          {
-            "group": "ENDPOINTS",
-            "hidden": true,
-            "openapi": "https://platform.plaud.cn/openapi.json",
-            "pages": [
-              {
-                "group": "Oauth",
-                "pages": [
-                  "POST /api/oauth/api-token"
-                ]
-              },
-              {
-                "group": "Devices",
-                "pages": [
-                  "GET /api/devices/{device_id}",
-                  "POST /api/devices/bind",
-                  "POST /api/devices/unbind"
-                ]
-              },
-              {
-                "group": "Files",
-                "pages": [
-                  "POST /api/files/upload-s3/generate-presigned-urls",
-                  "POST /api/files/upload-s3/complete-upload"
-                ]
-              },
-              {
-                "group": "Workflows",
-                "pages": [
-                  "GET /api/workflows/{workflow_id}/result",
-                  "GET /api/workflows/{workflow_id}/status",
-                  "POST /api/workflows/submit"
-                ]
-              }
             ]
           }
         ]
