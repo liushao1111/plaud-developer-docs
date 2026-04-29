@@ -38,7 +38,7 @@
             ]
           },
           {
-            "group": "PERSONAL ACCESS",
+            "group": "Personal Access",
             "pages": [
               "/documentation/personal_access/mcp",
               "/documentation/personal_access/cli"
